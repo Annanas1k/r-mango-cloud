@@ -1,0 +1,33 @@
+model Permission {
+    id     String @id @default(uuid(7)) @db.Uuid
+    nodeId String @db.Uuid
+    node   Node   @relation(fields: [nodeId], references: [id], onDelete: Cascade)
+
+    subjectType SubjectType
+    userId      String?     @db.Uuid
+    user        User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
+    groupId     String?     @db.Uuid
+    group       Group?      @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+    role      PermissionRole
+    inherited Boolean        @default(false)
+
+    createdAt DateTime @default(now())
+
+    @@unique([nodeId, userId, groupId])
+    @@index([nodeId])
+    @@index([userId])
+}
+
+model ShareLink {
+    id           String         @id @default(uuid(7)) @db.Uuid
+    nodeId       String         @db.Uuid
+    node         Node           @relation(fields: [nodeId], references: [id], onDelete: Cascade)
+    token        String         @unique
+    role         PermissionRole @default(VIEWER)
+    passwordHash String?
+    expiresAt    DateTime?
+    createdAt    DateTime       @default(now())
+
+    @@index([nodeId])
+}

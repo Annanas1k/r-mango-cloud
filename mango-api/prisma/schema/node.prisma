@@ -1,0 +1,72 @@
+model Node {
+    id   String   @id @default(uuid(7)) @db.Uuid
+    type NodeType
+    name String
+
+    parentId String? @db.Uuid
+    parent   Node?   @relation("NodeChildren", fields: [parentId], references: [id], onDelete: Cascade)
+    children Node[]  @relation("NodeChildren")
+
+    ownerId String @db.Uuid
+    owner   User   @relation("NodeOwner", fields: [ownerId], references: [id])
+
+    workspaceId String?    @db.Uuid
+    workspace   Workspace? @relation("WorkspaceNodes", fields: [workspaceId], references: [id])
+
+    mimeType  String?
+    sizeBytes BigInt  @default(0)
+
+    trashedAt   DateTime?
+    trashedById String?   @db.Uuid
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    versions     FileVersion[]
+    permissions  Permission[]
+    comments     Comment[]
+    tags         NodeTag[]
+    stars        Star[]
+    activityLogs ActivityLog[]
+    shareLinks   ShareLink[]
+
+    @@unique([parentId, name])
+    @@index([ownerId])
+    @@index([parentId])
+    @@index([trashedAt])
+}
+
+model FileVersion {
+    id     String @id @default(uuid(7)) @db.Uuid
+    nodeId String @db.Uuid
+    node   Node   @relation(fields: [nodeId], references: [id], onDelete: Cascade)
+
+    versionNumber Int
+    storageKey    String // path-ul obiectului în bucket-ul R2
+    sizeBytes     BigInt
+    checksum      String
+    mimeType      String
+
+    createdById String   @db.Uuid
+    createdAt   DateTime @default(now())
+
+    @@unique([nodeId, versionNumber])
+    @@index([nodeId])
+}
+
+model UploadSession {
+    id            String   @id @default(uuid(7)) @db.Uuid
+    userId        String   @db.Uuid
+    user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    targetNodeId  String?  @db.Uuid
+    parentId      String?  @db.Uuid
+    fileName      String
+    totalBytes    BigInt
+    uploadedBytes BigInt   @default(0)
+    storageKey    String
+    status        String   @default("IN_PROGRESS")
+    expiresAt     DateTime
+    createdAt     DateTime @default(now())
+
+    @@index([userId])
+}

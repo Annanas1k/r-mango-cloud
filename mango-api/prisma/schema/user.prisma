@@ -1,0 +1,56 @@
+model User {
+    id            String  @id @default(uuid(7)) @db.Uuid
+    email         String  @unique
+    passwordHash  String
+    name          String
+    avatarUrl     String?
+    emailVerified Boolean @default(false)
+    isActive      Boolean @default(true)
+
+    storageQuotaBytes BigInt @default(15000000000)
+    storageUsedBytes  BigInt @default(0)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    nodes            Node[]            @relation("NodeOwner")
+    permissions      Permission[]
+    starredNodes     Star[]
+    comments         Comment[]
+    activityLogs     ActivityLog[]
+    sessions         Session[]
+    notifications    Notification[]
+    groupMemberships GroupMember[]
+    ownedWorkspaces  Workspace[]       @relation("WorkspaceOwner")
+    workspaceMembers WorkspaceMember[]
+    apiKeys          ApiKey[]
+    uploadSessions   UploadSession[]
+
+    @@index([email])
+}
+
+model Session {
+    id           String   @id @default(uuid(7)) @db.Uuid
+    userId       String   @db.Uuid
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    refreshToken String   @unique
+    userAgent    String?
+    ipAddress    String?
+    expiresAt    DateTime
+    createdAt    DateTime @default(now())
+
+    @@index([userId])
+}
+
+model ApiKey {
+    id         String    @id @default(uuid(7)) @db.Uuid
+    userId     String    @db.Uuid
+    user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    name       String
+    keyHash    String    @unique
+    lastUsedAt DateTime?
+    revokedAt  DateTime?
+    createdAt  DateTime  @default(now())
+
+    @@index([userId])
+}

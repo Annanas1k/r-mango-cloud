@@ -1,0 +1,29 @@
+enum NodeType {
+    FILE
+    FOLDER
+}
+
+enum PermissionRole {
+    VIEWER
+    COMMENTER
+    EDITOR
+    OWNER
+}
+
+enum SubjectType {
+    USER
+    GROUP
+}
+
+enum ActivityAction {
+    CREATE
+    RENAME
+    MOVE
+    EDIT
+    DETELE
+    RESTORE
+    SHARE
+    UNSHARE
+    DOWNLOAD
+    UPLOAD_VERSION
+}

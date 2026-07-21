@@ -1,0 +1,40 @@
+model Comment {
+    id              String    @id @default(uuid(7)) @db.Uuid
+    nodeId          String    @db.Uuid
+    node            Node      @relation(fields: [nodeId], references: [id], onDelete: Cascade)
+    userId          String    @db.Uuid
+    user            User      @relation(fields: [userId], references: [id])
+    content         String
+    parentCommentId String?   @db.Uuid
+    parentComment   Comment?  @relation("CommentReplies", fields: [parentCommentId], references: [id])
+    replies         Comment[] @relation("CommentReplies")
+    resolvedAt      DateTime?
+    createdAt       DateTime  @default(now())
+
+    @@index([nodeId])
+}
+
+model Tag {
+    id    String    @id @default(uuid(7)) @db.Uuid
+    name  String    @unique
+    nodes NodeTag[]
+}
+
+model NodeTag {
+    nodeId String @db.Uuid
+    node   Node   @relation(fields: [nodeId], references: [id], onDelete: Cascade)
+    tagId  String @db.Uuid
+    tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+    @@id([nodeId, tagId])
+}
+
+model Star {
+    id     String @id @default(uuid(7)) @db.Uuid
+    userId String @db.Uuid
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    nodeId String @db.Uuid
+    node   Node   @relation(fields: [nodeId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, nodeId])
+}
