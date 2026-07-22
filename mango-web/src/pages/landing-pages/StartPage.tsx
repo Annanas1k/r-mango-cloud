@@ -1,21 +1,21 @@
 // pages/DashboardPage.tsx
-
 import { useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { logout } from "../../redux/auth/authSlice";
+import { logoutRequest } from "../../api/auth.api"; // <-- import lipsă
 
 export default function StartPage() {
   const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    dispatch(logout());
+  const handleLogout = async () => {
+    await logoutRequest(); // șterge cookie-ul httpOnly din backend
+    dispatch(logout());    // curăță Redux
     navigate("/login");
   };
 
   if (!user) {
-    // teoretic nu se ajunge aici datorită ProtectedRoute, dar ne asigurăm
     return <p>Se încarcă...</p>;
   }
 
