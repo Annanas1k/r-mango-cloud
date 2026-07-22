@@ -1,7 +1,9 @@
 model User {
     id            String  @id @default(uuid(7)) @db.Uuid
     email         String  @unique
-    passwordHash  String
+    passwordHash  String?
+    googleId      String? @unique
+    provider      String  @default("GOOGLE")
     name          String
     avatarUrl     String?
     emailVerified Boolean @default(false)
