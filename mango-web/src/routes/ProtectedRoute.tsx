@@ -1,10 +1,11 @@
+// routes/ProtectedRoute.tsx
 import { Navigate, Outlet } from "react-router";
 import { useAppSelector } from "../redux/hooks";
 
 export default function ProtectedRoute() {
-  const { accessToken } = useAppSelector((state) => state.auth);
+  const { status } = useAppSelector((state) => state.auth);
 
-  if (!accessToken) {
+  if (status === "unauthenticated") {
     return <Navigate to="/login" replace />;
   }
 

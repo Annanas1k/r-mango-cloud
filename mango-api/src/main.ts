@@ -1,11 +1,13 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: ['log', 'error', 'warn', 'debug', 'verbose'],
   });
   app.use(morgan('dev'));
+  app.use(cookieParser());
   app.enableCors({
     origin: 'http://localhost:5173',
     credentials: true,

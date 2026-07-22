@@ -24,9 +24,9 @@ export default function LoginPage() {
     setError(null);
 
     try {
-      const data = await googleLoginRequest(credentialResponse.credential);
-      dispatch(setCredentials({ user: data.user, accessToken: data.accessToken }));
-      navigate("/dashboard");
+        const data = await googleLoginRequest(credentialResponse.credential);
+        dispatch(setCredentials({ user: data.user }));
+        navigate("/dashboard");
     } catch (err) {
       console.error(err);
       setError("Autentificare eșuată. Încearcă din nou.");

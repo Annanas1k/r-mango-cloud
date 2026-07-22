@@ -1,30 +1,32 @@
-// store/slices/authSlice.ts
 import { createSlice } from '@reduxjs/toolkit';
-import type { AuthState, UserProfile } from '../../types/auth.types';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import type { UserProfile } from '../../types/auth.types';
 
-const initialState: AuthState = {
-  user: null,
-  accessToken: null,
-  status: "idle",
-};
+interface AuthState {
+    user: UserProfile | null;
+    status: "idle" | "authenticated" | "unauthenticated";
+}
+
+const initialState: AuthState = { user: null, status: "idle" };
 
 const authSlice = createSlice({
-  name: "auth",
-  initialState,
-  reducers: {
-    setCredentials: (state, action: PayloadAction<{ user: UserProfile; accessToken: string }>) => {
-      state.user = action.payload.user;
-      state.accessToken = action.payload.accessToken;
-      state.status = "authenticated";
+    name: "auth",
+    initialState,
+    reducers: {
+        setCredentials: (state, action: PayloadAction<{ user: UserProfile }>) => {
+            state.user = action.payload.user;
+            state.status = "authenticated";
+        },
+        setUnauthenticated: (state) => {
+            state.user = null;
+            state.status = "unauthenticated";
+        },
+        logout: (state) => {
+            state.user = null;
+            state.status = "unauthenticated";
+        },
     },
-    logout: (state) => {
-      state.user = null;
-      state.accessToken = null;
-      state.status = "unauthenticated";
-    },
-  },
 });
 
-export const { setCredentials, logout } = authSlice.actions;
-export default authSlice.reducer; // <-- fixat aici
+export const { setCredentials, setUnauthenticated, logout } = authSlice.actions;
+export default authSlice.reducer;

@@ -1,22 +1,46 @@
 // auth/auth.service.ts
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  NotFoundException,
+} from '@nestjs/common';
 import { OAuth2Client } from 'google-auth-library';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
-  private googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+  private googleClient: OAuth2Client;
 
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
-  ) {}
+    private readonly config: ConfigService,
+  ) {
+    this.googleClient = new OAuth2Client(
+      this.config.get<string>('GOOGLE_CLIENT_ID'),
+    );
+  }
+
+  private toPublicUser(user: {
+    id: string;
+    email: string;
+    name: string;
+    avatarUrl: string | null;
+  }) {
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      avatarUrl: user.avatarUrl,
+    };
+  }
 
   async googleLogin(idToken: string) {
     const ticket = await this.googleClient.verifyIdToken({
       idToken,
-      audience: process.env.GOOGLE_CLIENT_ID,
+      audience: this.config.get<string>('GOOGLE_CLIENT_ID'),
     });
 
     const payload = ticket.getPayload();
@@ -45,14 +69,16 @@ export class AuthService {
       email: user.email,
     });
 
-    return {
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        avatarUrl: user.avatarUrl,
-      },
-      accessToken,
-    };
+    return { user: this.toPublicUser(user), accessToken };
+  }
+
+  async getMe(userId: string) {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+
+    if (!user) {
+      throw new NotFoundException('User negăsit');
+    }
+
+    return this.toPublicUser(user);
   }
 }

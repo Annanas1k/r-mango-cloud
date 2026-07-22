@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { logout } from "../../redux/auth/authSlice";
 
-export default function DashboardPage() {
+export default function StartPage() {
   const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
