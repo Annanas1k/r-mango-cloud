@@ -1,42 +1,10 @@
-// pages/DashboardPage.tsx
-import { useNavigate } from "react-router";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { logout } from "../../redux/auth/authSlice";
-import { logoutRequest } from "../../api/auth.api"; // <-- import lipsă
 
 export default function StartPage() {
-  const user = useAppSelector((state) => state.auth.user);
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    await logoutRequest(); // șterge cookie-ul httpOnly din backend
-    dispatch(logout());    // curăță Redux
-    navigate("/login");
-  };
-
-  if (!user) {
-    return <p>Se încarcă...</p>;
-  }
-
+ 
   return (
-    <div className="dashboard-container">
-      <div className="user-card">
-        {user.avatarUrl && (
-          <img
-            src={user.avatarUrl}
-            alt={user.name}
-            width={64}
-            height={64}
-            style={{ borderRadius: "50%" }}
-          />
-        )}
-        <h2>{user.name}</h2>
-        <p>{user.email}</p>
-        <p style={{ fontSize: 12, color: "#888" }}>ID: {user.id}</p>
-      </div>
-
-      <button onClick={handleLogout}>Deconectare</button>
+    <div>
+      <h1>Welcome to the Start Page</h1>
     </div>
-  );
+  )
+
 }

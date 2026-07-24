@@ -4,13 +4,5 @@
     "description_before": "Even our best mango-hunting yeti came back empty-handed. This page must have rolled off the tree — maybe it was just a bad",
     "description_strike": "link",
     "homeCta": "Back to the orchard"
-  },
-  "navbar": {
-    "overview": "Overview",
-    "features": "Features",
-    "about": "About",
-    "pricing": "Pricing",
-    "try-free": "Try Free",
-    "sign-in": "Sign in"
   }
 }

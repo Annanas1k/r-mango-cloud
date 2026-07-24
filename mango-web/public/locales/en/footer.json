@@ -1,0 +1,29 @@
+{
+  "footer": {
+    "tagline": "Secure cloud storage with a taste of mango. Store, share, and access your files from anywhere.",
+    "newsletterPlaceholder": "Your email",
+    "subscribe": "Subscribe",
+    "rights": "All rights reserved.",
+    "madeWith": "Made with 🥭 by Annanas1k",
+    "product": {
+      "title": "Product",
+      "overview": "Overview",
+      "features": "Features",
+      "pricing": "Pricing",
+      "changelog": "Changelog"
+    },
+    "company": {
+      "title": "Company",
+      "about": "About",
+      "blog": "Blog",
+      "careers": "Careers",
+      "contact": "Contact"
+    },
+    "legal": {
+      "title": "Legal",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "security": "Security"
+    }
+  }
+}

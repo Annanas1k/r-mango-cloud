@@ -1,0 +1,10 @@
+{
+  "navbar": {
+    "overview": "Overview",
+    "features": "Features",
+    "about": "About",
+    "pricing": "Pricing",
+    "try-free": "Try Free",
+    "sign-in": "Sign in"
+  }
+}

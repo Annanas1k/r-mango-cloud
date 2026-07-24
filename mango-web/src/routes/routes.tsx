@@ -6,6 +6,7 @@ import NotFoundPage from "../pages/utils-pages/NotFoundPage";
 import StartPage from "../pages/landing-pages/StartPage";
 import LoginPage from "../pages/auth-pages/LoginPage";
 import { LoadingUI } from "@/components/shared/LoadingUI";
+import { StartLayout } from "@/components/layouts/StartLayout";
 
 
 export const router = createBrowserRouter([
@@ -13,8 +14,11 @@ export const router = createBrowserRouter([
     element: <PublicRoute />,
     children: [
       {
-        path: "/login",
-        element: <LoginPage />,
+        element: <StartLayout/>,
+        children: [
+          {path: "/", element: <StartPage />},
+          {path: "/login", element: <LoginPage />},
+        ]
       },
       {
         path: "/loading",
