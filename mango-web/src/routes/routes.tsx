@@ -3,10 +3,13 @@ import { createBrowserRouter } from "react-router";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 import NotFoundPage from "../pages/utils-pages/NotFoundPage";
-import StartPage from "../pages/landing-pages/StartPage";
 import LoginPage from "../pages/auth-pages/LoginPage";
 import { LoadingUI } from "@/components/shared/LoadingUI";
 import { StartLayout } from "@/components/layouts/StartLayout";
+import { UserProfileCard } from "@/components/shared/UserProfileCard";
+import OverviewPage from "../pages/landing-pages/OverviewPage";
+import { AboutPage } from "@/pages/landing-pages/AboutPage";
+import { PricingPage } from "@/pages/landing-pages/PricingPage";
 
 
 export const router = createBrowserRouter([
@@ -16,7 +19,9 @@ export const router = createBrowserRouter([
       {
         element: <StartLayout/>,
         children: [
-          {path: "/", element: <StartPage />},
+          {path: "/", element: <OverviewPage />},
+          {path: "/about", element: <AboutPage />},
+          {path: "/pricing", element: <PricingPage />},
           {path: "/login", element: <LoginPage />},
         ]
       },
@@ -31,7 +36,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/home",
-        element: <StartPage />,
+        element: <UserProfileCard />
       },
       // aici adaugi restul rutelor protejate: /files, /settings etc.
     ],

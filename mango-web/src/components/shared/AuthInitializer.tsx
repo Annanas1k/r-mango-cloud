@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../redux/hooks";
 import { getMeRequest } from "../../api/auth.api";
 import { setCredentials, setUnauthenticated } from "../../redux/auth/authSlice";
+import LoadingUI from "./LoadingUI";
 
 export default function AuthInitializer({ children }: { children: React.ReactNode }) {
   const dispatch = useAppDispatch();
@@ -14,6 +15,6 @@ export default function AuthInitializer({ children }: { children: React.ReactNod
       .finally(() => setChecking(false));
   }, [dispatch]);
 
-  if (checking) return <div>Se încarcă...</div>;
+  if (checking) return <LoadingUI />;
   return <>{children}</>;
 }
