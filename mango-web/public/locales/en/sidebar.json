@@ -1,0 +1,17 @@
+{
+  "sidebar": {
+    "new": "New",
+    "general": "General",
+    "quickAccess": "Quick Access",
+    "utilities": "Utilities",
+    "home": "Home",
+    "myCloud": "My Cloud",
+    "computers": "Computers",
+    "shared": "Shared with me",
+    "recent": "Recent",
+    "starred": "Starred",
+    "spam": "Spam",
+    "trash": "Trash",
+    "storage": "Storage"
+  }
+}

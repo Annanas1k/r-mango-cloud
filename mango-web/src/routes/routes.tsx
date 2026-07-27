@@ -6,10 +6,13 @@ import NotFoundPage from "../pages/utils-pages/NotFoundPage";
 import LoginPage from "../pages/auth-pages/LoginPage";
 import { LoadingUI } from "@/components/shared/LoadingUI";
 import { StartLayout } from "@/components/layouts/StartLayout";
-import { UserProfileCard } from "@/components/shared/UserProfileCard";
 import OverviewPage from "../pages/landing-pages/OverviewPage";
 import { AboutPage } from "@/pages/landing-pages/AboutPage";
 import { PricingPage } from "@/pages/landing-pages/PricingPage";
+import { HomePage } from "@/pages/cloud-pages/HomePage";
+import { CloudPage } from "@/pages/cloud-pages/CloudPage";
+import { StaredPage } from "@/pages/cloud-pages/StaredPage";
+import { CloudLayout } from "@/components/layouts/CloudLayout";
 
 
 export const router = createBrowserRouter([
@@ -35,8 +38,22 @@ export const router = createBrowserRouter([
     element: <ProtectedRoute />,
     children: [
       {
-        path: "/home",
-        element: <UserProfileCard />
+        path: "/cloud",
+        element: <CloudLayout />,
+        children: [
+          {
+            path: "home",
+            element: <HomePage />,
+          },
+          {
+            path: "my-cloud",
+            element: <CloudPage />,
+          },
+          {
+            path: "stared",
+            element: <StaredPage />,
+          }
+        ]
       },
       // aici adaugi restul rutelor protejate: /files, /settings etc.
     ],

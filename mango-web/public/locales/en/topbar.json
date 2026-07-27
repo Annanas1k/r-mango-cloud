@@ -1,0 +1,14 @@
+{
+  "topbar": {
+    "search": "Search...",
+    "support": "support",
+    "help": "Help",
+    "termsAndPolicy": "Terms And Policy",
+    "sendFeedback": "Send Feedback to Mango devs",
+    "settings": "Settings",
+    "upgrade": "Upgrade",
+    "upgradeMessage": "Upgrade for premium features",
+    "mangoAccount": "Mango Account",
+    "logout": "Log out"
+  }
+}

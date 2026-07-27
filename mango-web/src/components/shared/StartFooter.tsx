@@ -5,6 +5,7 @@ import { FiGithub, FiTwitter, FiLinkedin, FiMail } from "react-icons/fi";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { CopyRight } from "./CopyRight";
 
 const footerLinks = {
   product: [
@@ -35,8 +36,6 @@ const socials = [
 
 export const StartFooter = () => {
   const { t } = useTranslation('footer');
-  const year = new Date().getFullYear();
-
   return (
     <footer className="border-t border-border bg-background">
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
@@ -93,13 +92,7 @@ export const StartFooter = () => {
         </div>
 
         <Separator className="my-8" />
-
-        <div className="flex flex-col items-center justify-between gap-4 text-sm text-muted-foreground sm:flex-row">
-          <p>
-            © {year} MangoCloud. {t("footer.rights")}
-          </p>
-          <a href="https://github.com/Annanas1k" className="flex items-center gap-1 justify-center">{t("footer.madeWith")}<FiGithub /></a>
-        </div>
+        <CopyRight />
       </div>
     </footer>
   );

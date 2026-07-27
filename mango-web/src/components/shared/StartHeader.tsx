@@ -44,7 +44,7 @@ export const StartHeader = () => {
 
           {user ? (
             <Button
-              onClick={() => navigate("/home")}
+              onClick={() => navigate("/cloud/home")}
               variant="outline"
               size="default"
               className="flex h-10 items-center gap-2.5 px-3 py-1 font-medium transition-all hover:bg-accent"

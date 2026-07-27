@@ -42,7 +42,7 @@ export function LoginDialog({ trigger }: LoginDialogProps) {
       const data = await googleLoginRequest(credentialResponse.credential);
       dispatch(setCredentials({ user: data.user }));
       setOpen(false);
-      navigate("/home");
+      navigate("/cloud/home");
     } catch (err) {
       console.error(err);
       setError(t("login.error"));

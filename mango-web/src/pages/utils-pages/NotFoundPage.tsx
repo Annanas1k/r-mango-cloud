@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { gsap } from "gsap";
-import { Link } from "react-router";
+import { Button } from "@base-ui/react";
+import { useNavigate } from "react-router";
 
 // ---------------------------------------------------------------------------
 // Paletă Mango Fresh
@@ -32,6 +33,7 @@ const palette = {
 export default function NotFoundPage() {
   const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -370,9 +372,9 @@ export default function NotFoundPage() {
           {t("notFound.description_before")}{" "}
           <span className="accent">{t("notFound.description_strike")}</span>
         </p>
-        <Link to="/" className="notfound-home-link">
+        <Button onClick={()=>navigate(-1)} className="notfound-home-link">
           {t("notFound.homeCta")}
-        </Link>
+        </Button>
       </div>
     </div>
   );
