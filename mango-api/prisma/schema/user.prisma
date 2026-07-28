@@ -27,6 +27,7 @@ model User {
     workspaceMembers WorkspaceMember[]
     apiKeys          ApiKey[]
     uploadSessions   UploadSession[]
+    emailOtps        EmailOtp[]
 
     @@index([email])
 }

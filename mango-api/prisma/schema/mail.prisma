@@ -1,0 +1,12 @@
+model EmailOtp {
+    id         String    @id @default(uuid(7)) @db.Uuid
+    userId     String    @db.Uuid
+    user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    codeHash   String // hash-ul codului, NU codul în clar
+    expiresAt  DateTime
+    consumedAt DateTime?
+    attempts   Int       @default(0)
+    createdAt  DateTime  @default(now())
+
+    @@index([userId])
+}

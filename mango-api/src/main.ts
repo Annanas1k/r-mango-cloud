@@ -9,7 +9,9 @@ async function bootstrap() {
   app.use(morgan('dev'));
   app.use(cookieParser());
   app.enableCors({
-    origin: 'http://localhost:5173',
+    origin: [
+      'http://localhost:5173',
+      'https://0nqh52rc-5173.euw.devtunnels.ms/'],
     credentials: true,
   });
   app.setGlobalPrefix('api');
