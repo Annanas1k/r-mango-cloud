@@ -6,9 +6,13 @@ import { SupportDropDownButton } from "./SupportDropDownButton";
 import { SettingsDropDownButton } from "./SettingsDropDownButton";
 import { UpgradeButton } from "./UpgradeButton";
 import { AvatarDropDownButton } from "./AvatarDropDownButton";
+import { AvatarCircle } from "./AvatarCircle";
+import { useAppSelector } from "@/redux/hooks";
 
 export const TopBar = () => {
     const {t} = useTranslation('topbar');
+    const user = useAppSelector((state) => state.auth.user);
+    
     return (
         <header className="flex h-15 shrink-0 items-center justify-between gap-2 border-b border-border bg-background px-4">
             <div className="flex items-center">
@@ -29,7 +33,12 @@ export const TopBar = () => {
                 <SupportDropDownButton />
                 <SettingsDropDownButton />
                 <UpgradeButton />
-                <AvatarDropDownButton />
+
+                <AvatarDropDownButton>
+                    <button className="rounded-full outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring">
+                        <AvatarCircle  user={user}/>
+                  </button>
+                </AvatarDropDownButton>
             </div>
         </header>
     )

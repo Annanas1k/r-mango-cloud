@@ -26,6 +26,7 @@ import {
   useSidebar, // Importat pentru a verifica starea (open/collapsed)
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
+import { NewButtonDropDown } from "./NewButtonDropDown";
 
 const navGroups = [
   {
@@ -84,17 +85,20 @@ export const AppSidebar = () => {
         </div>
 
         {/* Butonul de adăugare își schimbă aspectul când e restrâns */}
-        <Button
-          onClick={() => console.log("New action")}
-          className={`w-full mt-2 transition-all ${
-            open ? "justify-start gap-2 h-11 px-4 text-base" : "h-10 w-10 p-0 justify-center"
-          }`}
-          size={open ? "lg" : "icon"}
-          title={!open ? t("sidebar.new") : undefined}
-        >
-          <Plus className="h-5 w-5 shrink-0" />
-          {open && <span>{t("sidebar.new")}</span>}
-        </Button>
+        <NewButtonDropDown className="w-full mt-2">
+          <Button
+            onClick={() => console.log("New action")}
+            /* Am scos mt-2 de aici! */
+            className={`w-full transition-all ${
+              open ? "justify-start gap-2 h-11 px-4 text-base" : "h-10 w-10 p-0 justify-center"
+            }`}
+            size={open ? "lg" : "icon"}
+            title={!open ? t("sidebar.new") : undefined}
+          >
+            <Plus className="h-5 w-5 shrink-0" />
+            {open && <span>{t("sidebar.new")}</span>}
+          </Button>
+        </NewButtonDropDown>
       </SidebarHeader>
 
       {/* -------------------------------------------------------------- */}

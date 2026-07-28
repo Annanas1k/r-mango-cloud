@@ -12,12 +12,12 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
-import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { logout } from "@/redux/auth/authSlice";
 import { logoutRequest } from "@/api/auth.api";
+import { AvatarCircle } from "./AvatarCircle";
 
-export const AvatarDropDownButton = () => {
+export const AvatarDropDownButton = ({children}: {children: React.ReactElement}) => {
   const { t } = useTranslation("topbar");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -25,12 +25,6 @@ export const AvatarDropDownButton = () => {
 
   if (!user) return null;
 
-  const initials = user.name
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
 
   const handleLogout = async () => {
     await logoutRequest();
@@ -45,16 +39,7 @@ export const AvatarDropDownButton = () => {
           <TooltipTrigger
             render={
               <DropdownMenuTrigger
-                render={
-                  <button className="rounded-full outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring">
-                    <Avatar className="size-9">
-                      <AvatarImage src={user.avatarUrl ?? undefined} alt={user.name} />
-                      <AvatarFallback className="bg-primary text-primary-foreground text-xs">
-                        {initials}
-                      </AvatarFallback>
-                    </Avatar>
-                  </button>
-                }
+                render={children}
               />
             }
           />
@@ -69,12 +54,7 @@ export const AvatarDropDownButton = () => {
         {/* --- header cu datele userului, acum în interiorul unui Group --- */}
         <DropdownMenuGroup>
             <DropdownMenuLabel className="flex items-center gap-3 py-3">
-            <Avatar className="size-10">
-                <AvatarImage src={user.avatarUrl ?? undefined} alt={user.name} />
-                <AvatarFallback className="bg-primary text-primary-foreground text-sm">
-                {initials}
-                </AvatarFallback>
-            </Avatar>
+                <AvatarCircle user={user} />
             <div className="min-w-0">
                 <p className="truncate text-sm font-medium text-foreground">{user.name}</p>
                 <p className="truncate text-xs text-muted-foreground">{user.email}</p>
