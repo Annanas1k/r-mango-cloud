@@ -13,9 +13,10 @@ import { useTranslation } from "react-i18next";
 
 interface ContextMenuBasicProps {
   children: React.ReactNode;
+  createFolder: ()=>void
 }
 
-export const ContextMenuBasic = ({ children }: ContextMenuBasicProps) => {
+export const ContextMenuBasic = ({ children, createFolder }: ContextMenuBasicProps) => {
     const {t} = useTranslation('cloud-page')
   return (
     <ContextMenu>
@@ -32,7 +33,7 @@ export const ContextMenuBasic = ({ children }: ContextMenuBasicProps) => {
         <ContextMenuGroup>
           <ContextMenuItem className="gap-2 cursor-pointer">
             <FolderPlus className="h-4 w-4" /> 
-            <span>{t('cloud-page.createFolder')}</span>
+            <span onClick={createFolder}>{t('cloud-page.createFolder')}</span>
           </ContextMenuItem>
         </ContextMenuGroup>
 
