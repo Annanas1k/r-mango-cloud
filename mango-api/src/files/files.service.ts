@@ -1,8 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 // files/files.service.ts
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { createHash, randomUUID } from 'crypto';
 import { lookup } from 'mime-types';
 import { PrismaService } from '../prisma/prisma.service';
@@ -15,31 +12,35 @@ export class FilesService {
         private readonly storage: StorageService,
     ) { }
 
-    async uploadFile(userId: string, file: Express.Multer.File) {
-        // 1. dacă clientul (curl, Postman prost configurat, etc.) nu trimite
-        //    un mimetype util, îl deducem din extensia fișierului
+    async uploadFile(
+        userId: string,
+        file: Express.Multer.File,
+        parentId: string | null,
+    ) {
+        if (parentId) {
+            const parent = await this.prisma.node.findUnique({ where: { id: parentId } });
+            if (!parent || parent.ownerId !== userId) {
+                throw new ForbiddenException('Folder destinație invalid');
+            }
+        }
+
         const mimeType =
             !file.mimetype || file.mimetype === 'application/octet-stream'
                 ? lookup(file.originalname) || 'application/octet-stream'
                 : file.mimetype;
 
-        // 2. checksum, pt integritate + detectare duplicate pe viitor
         const checksum = createHash('sha256').update(file.buffer).digest('hex');
-
-        // 3. cheie unică în bucket
         const storageKey = `${userId}/${randomUUID()}-${file.originalname}`;
 
-        // 4. upload efectiv în R2, cu mimeType-ul corectat
         await this.storage.uploadBuffer(storageKey, file.buffer, mimeType);
 
-        // 5. Node + FileVersion, într-o singură tranzacție
         const node = await this.prisma.$transaction(async (tx) => {
             const createdNode = await tx.node.create({
                 data: {
                     type: 'FILE',
                     name: file.originalname,
                     ownerId: userId,
-                    parentId: null,
+                    parentId,
                     mimeType,
                     sizeBytes: BigInt(file.size),
                 },
@@ -65,23 +66,28 @@ export class FilesService {
             name: node.name,
             mimeType: node.mimeType,
             sizeBytes: node.sizeBytes.toString(),
+            parentId: node.parentId,
             createdAt: node.createdAt,
         };
     }
 
-    async listMyFiles(userId: string) {
-        const nodes = await this.prisma.node.findMany({
-            where: { ownerId: userId, trashedAt: null, parentId: null },
-            orderBy: { createdAt: 'desc' },
-        });
+    async getDownloadUrl(userId: string, nodeId: string) {
+        const node = await this.prisma.node.findUnique({ where: { id: nodeId } });
+        if (!node) throw new NotFoundException('Fișier negăsit');
+        if (node.ownerId !== userId) throw new ForbiddenException('Nu ai acces la acest fișier');
+        if (node.type !== 'FILE') throw new NotFoundException('Elementul nu este un fișier');
 
-        return nodes.map((n) => ({
-            id: n.id,
-            name: n.name,
-            type: n.type,
-            mimeType: n.mimeType,
-            sizeBytes: n.sizeBytes.toString(),
-            createdAt: n.createdAt,
-        }));
+        const latestVersion = await this.prisma.fileVersion.findFirst({
+            where: { nodeId },
+            orderBy: { versionNumber: 'desc' },
+        });
+        if (!latestVersion) throw new NotFoundException('Nu există o versiune a fișierului');
+
+        const url = await this.storage.getSignedDownloadUrl(
+            latestVersion.storageKey,
+            node.name,
+        );
+
+        return { url, expiresIn: 300 };
     }
 }

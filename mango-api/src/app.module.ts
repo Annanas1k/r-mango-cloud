@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { EmailModule } from './email/email.module';
 import { StorageModule } from './storage/storage.module';
 import { FilesModule } from './files/files.module';
+import { NodesModule } from './nodes/nodes.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -17,6 +18,7 @@ import { FilesModule } from './files/files.module';
     EmailModule,
     StorageModule,
     FilesModule,
+    NodesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

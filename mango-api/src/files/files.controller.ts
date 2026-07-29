@@ -2,15 +2,17 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 // files/files.controller.ts
 import {
+  Body,
   Controller,
-  Post,
   Get,
+  MaxFileSizeValidator,
+  Param,
+  ParseFilePipe,
+  Post,
+  Req,
+  UploadedFile,
   UseGuards,
   UseInterceptors,
-  UploadedFile,
-  Req,
-  ParseFilePipe,
-  MaxFileSizeValidator,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FilesService } from './files.service';
@@ -22,23 +24,22 @@ export class FilesController {
   constructor(private readonly filesService: FilesService) { }
 
   @Post('upload')
-  @UseInterceptors(FileInterceptor('file')) // 'file' = numele câmpului din FormData
+  @UseInterceptors(FileInterceptor('file'))
   async upload(
     @UploadedFile(
       new ParseFilePipe({
-        validators: [
-          new MaxFileSizeValidator({ maxSize: 50 * 1024 * 1024 }), // limită 50MB, pt test
-        ],
+        validators: [new MaxFileSizeValidator({ maxSize: 50 * 1024 * 1024 })],
       }),
     )
     file: Express.Multer.File,
+    @Body('parentId') parentId: string | undefined,
     @Req() req: any,
   ) {
-    return this.filesService.uploadFile(req.user.sub, file);
+    return this.filesService.uploadFile(req.user.sub, file, parentId ?? null);
   }
 
-  @Get()
-  list(@Req() req: any) {
-    return this.filesService.listMyFiles(req.user.sub);
+  @Get(':id/download')
+  getDownloadUrl(@Param('id') id: string, @Req() req: any) {
+    return this.filesService.getDownloadUrl(req.user.sub, id);
   }
 }
