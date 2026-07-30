@@ -14,8 +14,7 @@ export function useCloudUpload() {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const folderInputRef = useRef<HTMLInputElement>(null);
 
-    // adaugă în listă local DOAR dacă elementul aterizează în folderul curent afișat
-    // (relevant la upload de foldere - fișierele din subfoldere nu trebuie să apară aici)
+
     const addIfVisible = (node: NodeDto) => {
         if (node.parentId === currentFolderId) {
             dispatch(addItemLocally(node));

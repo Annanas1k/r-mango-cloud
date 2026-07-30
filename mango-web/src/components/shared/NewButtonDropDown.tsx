@@ -12,7 +12,7 @@ import {
 import { useTranslation } from "react-i18next";
 
 interface DropdownMenuBasicProps {
-  children: React.ReactNode;
+  children: React.ReactElement;
   className?: string;
 }
 
@@ -25,9 +25,7 @@ export const NewButtonDropDown = ({ children, className }: DropdownMenuBasicProp
         - asChild: transmite referința și evenimentele direct copilului ({children}),
           fără să creeze un alt element HTML wrapper.
       */}
-      <DropdownMenuTrigger className={className}>
-        {children}
-      </DropdownMenuTrigger>
+      <DropdownMenuTrigger render={children} nativeButton className={className} />
 
       <DropdownMenuContent align="start" sideOffset={6} className="w-56">
         <DropdownMenuGroup>

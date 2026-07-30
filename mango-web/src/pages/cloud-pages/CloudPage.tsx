@@ -53,7 +53,7 @@ export const CloudPage = () => {
       />
 
       <ContextMenuBasic
-        createFolder={() => handleCreateFolder("test-folder")}
+        createFolder={handleCreateFolder}
         onUploadFileClick={openFilePicker}
         onUploadFolderClick={openFolderPicker}
       >
