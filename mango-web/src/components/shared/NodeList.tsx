@@ -1,5 +1,6 @@
 import type { NodeDto } from "@/types/node.types"
 import LoadingUI from "./LoadingUI"
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 
 interface NodeListProps {
     items: NodeDto[];
@@ -14,13 +15,29 @@ export const NodeList = ({items, status}: NodeListProps) =>{
 
     return (
         <div>
-        <ul>
-            {items.map((i)=>(
-                <li key={i.id}>
-                    {i.name}
-                </li>
-            ))}
-        </ul>
+
+        <Table>
+            <TableCaption>A LIst of files</TableCaption>
+            <TableHeader>
+                <TableRow>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Type</TableHead>
+                    <TableHead>Memory</TableHead>
+                    <TableHead>Added at</TableHead>
+                </TableRow>
+            </TableHeader>
+            <TableBody>
+                {items.map((node)=>(
+                    <TableRow key={node.id}>
+                        <TableCell>{node.name}</TableCell>
+                        <TableCell>{node.type}</TableCell>
+                        <TableCell>{node.sizeBytes}</TableCell>
+                        <TableCell>{node.createdAt}</TableCell>
+
+                    </TableRow>
+                ))}
+            </TableBody>
+        </Table>
         </div>
     )
 }

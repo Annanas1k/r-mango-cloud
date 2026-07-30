@@ -14,7 +14,7 @@ export const TopBar = () => {
     const user = useAppSelector((state) => state.auth.user);
     
     return (
-        <header className="flex h-15 shrink-0 items-center justify-between gap-2 border-b border-border bg-background px-4">
+        <header className="flex sticky top-0 h-15 shrink-0 items-center justify-between gap-2 border-b border-border bg-background px-4">
             <div className="flex items-center">
             <SidebarTrigger />
             <InputGroup className="w-150 h-full bg-muted rounded-full">
