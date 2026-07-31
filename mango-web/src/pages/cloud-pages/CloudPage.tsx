@@ -6,6 +6,7 @@ import { NodeList } from "@/components/shared/NodeList";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { fetchFolder } from "@/redux/nodes/nodesSlice";
 import { useCloudUpload } from "@/hooks/useCloudUpload";
+import { NodeCards } from "@/components/shared/NodeCards";
 
 export const CloudPage = () => {
   const { t } = useTranslation("cloud-page");
@@ -58,6 +59,7 @@ export const CloudPage = () => {
         onUploadFolderClick={openFolderPicker}
       >
         <div className="w-full h-full flex-1 bg-gray-50">
+          <NodeCards items={items} status={status}/>
           <NodeList items={items} status={status} />
         </div>
       </ContextMenuBasic>

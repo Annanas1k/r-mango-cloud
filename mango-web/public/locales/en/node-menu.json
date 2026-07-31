@@ -1,0 +1,22 @@
+{
+  "node-menu": {
+    "download": "Download",
+    "rename": "Rename",
+    "share": {
+      "title": "Share",
+      "share": "Share",
+      "copyLink": "Copy link"
+    },
+    "organize": {
+      "title": "Organize",
+      "move": "Move",
+      "toggleStar": "Add to starred / Remove"
+    },
+    "info": {
+      "title": "File information",
+      "details": "Details",
+      "activity": "Activity"
+    },
+    "moveToTrash": "Move to trash"
+  }
+}
