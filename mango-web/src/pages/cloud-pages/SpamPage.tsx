@@ -1,8 +1,8 @@
 
-export const StarredPage = () =>{
+export const SpamPage = () =>{
     return (
         <main>
-            <h1>StarredPage</h1>
+            <h1>SpamPage</h1>
             <section>
 
             </section>

@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { NewButtonDropDown } from "./NewButtonDropDown";
+import { useCloudUpload } from "@/hooks/useCloudUpload";
 
 const navGroups = [
   {
@@ -34,13 +35,13 @@ const navGroups = [
     items: [
       { titleKey: "sidebar.home", url: "/cloud/home", icon: Home },
       { titleKey: "sidebar.myCloud", url: "/cloud/my-cloud", icon: Cloud },
-      { titleKey: "sidebar.computers", url: "/cloud/computers", icon: Computer },
+      { titleKey: "sidebar.computers", url: "/cloud/my-computers", icon: Computer },
     ],
   },
   {
     labelKey: "sidebar.quickAccess",
     items: [
-      { titleKey: "sidebar.shared", url: "/cloud/shared", icon: Users },
+      { titleKey: "sidebar.shared", url: "/cloud/shared-with-me", icon: Users },
       { titleKey: "sidebar.recent", url: "/cloud/recent", icon: Clock },
       { titleKey: "sidebar.starred", url: "/cloud/starred", icon: Star },
     ],
@@ -59,7 +60,16 @@ export const AppSidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { open } = useSidebar(); // Preluăm starea dacă sidebar-ul este deschis/restrâns
-
+    const {
+      fileInputRef,
+      folderInputRef,
+      handleCreateFolder,
+      handleFileInputChange,
+      handleFolderInputChange,
+      openFilePicker,
+      openFolderPicker,
+    } = useCloudUpload();
+    
   return (
     // 🔴 1. Cheia este atributul collapsible="icon"
     <Sidebar collapsible="icon">
@@ -83,9 +93,25 @@ export const AppSidebar = () => {
             </h1>
           )}
         </div>
-
+          <input
+        ref={fileInputRef}
+        type="file"
+        className="hidden"
+        onChange={handleFileInputChange}
+      />
+      <input
+        ref={folderInputRef}
+        type="file"
+        className="hidden"
+        // @ts-expect-error - webkitdirectory nu e în tipurile standard React/DOM,
+        // dar e suportat de toate browserele majore (Chrome, Edge, Safari)
+        webkitdirectory=""
+        directory=""
+        multiple
+        onChange={handleFolderInputChange}
+      />
         {/* Butonul de adăugare își schimbă aspectul când e restrâns */}
-        <NewButtonDropDown className="w-full mt-2">
+        <NewButtonDropDown className="w-full mt-2" createFolder={handleCreateFolder} onUploadFileClick={openFilePicker} onUploadFolderClick={openFolderPicker}>
           <Button
             onClick={() => console.log("New action")}
             /* Am scos mt-2 de aici! */

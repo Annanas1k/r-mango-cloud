@@ -11,8 +11,13 @@ import { AboutPage } from "@/pages/landing-pages/AboutPage";
 import { PricingPage } from "@/pages/landing-pages/PricingPage";
 import { HomePage } from "@/pages/cloud-pages/HomePage";
 import { CloudPage } from "@/pages/cloud-pages/CloudPage";
-import { StaredPage } from "@/pages/cloud-pages/StaredPage";
 import { CloudLayout } from "@/components/layouts/CloudLayout";
+import { StarredPage } from "@/pages/cloud-pages/StaredPage";
+import { ComputersPage } from "@/pages/cloud-pages/ComputersPgae";
+import { ShareWithMePage } from "@/pages/cloud-pages/ShareWithMePape";
+import { RecentPage } from "@/pages/cloud-pages/RecentPage";
+import { SpamPage } from "@/pages/cloud-pages/SpamPage";
+import { TrashPage } from "@/pages/cloud-pages/TrashPage";
 
 
 export const router = createBrowserRouter([
@@ -50,8 +55,28 @@ export const router = createBrowserRouter([
             element: <CloudPage />,
           },
           {
-            path: "stared",
-            element: <StaredPage />,
+            path: "my-computers",
+            element: <ComputersPage />
+          },
+          {
+            path: "shared-with-me",
+            element: <ShareWithMePage />
+          },
+          {
+            path: "starred",
+            element: <StarredPage />,
+          },
+          {
+            path: "recent",
+            element: <RecentPage />
+          },
+          {
+            path: "spam",
+            element: <SpamPage />
+          },
+          {
+            path: "trash",
+            element: <TrashPage />
           }
         ]
       },

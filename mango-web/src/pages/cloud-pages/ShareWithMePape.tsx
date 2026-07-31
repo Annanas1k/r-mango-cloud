@@ -1,8 +1,8 @@
 
-export const StarredPage = () =>{
+export const ShareWithMePage = () =>{
     return (
         <main>
-            <h1>StarredPage</h1>
+            <h1>ShareWithMePage</h1>
             <section>
 
             </section>

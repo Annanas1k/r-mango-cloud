@@ -1,8 +1,8 @@
 
-export const StarredPage = () =>{
+export const RecentPage = () =>{
     return (
         <main>
-            <h1>StarredPage</h1>
+            <h1>RecentPage</h1>
             <section>
 
             </section>
