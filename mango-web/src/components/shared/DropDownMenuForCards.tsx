@@ -13,13 +13,17 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { useNodeActions } from "@/hooks/useNodeActions";
+import type { NodeDto } from "@/types/node.types";
 
 interface DropDownMenuForCardsProps {
   children: React.ReactElement;
+  node: NodeDto;
 }
 
-export const DropDownMenuForCards = ({ children }: DropDownMenuForCardsProps) => {
+export const DropDownMenuForCards = ({ children, node }: DropDownMenuForCardsProps) => {
   const { t } = useTranslation("node-menu");
+  const { handleDownload } = useNodeActions();
 
   return (
     <DropdownMenu>
@@ -27,7 +31,7 @@ export const DropDownMenuForCards = ({ children }: DropDownMenuForCardsProps) =>
 
       <DropdownMenuContent className="w-auto">
         <DropdownMenuGroup>
-          <DropdownMenuItem className={"cursor-pointer"}>
+          <DropdownMenuItem className={"cursor-pointer"} onClick={()=>handleDownload(node)}>
             <Download />
             {t("node-menu.download")}
           </DropdownMenuItem>

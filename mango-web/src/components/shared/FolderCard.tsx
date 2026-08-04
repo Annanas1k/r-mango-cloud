@@ -4,18 +4,14 @@ import { Card, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { DropDownMenuForCards } from "./DropDownMenuForCards";
+import type { NodeDto } from "@/types/node.types";
 
-interface FolderNode {
-  id: string;
-  name: string;
-  type: string;
-}
 
 interface FolderCardProps {
-  folder: FolderNode;
+  folder: NodeDto;
   isSelected: boolean;
   onSelect: (id: string) => void;
-  onOpen: (folder: FolderNode) => void;
+  onOpen: (folder: NodeDto) => void;
 }
 
 export const FolderCard = ({ folder, isSelected, onSelect, onOpen }: FolderCardProps) => {
@@ -37,7 +33,7 @@ export const FolderCard = ({ folder, isSelected, onSelect, onOpen }: FolderCardP
           {folder.name}
         </CardTitle>
 
-        <DropDownMenuForCards>
+        <DropDownMenuForCards node={folder}>
           <Button
             variant="ghost"
             size="icon"

@@ -4,20 +4,15 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { DropDownMenuForCards } from "./DropDownMenuForCards";
+import type { NodeDto } from "@/types/node.types";
 
-interface FileNode {
-  id: string;
-  name: string;
-  type: string;
-  mimeType: string | null;
-  sizeBytes: string; // BigInt serializat ca string, la fel ca în NodeDto
-}
+
 
 interface FileCardProps {
-  file: FileNode;
+  file: NodeDto;
   isSelected: boolean;
   onSelect: (id: string) => void;
-  onOpen: (file: FileNode) => void; // ex: preview/download la dublu-click
+  onOpen: (file: NodeDto) => void; // ex: preview/download la dublu-click
 }
 
 function getIconForMimeType(mimeType: string | null) {
@@ -64,7 +59,7 @@ export const FileCard = ({ file, isSelected, onSelect, onOpen }: FileCardProps) 
           </CardTitle>
         </div>
 
-        <DropDownMenuForCards>
+        <DropDownMenuForCards node={file}>
           <Button
             variant="ghost"
             size="icon"
