@@ -31,7 +31,7 @@ export const NodeCards = ({ items, status }: NodeCardsProps) => {
       {folders.length > 0 && (
         <section>
           <h2>Foldere</h2>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+          <div className="flex flex-wrap gap-4">
             {folders.map((folder) => <FolderCard key={folder.id} folder={folder} isSelected={selectedId === folder.id} onSelect={handleSelect} onOpen={handleOpen} />)}
           </div>
         </section>

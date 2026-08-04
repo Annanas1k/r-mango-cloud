@@ -1,0 +1,81 @@
+# docker-compose.yml
+# Rulare: docker compose up
+# Oprire: docker compose down
+# Rebuild dacă schimbi package.json: docker compose up --build
+
+services:
+  # -------------------------------------------------------------------
+  # BAZA DE DATE
+  # -------------------------------------------------------------------
+  postgres:
+    image: postgres:16-alpine
+    container_name: mango-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: mango-admin
+      POSTGRES_PASSWORD: admin-mango-cloud
+      POSTGRES_DB: mango_pg
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mango-admin -d mango_pg"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mango-network
+
+  # -------------------------------------------------------------------
+  # BACKEND - NestJS
+  # -------------------------------------------------------------------
+  api:
+    build:
+      context: ./mango-api
+      dockerfile: Dockerfile.api.dev
+    container_name: mango-api
+    restart: unless-stopped
+    env_file:
+      - ./mango-api/.env
+    environment:
+      DATABASE_URL: postgresql://mango-admin:admin-mango-cloud@postgres:5432/mango_pg
+    ports:
+      - "3000:3000"
+      - "5555:5555" 
+    volumes:
+      - ./mango-api:/app
+      - /app/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - mango-network
+
+  # -------------------------------------------------------------------
+  # FRONTEND - Vite/React
+  # -------------------------------------------------------------------
+  web:
+    build:
+      context: ./mango-web
+      dockerfile: Dockerfile.web.dev
+    container_name: mango-web
+    restart: unless-stopped
+    env_file:
+      - ./mango-web/.env
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./mango-web:/app
+      - /app/node_modules
+    depends_on:
+      - api
+    networks:
+      - mango-network
+
+volumes:
+  postgres_data: # persistă datele DB și după "docker compose down" (nu la "down -v")
+
+networks:
+  mango-network:
+    driver: bridge

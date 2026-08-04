@@ -18,7 +18,9 @@ async function bootstrap() {
   });
   app.setGlobalPrefix('api');
   await app.listen(process.env.PORT ?? 3000);
-  console.log(` -> access poit: http://localhost:${process.env.PORT}`);
+  console.log(` -> api access poit: http://localhost:${process.env.PORT}/api`);
+  console.log(` -> web access point: http://localhost:5173`)
+
 }
 
 bootstrap().catch((err) => {
