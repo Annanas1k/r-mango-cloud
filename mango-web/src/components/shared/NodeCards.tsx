@@ -2,6 +2,7 @@ import type { NodeDto } from "@/types/node.types"
 import LoadingUI from "./LoadingUI";
 import { FolderCard } from "./FolderCard";
 import { useState } from "react";
+import { FileCard } from "./FileCard";
 
 interface NodeCardsProps {
   items: NodeDto[];
@@ -30,7 +31,7 @@ export const NodeCards = ({ items, status }: NodeCardsProps) => {
       {/* --- FOLDERE, sus --- */}
       {folders.length > 0 && (
         <section>
-          <h2>Foldere</h2>
+          <h2>Folders</h2>
           <div className="flex flex-wrap gap-4">
             {folders.map((folder) => <FolderCard key={folder.id} folder={folder} isSelected={selectedId === folder.id} onSelect={handleSelect} onOpen={handleOpen} />)}
           </div>
@@ -40,9 +41,9 @@ export const NodeCards = ({ items, status }: NodeCardsProps) => {
       {/* --- FIȘIERE, jos --- */}
       {files.length > 0 && (
         <section>
-          <h2>Fișiere</h2>
+          <h2>Files</h2>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-            {/* {files.map((file) => <FileCard key={file.id} file={file} isSelected={selectedId === file.id} onSelect={handleSelect} />)} */}
+            {files.map((file) => <FileCard key={file.id} file={file} isSelected={selectedId === file.id} onSelect={handleSelect} onOpen={handleOpen} />)}
           </div>
         </section>
       )}
