@@ -12,6 +12,10 @@
       "cancel": "Cancel",
       "create": "Create",
       "creating": "Creating..."
+    },
+    "emptyState": {
+      "title": "Your Mango Garden is empty",
+      "description": "Upload your files and folders to get started."
     }
   }
 }

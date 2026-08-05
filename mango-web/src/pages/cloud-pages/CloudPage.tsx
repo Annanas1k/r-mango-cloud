@@ -7,6 +7,8 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { fetchFolder } from "@/redux/nodes/nodesSlice";
 import { useCloudUpload } from "@/hooks/useCloudUpload";
 import { NodeCards } from "@/components/shared/NodeCards";
+import { EmptyState } from "@/components/shared/EmptyState";
+import { Cloud } from "lucide-react";
 
 export const CloudPage = () => {
   const { t } = useTranslation("cloud-page");
@@ -29,6 +31,12 @@ export const CloudPage = () => {
     openFilePicker,
     openFolderPicker,
   } = useCloudUpload();
+
+  // if(!items || items.length === 0) {
+  //   return (
+  //     <EmptyState media={<Cloud />}  title={t('cloud-page.emptyState.title')} description={t('cloud-page.emptyState.description')} />
+  //   );
+  // }
 
   return (
     <main className="flex flex-col w-full gap-4 h-full">
@@ -58,10 +66,14 @@ export const CloudPage = () => {
         onUploadFileClick={openFilePicker}
         onUploadFolderClick={openFolderPicker}
       >
-        <div className="w-full h-full flex-1 bg-gray-50">
-          <NodeCards items={items} status={status}/>
-          <NodeList items={items} status={status} />
-        </div>
+        {items.length === 0 ? (
+          <EmptyState media={<Cloud />}  title={t('cloud-page.emptyState.title')} description={t('cloud-page.emptyState.description')} />
+        ): (
+          <div className="w-full h-full flex-1 bg-gray-50">
+            <NodeCards items={items} status={status}/>
+            <NodeList items={items} status={status} />
+          </div>
+        )}
       </ContextMenuBasic>
     </main>
   );
