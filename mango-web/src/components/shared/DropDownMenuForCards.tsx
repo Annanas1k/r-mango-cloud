@@ -26,7 +26,7 @@ interface DropDownMenuForCardsProps {
 export const DropDownMenuForCards = ({ children, node }: DropDownMenuForCardsProps) => {
   const { t } = useTranslation("node-menu");
   const [isRenameDialogOpen, setIsRenameDialogOpen] = useState(false);
-  const { handleDownload, handleRename } = useNodeActions();
+  const { handleDownload, handleRename, handleRemoveToTrash } = useNodeActions();
 
   return (
     <>    
@@ -109,7 +109,7 @@ export const DropDownMenuForCards = ({ children, node }: DropDownMenuForCardsPro
         <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
-          <DropdownMenuItem variant="destructive" className={"cursor-pointer"}>
+          <DropdownMenuItem variant="destructive" className={"cursor-pointer"} onClick={()=>handleRemoveToTrash(node)}>
             <Trash />
             {t("node-menu.moveToTrash")}
           </DropdownMenuItem>

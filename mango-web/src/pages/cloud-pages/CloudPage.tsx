@@ -32,11 +32,6 @@ export const CloudPage = () => {
     openFolderPicker,
   } = useCloudUpload();
 
-  // if(!items || items.length === 0) {
-  //   return (
-  //     <EmptyState media={<Cloud />}  title={t('cloud-page.emptyState.title')} description={t('cloud-page.emptyState.description')} />
-  //   );
-  // }
 
   return (
     <main className="flex flex-col w-full gap-4 h-full">

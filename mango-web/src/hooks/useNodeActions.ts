@@ -1,7 +1,7 @@
 import { getDownloadUrl } from "@/api/files.api";
-import { renameNode } from "@/api/nodes.api";
+import { renameNode, trashNode } from "@/api/nodes.api";
 import { useAppDispatch } from "@/redux/hooks";
-import { updateItemLocally } from "@/redux/nodes/nodesSlice";
+import { markAsTrashedLocally, updateItemLocally } from "@/redux/nodes/nodesSlice";
 import type { NodeDto } from "@/types/node.types";
 
 
@@ -42,9 +42,19 @@ export function useNodeActions() {
         }
     }
 
+    async function handleRemoveToTrash(node: NodeDto) {
+        try {
+            await trashNode(node.id)
+            dispatch(markAsTrashedLocally(node.id))
+        } catch (error) {
+            console.error("Error removing file to trash:", error);
+        }
+    }
+
     return {
         handleDownload,
-        handleRename
+        handleRename,
+        handleRemoveToTrash
     }
 }
 

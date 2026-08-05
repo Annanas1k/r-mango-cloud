@@ -2,13 +2,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { BreadcrumbItem, NodeDto } from "@/types/node.types";
-import { listNodes, getNodeBreadcrumb } from "@/api/nodes.api";
+import { listNodes, getNodeBreadcrumb, starredList, listTrash } from "@/api/nodes.api";
+import type { RootState } from "../store";
 
 interface NodesState {
     currentFolderId: string | null;
     items: NodeDto[];
     breadcrumb: BreadcrumbItem[];
     status: "idle" | "loading" | "succeeded" | "failed";
+    error: string | null;
+    trashItems: NodeDto[];
 }
 
 const initialState: NodesState = {
@@ -16,6 +19,8 @@ const initialState: NodesState = {
     items: [],
     breadcrumb: [],
     status: "idle",
+    error: null,
+    trashItems: [],
 };
 
 // -------------------------------------------------------------------------
@@ -33,32 +38,67 @@ export const fetchFolder = createAsyncThunk(
     },
 );
 
+export const fetchTrash = createAsyncThunk(
+    "nodes/fetchTrash",
+    async () => {
+        return await listTrash();
+    }
+);
+
+export const fetchStarred = createAsyncThunk(
+    "nodes/fetchStarred",
+    async () => {
+        return await starredList();
+    }
+);
+
 const nodesSlice = createSlice({
     name: "nodes",
     initialState,
     reducers: {
-        // scoate un element din listă local, fără refetch (ex: după ștergere/mutare)
+        markAsTrashedLocally: (state, action: PayloadAction<string>) => {
+            const nodeId = action.payload;
+            const itemToTrash = state.items.find((item) => item.id === nodeId);
+
+            if (itemToTrash) {
+                state.items = state.items.filter((item) => item.id !== nodeId);
+                state.trashItems.unshift({ ...itemToTrash, trashedAt: new Date().toISOString() }); // Adaugă la începutul listei de trash
+            }
+        },
+
+        restoreFromTrashLocally: (state, action: PayloadAction<string>) => {
+            const nodeId = action.payload;
+            state.trashItems = state.trashItems.filter((item) => item.id !== nodeId);
+        },
+
+        removeItemPermanentlyLocally: (state, action: PayloadAction<string>) => {
+            const nodeId = action.payload;
+            state.trashItems = state.trashItems.filter((item) => item.id !== nodeId);
+            state.items = state.items.filter((item) => item.id !== nodeId);
+        },
+
+
         removeItemLocally: (state, action: PayloadAction<string>) => {
             state.items = state.items.filter((item) => item.id !== action.payload);
         },
 
-        // adaugă un element nou local (ex: după upload sau creare folder reușită)
         addItemLocally: (state, action: PayloadAction<NodeDto>) => {
             state.items.push(action.payload);
         },
 
-        // actualizează un element local (ex: după redenumire), fără refetch
         updateItemLocally: (state, action: PayloadAction<NodeDto>) => {
             const index = state.items.findIndex((item) => item.id === action.payload.id);
             if (index !== -1) {
                 state.items[index] = action.payload;
             }
         },
+        resetNodesState: () => initialState,
     },
     extraReducers: (builder) => {
         builder
             .addCase(fetchFolder.pending, (state) => {
                 state.status = "loading";
+                state.error = null;
             })
             .addCase(fetchFolder.fulfilled, (state, action) => {
                 state.currentFolderId = action.payload.folderId;
@@ -68,9 +108,30 @@ const nodesSlice = createSlice({
             })
             .addCase(fetchFolder.rejected, (state) => {
                 state.status = "failed";
+                state.error = "Failed to fetch folder data.";
+            })
+            .addCase(fetchTrash.pending, (state) => {
+                state.status = "loading";
+                state.error = null;
+            })
+            .addCase(fetchTrash.fulfilled, (state, action) => {
+                state.trashItems = action.payload;
+                state.status = "succeeded";
+            })
+            .addCase(fetchTrash.rejected, (state) => {
+                state.status = "failed";
+                state.error = "Failed to fetch trash data.";
             });
+
     },
 });
 
-export const { removeItemLocally, addItemLocally, updateItemLocally } = nodesSlice.actions;
+export const { removeItemLocally, addItemLocally, updateItemLocally, resetNodesState, markAsTrashedLocally, restoreFromTrashLocally, removeItemPermanentlyLocally } = nodesSlice.actions;
+
+export const selectCurrentItems = (state: RootState) => state.nodes.items;
+export const selectTrashItems = (state: RootState) => state.nodes.trashItems;
+export const selectCurrentFolderId = (state: RootState) => state.nodes.currentFolderId;
+export const selectBreadcrumb = (state: RootState) => state.nodes.breadcrumb;
+export const selectNodesStatus = (state: RootState) => state.nodes.status;
+export const selectNodesError = (state: RootState) => state.nodes.error;
 export default nodesSlice.reducer;
