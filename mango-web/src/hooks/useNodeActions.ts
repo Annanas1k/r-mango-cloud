@@ -1,5 +1,7 @@
 import { getDownloadUrl } from "@/api/files.api";
+import { renameNode } from "@/api/nodes.api";
 import { useAppDispatch } from "@/redux/hooks";
+import { updateItemLocally } from "@/redux/nodes/nodesSlice";
 import type { NodeDto } from "@/types/node.types";
 
 
@@ -31,8 +33,19 @@ export function useNodeActions() {
         }
     }
 
-    return {
-        handleDownload
+    async function handleRename(node: NodeDto, newName: string) {
+        try {
+            await renameNode(node.id, newName)
+            dispatch(updateItemLocally({ ...node, name: newName }));
+        } catch (error) {
+            console.error("Error renaming file:", error);
+        }
     }
 
+    return {
+        handleDownload,
+        handleRename
+    }
 }
+
+

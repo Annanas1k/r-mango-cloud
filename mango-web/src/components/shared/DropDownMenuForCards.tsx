@@ -15,6 +15,8 @@ import {
 } from "../ui/dropdown-menu";
 import { useNodeActions } from "@/hooks/useNodeActions";
 import type { NodeDto } from "@/types/node.types";
+import  { RenameFolderDialog } from "./RenameFolderDialog";
+import { useState } from "react";
 
 interface DropDownMenuForCardsProps {
   children: React.ReactElement;
@@ -23,9 +25,11 @@ interface DropDownMenuForCardsProps {
 
 export const DropDownMenuForCards = ({ children, node }: DropDownMenuForCardsProps) => {
   const { t } = useTranslation("node-menu");
-  const { handleDownload } = useNodeActions();
+  const [isRenameDialogOpen, setIsRenameDialogOpen] = useState(false);
+  const { handleDownload, handleRename } = useNodeActions();
 
   return (
+    <>    
     <DropdownMenu>
       <DropdownMenuTrigger render={children} nativeButton />
 
@@ -35,7 +39,7 @@ export const DropDownMenuForCards = ({ children, node }: DropDownMenuForCardsPro
             <Download />
             {t("node-menu.download")}
           </DropdownMenuItem>
-          <DropdownMenuItem className={"cursor-pointer"}>
+          <DropdownMenuItem className={"cursor-pointer"} onClick={()=>setIsRenameDialogOpen(true)}>
             <PencilLine />
             {t("node-menu.rename")}
           </DropdownMenuItem>
@@ -112,5 +116,16 @@ export const DropDownMenuForCards = ({ children, node }: DropDownMenuForCardsPro
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
+
+
+
+    {/* // dialogs ------------------- */}
+    <RenameFolderDialog 
+      open={isRenameDialogOpen}
+      onOpenChange={setIsRenameDialogOpen}
+      initialName={node.name}
+      onRename={(newName) => handleRename(node, newName)}
+    />
+    </>
   );
 };

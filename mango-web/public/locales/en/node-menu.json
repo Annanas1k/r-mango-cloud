@@ -17,6 +17,13 @@
       "details": "Details",
       "activity": "Activity"
     },
-    "moveToTrash": "Move to trash"
+    "moveToTrash": "Move to trash",
+    "renameDialog": {
+      "title": "Rename",
+      "description": "Enter a new name for this item.",
+      "cancel": "Cancel",
+      "save": "Save",
+      "saving": "Saving..."
+    }
   }
 }

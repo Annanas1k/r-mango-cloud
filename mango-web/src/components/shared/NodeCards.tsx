@@ -21,7 +21,7 @@ export const NodeCards = ({ items, status }: NodeCardsProps) => {
   }
 
   const folders = items.filter((item) => item.type === "FOLDER");
-  const files = items.filter((item) => item.type === "FILE");
+  const files = items.filter((item) => item.type === "FILE" || (!item.type && item.mimeType));
 
   if (status === "loading") return <LoadingUI />
   if (status === "failed") return <p>ups....</p>
@@ -42,7 +42,7 @@ export const NodeCards = ({ items, status }: NodeCardsProps) => {
       {files.length > 0 && (
         <section>
           <h2>Files</h2>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+          <div className="flex flex-wrap gap-4">
             {files.map((file) => <FileCard key={file.id} file={file} isSelected={selectedId === file.id} onSelect={handleSelect} onOpen={handleOpen} />)}
           </div>
         </section>
