@@ -76,6 +76,9 @@ const nodesSlice = createSlice({
             state.trashItems = state.trashItems.filter((item) => item.id !== nodeId);
             state.items = state.items.filter((item) => item.id !== nodeId);
         },
+        emptyTrashLocally: (state) => {
+            state.trashItems = [];
+        },
 
 
         removeItemLocally: (state, action: PayloadAction<string>) => {
@@ -126,7 +129,7 @@ const nodesSlice = createSlice({
     },
 });
 
-export const { removeItemLocally, addItemLocally, updateItemLocally, resetNodesState, markAsTrashedLocally, restoreFromTrashLocally, removeItemPermanentlyLocally } = nodesSlice.actions;
+export const { removeItemLocally, addItemLocally, updateItemLocally, resetNodesState, markAsTrashedLocally, restoreFromTrashLocally, removeItemPermanentlyLocally, emptyTrashLocally } = nodesSlice.actions;
 
 export const selectCurrentItems = (state: RootState) => state.nodes.items;
 export const selectTrashItems = (state: RootState) => state.nodes.trashItems;

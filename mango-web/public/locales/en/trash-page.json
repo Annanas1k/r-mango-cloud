@@ -1,0 +1,16 @@
+{
+  "trash-page": {
+    "title": "Trash",
+    "empty-trash": "Empty Trash",
+    "restore": "Restore",
+    "delete-permanently": "Delete Permanently",
+    "confirm-delete-title": "Are you sure you want to delete this item permanently?",
+    "confirm-delete-message": "This action cannot be undone.",
+    "confirm-restore-title": "Are you sure you want to restore this item?",
+    "confirm-restore-message": "This will move the item back to its original location.",
+    "emptyState": {
+      "title": "No items in trash",
+      "description": "You have no items in your trash. Any deleted files will appear here."
+    }
+  }
+}

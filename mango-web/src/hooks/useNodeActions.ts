@@ -1,7 +1,7 @@
 import { getDownloadUrl } from "@/api/files.api";
-import { renameNode, trashNode } from "@/api/nodes.api";
+import { deleteNodePermanently, emptyTrash, renameNode, restoreNode, trashNode } from "@/api/nodes.api";
 import { useAppDispatch } from "@/redux/hooks";
-import { markAsTrashedLocally, updateItemLocally } from "@/redux/nodes/nodesSlice";
+import { emptyTrashLocally, markAsTrashedLocally, removeItemPermanentlyLocally, restoreFromTrashLocally, updateItemLocally } from "@/redux/nodes/nodesSlice";
 import type { NodeDto } from "@/types/node.types";
 
 
@@ -51,10 +51,48 @@ export function useNodeActions() {
         }
     }
 
+    async function handleRestore(node: NodeDto) {
+        const isConfirmed = window.confirm(`U are sure? "${node.name}"?`);
+        if (!isConfirmed) return;
+        try {
+            await restoreNode(node.id)
+            dispatch(restoreFromTrashLocally(node.id));
+        } catch (error) {
+            console.error("Error restoring file from trash:", error);
+        }
+    }
+
+    async function handleRemovePermanently(node: NodeDto) {
+        const isConfirmed = window.confirm(`U are sure? "${node.name}"?`);
+        if (!isConfirmed) return;
+        try {
+            await deleteNodePermanently(node.id)
+            dispatch(removeItemPermanentlyLocally(node.id));
+        } catch (error) {
+            console.error("Error removing file permanently:", error);
+        }
+    }
+
+    async function handleEmptyTrash() {
+        const isConfirmed = window.confirm(`U are sure? Empty trash?`);
+        if (!isConfirmed) return;
+        try {
+            await emptyTrash()
+            dispatch(emptyTrashLocally());
+        } catch (error) {
+            console.error("Error emptying trash:", error);
+        }
+    }
+
+
+
     return {
         handleDownload,
         handleRename,
-        handleRemoveToTrash
+        handleRemoveToTrash,
+        handleRestore,
+        handleRemovePermanently,
+        handleEmptyTrash
     }
 }
 
