@@ -9,6 +9,7 @@ import { useCloudUpload } from "@/hooks/useCloudUpload";
 import { NodeCards } from "@/components/shared/NodeCards";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { Cloud } from "lucide-react";
+import { PageToolbar } from "@/components/shared/PageToolbar";
 
 export const CloudPage = () => {
   const { t } = useTranslation("cloud-page");
@@ -35,7 +36,8 @@ export const CloudPage = () => {
 
   return (
     <main className="flex flex-col w-full gap-4 h-full">
-      <h1 className="text-4xl w-full">{t("cloud-page.title")}</h1>
+      <PageToolbar title={t("cloud-page.title")}></PageToolbar>
+
 
       {/* inputuri "invizibile", declanșate programatic din context menu */}
       <input
