@@ -1,0 +1,55 @@
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import type { RootState } from "../store";
+
+type ThemeMode = "light" | "dark"
+type Language = "en" | "ro" | "ru";
+type ViewMode = "grid" | "list"
+
+
+interface SettingsState {
+    theme: ThemeMode;
+    language: Language
+    viewMode: ViewMode
+    detailsView: boolean
+}
+
+
+const initialState: SettingsState = {
+    theme: (localStorage.getItem("app_theme") as ThemeMode) || "light",
+    language: (localStorage.getItem("app_language") as Language) || "en",
+    viewMode: (localStorage.getItem("app_viewMode") as ViewMode) || "grid",
+    detailsView: localStorage.getItem("app_detailsView") === "false"
+}
+
+
+
+export const settingsSlice = createSlice({
+    name: "settings",
+    initialState,
+    reducers: {
+        setTheme: (state, action: PayloadAction<ThemeMode>) => {
+            state.theme = action.payload;
+            localStorage.setItem("app_theme", action.payload);
+        },
+        setLanguage: (state, action: PayloadAction<Language>) => {
+            state.language = action.payload;
+            localStorage.setItem("app_lang", action.payload);
+        },
+        toggleViewMode: (state, action: PayloadAction<ViewMode>) => {
+            state.viewMode = action.payload
+            localStorage.setItem("app_viewMode", action.payload)
+        },
+        toggleDetailsView: (state) => {
+            state.detailsView = !state.detailsView;
+            localStorage.setItem("app_detailsView", String(state.detailsView));
+        }
+    }
+})
+
+export const { setTheme, setLanguage, toggleViewMode } = settingsSlice.actions
+export const selectSettings = (state: RootState) => state.settings
+export const selectTheme = (state: RootState) => state.settings.theme
+export const selectLanguage = (state: RootState) => state.settings.language
+export const selectViewMode = (state: RootState) => state.settings.viewMode
+export const selectDetailsView = (state: RootState) => state.settings.detailsView
+export default settingsSlice.reducer;
