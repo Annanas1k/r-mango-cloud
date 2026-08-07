@@ -1,0 +1,13 @@
+{
+  "title": {
+    "empty": "No item selected",
+    "emptyDescription": "Select an item from the list to view its details."
+  },
+  "tabs": {
+    "details": "Details",
+    "activity": "Activity"
+  },
+  "actions": {
+    "close": "Close details panel"
+  }
+}

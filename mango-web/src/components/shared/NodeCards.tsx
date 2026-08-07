@@ -1,8 +1,9 @@
 import type { NodeDto } from "@/types/node.types"
 import LoadingUI from "./LoadingUI";
 import { FolderCard } from "./FolderCard";
-import { useState } from "react";
 import { FileCard } from "./FileCard";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { selectNode, selectSelectedId } from "@/redux/nodes/nodesSlice";
 
 interface NodeCardsProps {
   items: NodeDto[];
@@ -10,11 +11,11 @@ interface NodeCardsProps {
 }
 
 export const NodeCards = ({ items, status }: NodeCardsProps) => {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
+  const selectedId = useAppSelector(selectSelectedId);
 
   const handleSelect = (id: string) => {
-    setSelectedId(prev => prev === id ? null : id)
-  }
+     dispatch(selectNode(id));  }
 
   const handleOpen = (folder: NodeDto) => {
     console.log('aici ceva va fi', folder)

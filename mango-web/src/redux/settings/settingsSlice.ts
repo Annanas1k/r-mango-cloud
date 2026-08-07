@@ -18,7 +18,7 @@ const initialState: SettingsState = {
     theme: (localStorage.getItem("app_theme") as ThemeMode) || "light",
     language: (localStorage.getItem("app_language") as Language) || "en",
     viewMode: (localStorage.getItem("app_viewMode") as ViewMode) || "grid",
-    detailsView: localStorage.getItem("app_detailsView") === "false"
+    detailsView: localStorage.getItem("app_detailsView") === "true"
 }
 
 
@@ -33,11 +33,11 @@ export const settingsSlice = createSlice({
         },
         setLanguage: (state, action: PayloadAction<Language>) => {
             state.language = action.payload;
-            localStorage.setItem("app_lang", action.payload);
+            localStorage.setItem("app_language", action.payload);
         },
-        toggleViewMode: (state, action: PayloadAction<ViewMode>) => {
-            state.viewMode = action.payload
-            localStorage.setItem("app_viewMode", action.payload)
+        toggleViewMode: (state) => {
+            state.viewMode = state.viewMode === "grid" ? "list" : "grid"
+            localStorage.setItem("app_viewMode", state.viewMode)
         },
         toggleDetailsView: (state) => {
             state.detailsView = !state.detailsView;
@@ -46,7 +46,7 @@ export const settingsSlice = createSlice({
     }
 })
 
-export const { setTheme, setLanguage, toggleViewMode } = settingsSlice.actions
+export const { setTheme, setLanguage, toggleViewMode, toggleDetailsView } = settingsSlice.actions
 export const selectSettings = (state: RootState) => state.settings
 export const selectTheme = (state: RootState) => state.settings.theme
 export const selectLanguage = (state: RootState) => state.settings.language

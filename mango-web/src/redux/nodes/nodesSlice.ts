@@ -1,5 +1,5 @@
 // redux/nodes/nodesSlice.ts
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createSelector } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { BreadcrumbItem, NodeDto } from "@/types/node.types";
 import { listNodes, getNodeBreadcrumb, starredList, listTrash } from "@/api/nodes.api";
@@ -12,6 +12,7 @@ interface NodesState {
     status: "idle" | "loading" | "succeeded" | "failed";
     error: string | null;
     trashItems: NodeDto[];
+    selectedId: string | null;
 }
 
 const initialState: NodesState = {
@@ -21,6 +22,7 @@ const initialState: NodesState = {
     status: "idle",
     error: null,
     trashItems: [],
+    selectedId: null
 };
 
 // -------------------------------------------------------------------------
@@ -56,6 +58,12 @@ const nodesSlice = createSlice({
     name: "nodes",
     initialState,
     reducers: {
+        selectNode: (state, action: PayloadAction<string>) => {
+            state.selectedId = state.selectedId === action.payload ? null : action.payload;
+        },
+        clearSelection: (state) => {
+            state.selectedId = null;
+        },
         markAsTrashedLocally: (state, action: PayloadAction<string>) => {
             const nodeId = action.payload;
             const itemToTrash = state.items.find((item) => item.id === nodeId);
@@ -83,6 +91,9 @@ const nodesSlice = createSlice({
 
         removeItemLocally: (state, action: PayloadAction<string>) => {
             state.items = state.items.filter((item) => item.id !== action.payload);
+            if (state.selectedId === action.payload) {
+                state.selectedId = null;
+            }
         },
 
         addItemLocally: (state, action: PayloadAction<NodeDto>) => {
@@ -108,6 +119,7 @@ const nodesSlice = createSlice({
                 state.items = action.payload.items;
                 state.breadcrumb = action.payload.breadcrumb;
                 state.status = "succeeded";
+                state.selectedId = null
             })
             .addCase(fetchFolder.rejected, (state) => {
                 state.status = "failed";
@@ -124,12 +136,23 @@ const nodesSlice = createSlice({
             .addCase(fetchTrash.rejected, (state) => {
                 state.status = "failed";
                 state.error = "Failed to fetch trash data.";
-            });
+            })
 
     },
 });
 
-export const { removeItemLocally, addItemLocally, updateItemLocally, resetNodesState, markAsTrashedLocally, restoreFromTrashLocally, removeItemPermanentlyLocally, emptyTrashLocally } = nodesSlice.actions;
+export const {
+    removeItemLocally,
+    addItemLocally,
+    updateItemLocally,
+    resetNodesState,
+    markAsTrashedLocally,
+    restoreFromTrashLocally,
+    removeItemPermanentlyLocally,
+    emptyTrashLocally,
+    selectNode,
+    clearSelection
+} = nodesSlice.actions;
 
 export const selectCurrentItems = (state: RootState) => state.nodes.items;
 export const selectTrashItems = (state: RootState) => state.nodes.trashItems;
@@ -137,4 +160,16 @@ export const selectCurrentFolderId = (state: RootState) => state.nodes.currentFo
 export const selectBreadcrumb = (state: RootState) => state.nodes.breadcrumb;
 export const selectNodesStatus = (state: RootState) => state.nodes.status;
 export const selectNodesError = (state: RootState) => state.nodes.error;
+export const selectSelectedId = (state: RootState) => state.nodes.selectedId;
+export const selectSelectedNode = createSelector(
+    [selectCurrentItems, selectTrashItems, selectSelectedId],
+    (items, trashItems, selectedId) => {
+        if (!selectedId) return null;
+        return (
+            items.find((item) => item.id === selectedId) ??
+            trashItems.find((item) => item.id === selectedId) ??
+            null
+        );
+    }
+);
 export default nodesSlice.reducer;

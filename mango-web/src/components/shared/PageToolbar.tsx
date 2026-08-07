@@ -1,10 +1,12 @@
 import { Info, LayoutGrid, List } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 import { Toggle } from "../ui/toggle";
+import { useAppSelector } from "@/redux/hooks";
+import { selectDetailsView, selectViewMode } from "@/redux/settings/settingsSlice";
+import { useSettings } from "@/hooks/useSettings";
 
 interface PageToolbarProps {
     title: string;
-    viewMode?: "list" | "grid";
     showViewToggle?: boolean;
     showInfoButton?: boolean;
     children?: React.ReactElement;
@@ -12,8 +14,11 @@ interface PageToolbarProps {
 
 
 
-export const PageToolbar = ({ title, viewMode = "grid", showViewToggle = true, showInfoButton = true, children }: PageToolbarProps) => {
+export const PageToolbar = ({ title, showViewToggle = true, showInfoButton = true, children }: PageToolbarProps) => {
 
+    const viewMode  = useAppSelector(selectViewMode)
+    const isDetailsOpen = useAppSelector(selectDetailsView)
+    const {handleToggleViewMode, handleToggleDetailsView} = useSettings()
     return (
         <div className="flex w-full h-auto   justify-between mb-4">
             <div className="flex items-center gap-2">
@@ -25,7 +30,7 @@ export const PageToolbar = ({ title, viewMode = "grid", showViewToggle = true, s
             <div className="flex items-center gap-2">
                 {showViewToggle && (
                     <div>
-                        <ToggleGroup variant="outline" className="flex" spacing={0}>
+                        <ToggleGroup variant="outline" className="flex" spacing={0} typeof="single" value={[viewMode]} onValueChange={handleToggleViewMode}>
                             <ToggleGroupItem value="list" aria-label="List view" className="rounded-r-none ">
                                 <List className="w-5 h-5" />
                             </ToggleGroupItem>
@@ -37,7 +42,7 @@ export const PageToolbar = ({ title, viewMode = "grid", showViewToggle = true, s
                 )}
                 {showInfoButton && (
                     <div>
-                        <Toggle aria-label="details" variant="outline">
+                        <Toggle aria-label="details" variant="outline" pressed={isDetailsOpen} onPressedChange={handleToggleDetailsView}>
                             <Info className="w-5 h-5" />
                         </Toggle>
                     </div>

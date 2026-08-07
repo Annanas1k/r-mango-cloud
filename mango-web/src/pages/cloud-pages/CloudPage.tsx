@@ -10,6 +10,7 @@ import { NodeCards } from "@/components/shared/NodeCards";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { Cloud } from "lucide-react";
 import { PageToolbar } from "@/components/shared/PageToolbar";
+import { selectViewMode } from "@/redux/settings/settingsSlice";
 
 export const CloudPage = () => {
   const { t } = useTranslation("cloud-page");
@@ -18,6 +19,7 @@ export const CloudPage = () => {
   const items = useAppSelector((state) => state.nodes.items);
   const status = useAppSelector((state) => state.nodes.status);
   const currentFolderId = useAppSelector((state) => state.nodes.currentFolderId);
+  const viewMode = useAppSelector(selectViewMode)
 
   useEffect(() => {
     dispatch(fetchFolder(currentFolderId));
@@ -66,9 +68,10 @@ export const CloudPage = () => {
         {items.length === 0 ? (
           <EmptyState media={<Cloud />}  title={t('cloud-page.emptyState.title')} description={t('cloud-page.emptyState.description')} />
         ): (
-          <div className="w-full h-full flex-1 bg-gray-50">
-            <NodeCards items={items} status={status}/>
-            <NodeList items={items} status={status} />
+          <div className="w-full h-full flex-1">
+            {viewMode === "grid" && <NodeCards items={items} status={status}/>}
+            {viewMode === "list" && <NodeList items={items} status={status} />}
+            
           </div>
         )}
       </ContextMenuBasic>

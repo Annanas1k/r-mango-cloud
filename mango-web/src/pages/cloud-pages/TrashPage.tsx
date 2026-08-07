@@ -4,22 +4,22 @@ import { TrashCards } from "@/components/shared/TrashCards";
 import { Button } from "@/components/ui/button";
 import { useNodeActions } from "@/hooks/useNodeActions";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { fetchTrash, selectNodesStatus, selectTrashItems } from "@/redux/nodes/nodesSlice";
+import { fetchTrash, selectNode, selectNodesStatus, selectSelectedId, selectTrashItems } from "@/redux/nodes/nodesSlice";
 import type { NodeDto } from "@/types/node.types";
 import { Trash } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 export const TrashPage = () =>{
     const {t} = useTranslation("trash-page");
-    const dispatch = useAppDispatch();
     const {handleEmptyTrash} = useNodeActions();
     const trashItems = useAppSelector(selectTrashItems);
     const status = useAppSelector(selectNodesStatus);
-    const [selectedId, setSelectedId] = useState<string | null>(null);
-    
-    const handleSelect = (id: string) => {
-        setSelectedId(prev => prev === id ? null : id)
+    const dispatch = useAppDispatch();
+    const selectedId = useAppSelector(selectSelectedId);
+
+      const handleSelect = (id: string) => {
+        dispatch(selectNode(id));  
       }
     
       const handleOpen = (folder: NodeDto) => {
