@@ -20,7 +20,7 @@ export const PageToolbar = ({ title, showViewToggle = true, showInfoButton = tru
     const isDetailsOpen = useAppSelector(selectDetailsView)
     const {handleToggleViewMode, handleToggleDetailsView} = useSettings()
     return (
-        <div className="flex w-full h-auto   justify-between mb-4">
+        <div className="flex w-full h-20   justify-between mb-4 sticky top-0 z-10 bg-gray-50 px-6 py-4,">
             <div className="flex items-center gap-2">
                 <h1 className="text-xl font-semibold text-foreground tracking-tight">
                     {title}

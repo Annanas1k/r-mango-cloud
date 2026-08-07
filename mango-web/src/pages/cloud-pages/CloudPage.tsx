@@ -37,10 +37,9 @@ export const CloudPage = () => {
 
 
   return (
-    <main className="flex flex-col w-full gap-4 h-full">
+    <main className="flex flex-col w-full h-full">
       <PageToolbar title={t("cloud-page.title")}></PageToolbar>
-
-
+      <div className="flex flex-col flex-1 gap-4 px-6 pb-6">
       {/* inputuri "invizibile", declanșate programatic din context menu */}
       <input
         ref={fileInputRef}
@@ -75,6 +74,8 @@ export const CloudPage = () => {
           </div>
         )}
       </ContextMenuBasic>
+
+      </div>
     </main>
   );
 };

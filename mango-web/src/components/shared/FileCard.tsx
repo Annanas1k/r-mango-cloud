@@ -54,11 +54,11 @@ export const FileCard = ({ file, isSelected, onSelect, onOpen }: FileCardProps) 
         </DropDownMenuForCards>
       </CardHeader>
       <CardContent>
-            <div>
+            <div className="w-full h-40 flex items-center justify-center bg-sidebar-border rounded-md">
                 preview(future)
             </div>
       </CardContent>
-      <CardFooter >
+      <CardFooter  className="h-0">
             <p className="truncate text-xs text-muted-foreground">
             {formatBytes(file.sizeBytes)}
           </p>

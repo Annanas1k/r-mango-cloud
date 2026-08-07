@@ -17,7 +17,7 @@ export const CloudLayout = () => {
                 <TopBar />
                 
                 <div className="flex flex-1 overflow-hidden relative">
-                    <main className="flex-1 p-6 overflow-y-auto transition-all duration-300 ease-in-out">
+                    <main className="flex-1 overflow-y-auto transition-all duration-300 ease-in-out bg-gray-50">
                         <Outlet />
                     </main>
 
