@@ -1,5 +1,11 @@
 // components/shared/FileCard.tsx
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { DropDownMenuForCards } from "./DropDownMenuForCards";
@@ -8,8 +14,6 @@ import { formatBytes } from "@/utils/formatBytesHelper";
 import { getIconForMimeType } from "@/utils/getIconForMimeTypeHelper";
 import { EllipsisVertical } from "lucide-react";
 
-
-
 interface FileCardProps {
   file: NodeDto;
   isSelected: boolean;
@@ -17,8 +21,12 @@ interface FileCardProps {
   onOpen: (file: NodeDto) => void; // ex: preview/download la dublu-click
 }
 
-
-export const FileCard = ({ file, isSelected, onSelect, onOpen }: FileCardProps) => {
+export const FileCard = ({
+  file,
+  isSelected,
+  onSelect,
+  onOpen,
+}: FileCardProps) => {
   const classname = "size-5 shrink-0 text-primary";
   const icon = getIconForMimeType(file.mimeType, classname);
 
@@ -54,14 +62,14 @@ export const FileCard = ({ file, isSelected, onSelect, onOpen }: FileCardProps) 
         </DropDownMenuForCards>
       </CardHeader>
       <CardContent>
-            <div className="w-full h-40 flex items-center justify-center bg-sidebar-border rounded-md">
-                preview(future)
-            </div>
+        <div className="w-full h-40 flex items-center justify-center bg-sidebar-border rounded-md">
+          preview(future)
+        </div>
       </CardContent>
-      <CardFooter  className="h-0">
-            <p className="truncate text-xs text-muted-foreground">
-            {formatBytes(file.sizeBytes)}
-          </p>
+      <CardFooter className="h-0">
+        <p className="truncate text-xs text-muted-foreground">
+          {formatBytes(file.sizeBytes)}
+        </p>
       </CardFooter>
     </Card>
   );

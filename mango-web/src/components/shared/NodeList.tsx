@@ -1,14 +1,14 @@
-import type { NodeDto } from "@/types/node.types"
-import LoadingUI from "./LoadingUI"
-import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "../ui/table";
+import { cn } from "@/lib/utils";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { selectNode, selectSelectedId } from "@/redux/nodes/nodesSlice";
-import { EllipsisVertical, FolderIcon } from "lucide-react";
-import { getIconForMimeType } from "@/utils/getIconForMimeTypeHelper";
-import { cn } from "@/lib/utils";
+import type { NodeDto } from "@/types/node.types";
 import { formatBytes } from "@/utils/formatBytesHelper";
-import { DropDownMenuForCards } from "./DropDownMenuForCards";
+import { getIconForMimeType } from "@/utils/getIconForMimeTypeHelper";
+import { EllipsisVertical, FolderIcon } from "lucide-react";
 import { Button } from "../ui/button";
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
+import { DropDownMenuForCards } from "./DropDownMenuForCards";
+import LoadingUI from "./LoadingUI";
 
 interface NodeListProps {
     items: NodeDto[];

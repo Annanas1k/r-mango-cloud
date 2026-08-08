@@ -3,6 +3,8 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
+
 
 @custom-variant dark (&:is(.dark *));
 
@@ -12,8 +14,8 @@
 /* de variabilele CSS brute definite mai jos în :root / .dark          */
 /* -------------------------------------------------------------------- */
 @theme inline {
-  --font-heading: var(--font-sans);
-  --font-sans: 'Geist Variable', sans-serif;
+  --font-heading: 'Geist Variable', sans-serif;
+  --font-sans: 'Geist Mono Variable', sans-serif;
 
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -53,9 +55,33 @@
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --font-display-family: var(--display-family);
+  --font-display-weight: 600;
+  --font-display-tracking: normal;
+  --font-body-family: var(--body-family);
+  --font-body-weight: 400;
+  --font-body-tracking: normal;
+  --body-family: var(--font-geist);
+  --display-family: var(--font-geist);
+  --font-mono: var(--font-geist-mono);
+  --font-geist: 'Geist Variable', sans-serif;
+  --font-geist-mono: 'Geist Mono Variable', monospace;
+  --color-code-border: var(--code-border);
+  --color-code-selection: var(--code-selection);
+  --color-code-number: var(--code-number);
+  --color-code-highlight: var(--code-highlight);
+  --color-code-foreground: var(--code-foreground);
+  --color-code: var(--code);
+  --color-footer-foreground: var(--footer-foreground);
+  --color-footer: var(--footer);
+  --color-header-foreground: var(--header-foreground);
+  --color-header: var(--header);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --font-oswald: 'Oswald', sans-serif;
+  --font-jetbrains-mono: 'JetBrains Mono', monospace;
 }
 
 /* ======================================================================= */
@@ -65,57 +91,68 @@
 /* ======================================================================= */
 :root {
   /* --- fundal & text de bază al paginii --- */
-  --background: #FAF6EF;
-  --foreground: #2B2620;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.1450 0 0);
 
   /* --- carduri, dropdown-uri, tooltip-uri, popover-uri --- */
-  --card: #FFFFFF;
-  --card-foreground: #2B2620;
-  --popover: #FFFFFF;
-  --popover-foreground: #2B2620;
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.1450 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.1450 0 0);
 
   /* --- primar: culoarea principală (butoane default, linkuri active) --- */
-  --primary: #E8791E;
-  --primary-foreground: #FFF3E0; /* text deschis, pt contrast pe fundal portocaliu */
+  --primary: oklch(0.5530 0.1950 38.4020);
+  --primary-foreground: oklch(0.9800 0.0160 73.6840); /* text deschis, pt contrast pe fundal portocaliu */
 
   /* --- secundar: galben mango, pt acțiuni secundare / hover-uri --- */
-  --secondary: #F2A93B;
-  --secondary-foreground: #2B2620;
+  --secondary: oklch(0.9670 0.0010 286.3750);
+  --secondary-foreground: oklch(0.2100 0.0060 285.8850);
 
   /* --- muted: zone estompate — text secundar, fundaluri dezactivate --- */
-  --muted: #F2E4C7; /* secundar deschis, aproape de bg */
-  --muted-foreground: #5A4E3E;
+  --muted: oklch(0.9700 0 0); /* secundar deschis, aproape de bg */
+  --muted-foreground: oklch(0.5560 0 0);
 
   /* --- accent: verde-frunză, pt highlight-uri / stări speciale --- */
-  --accent: #7CA35A;
-  --accent-foreground: #FFFFFF;
+  --accent: oklch(0.9700 0 0);
+  --accent-foreground: oklch(0.2050 0 0);
 
   /* --- destructive: acțiuni de ștergere / erori --- */
-  --destructive: #C2410C;
+  --destructive: oklch(0.5770 0.2450 27.3250);
 
   /* --- borduri, input-uri, focus ring --- */
-  --border: #E8DFCE;
-  --input: #E8DFCE;
-  --ring: #F2A93B;
+  --border: oklch(0.9220 0 0);
+  --input: oklch(0.9220 0 0);
+  --ring: oklch(0.7080 0 0);
 
   /* --- culori pt grafice (Recharts/Chart.js) — variații calde, distincte --- */
-  --chart-1: #E8791E; /* primar */
-  --chart-2: #F2A93B; /* secundar */
-  --chart-3: #7CA35A; /* accent verde */
-  --chart-4: #C2410C; /* portocaliu ars */
-  --chart-5: #8A7A63; /* neutru cald */
+  --chart-1: oklch(0.8370 0.1280 66.2900); /* primar */
+  --chart-2: oklch(0.7050 0.2130 47.6040); /* secundar */
+  --chart-3: oklch(0.6460 0.2220 41.1160); /* accent verde */
+  --chart-4: oklch(0.5530 0.1950 38.4020); /* portocaliu ars */
+  --chart-5: oklch(0.4700 0.1570 37.3040); /* neutru cald */
 
-  --radius: 0.75rem; /* rotunjire generoasă, potrivită temei calde/prietenoase */
+  --radius: 0.625rem; /* rotunjire generoasă, potrivită temei calde/prietenoase */
 
   /* --- sidebar (dacă adaugi componenta Sidebar din shadcn) --- */
-  --sidebar: #FFF6E9;
-  --sidebar-foreground: #2B2620;
-  --sidebar-primary: #E8791E;
-  --sidebar-primary-foreground: #FFF3E0;
-  --sidebar-accent: #F2E4C7;
-  --sidebar-accent-foreground: #2B2620;
-  --sidebar-border: #E8DFCE;
-  --sidebar-ring: #F2A93B;
+  --sidebar: oklch(0.9850 0 0);
+  --sidebar-foreground: oklch(0.1450 0 0);
+  --sidebar-primary: oklch(0.6460 0.2220 41.1160);
+  --sidebar-primary-foreground: oklch(0.9800 0.0160 73.6840);
+  --sidebar-accent: oklch(0.9700 0 0);
+  --sidebar-accent-foreground: oklch(0.2050 0 0);
+  --sidebar-border: oklch(0.9220 0 0);
+  --sidebar-ring: oklch(0.7080 0 0);
+  --destructive-foreground: oklch(1 0 0);
+  --header: oklch(1 0 0);
+  --header-foreground: oklch(0.1450 0 0);
+  --footer: oklch(1 0 0);
+  --footer-foreground: oklch(0.1450 0 0);
+  --code: oklch(1 0 0);
+  --code-foreground: oklch(0.7080 0 0);
+  --code-highlight: oklch(0.2700 0 0);
+  --code-number: oklch(0.7200 0 0);
+  --code-selection: oklch(0.9220 0 0);
+  --code-border: oklch(0.9220 0 0);
 }
 
 /* ======================================================================= */
@@ -125,55 +162,66 @@
 /* ======================================================================= */
 .dark {
   /* --- fundal & text de bază al paginii --- */
-  --background: #211D17; /* ridicat de la #181510 — mai puțin "negru pur", ochii obosesc mai puțin */
-  --foreground: #F4EDE2;
+  --background: oklch(0.1450 0 0); /* ridicat de la #181510 — mai puțin "negru pur", ochii obosesc mai puțin */
+  --foreground: oklch(0.9850 0 0);
 
   /* --- carduri, dropdown-uri, tooltip-uri, popover-uri --- */
-  --card: #2C271D; /* ridicat de la #241F17, diferență vizibilă față de background */
-  --card-foreground: #F4EDE2;
-  --popover: #2C271D;
-  --popover-foreground: #F4EDE2;
+  --card: oklch(0.2050 0 0); /* ridicat de la #241F17, diferență vizibilă față de background */
+  --card-foreground: oklch(0.9850 0 0);
+  --popover: oklch(0.2050 0 0);
+  --popover-foreground: oklch(0.9850 0 0);
 
   /* --- primar: galben-portocaliu mango, contrast puternic pe fundal --- */
-  --primary: #F2A93B;
-  --primary-foreground: #211D17;
+  --primary: oklch(0.4700 0.1570 37.3040);
+  --primary-foreground: oklch(0.9800 0.0160 73.6840);
 
   /* --- secundar: variantă mai deschisă a primarului, pt acțiuni secundare --- */
-  --secondary: #453824; /* ridicat de la #3A2E1A, mai puțin dur lângă background */
-  --secondary-foreground: #F4EDE2;
+  --secondary: oklch(0.2740 0.0060 286.0330); /* ridicat de la #3A2E1A, mai puțin dur lângă background */
+  --secondary-foreground: oklch(0.9850 0 0);
 
   /* --- muted: zone estompate — text secundar, fundaluri dezactivate --- */
-  --muted: #362E22; /* ridicat de la #2E2819 */
-  --muted-foreground: #C4B8A3; /* ușor mai deschis, pt lizibilitate mai bună */
+  --muted: oklch(0.2690 0 0); /* ridicat de la #2E2819 */
+  --muted-foreground: oklch(0.7080 0 0); /* ușor mai deschis, pt lizibilitate mai bună */
 
   /* --- accent: verde-frunză, pt highlight-uri / stări speciale --- */
-  --accent: #8FBE6E;
-  --accent-foreground: #211D17;
+  --accent: oklch(0.2690 0 0);
+  --accent-foreground: oklch(0.9850 0 0);
 
   /* --- destructive: acțiuni de ștergere / erori --- */
-  --destructive: #E8590C;
+  --destructive: oklch(0.7040 0.1910 22.2160);
 
   /* --- borduri, input-uri, focus ring --- */
-  --border: #4A3F2E; /* ridicat, altfel borduri invizibile pe fundal prea închis */
-  --input: #4A3F2E;
-  --ring: #F2A93B;
+  --border: oklch(1 0 0 / 10%); /* ridicat, altfel borduri invizibile pe fundal prea închis */
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.5560 0 0);
 
   /* --- culori pt grafice (Recharts/Chart.js) — variații calde, distincte --- */
-  --chart-1: #F2A93B;
-  --chart-2: #8FBE6E;
-  --chart-3: #E8590C;
-  --chart-4: #C4B8A3;
-  --chart-5: #F4EDE2;
+  --chart-1: oklch(0.8370 0.1280 66.2900);
+  --chart-2: oklch(0.7050 0.2130 47.6040);
+  --chart-3: oklch(0.6460 0.2220 41.1160);
+  --chart-4: oklch(0.5530 0.1950 38.4020);
+  --chart-5: oklch(0.4700 0.1570 37.3040);
 
   /* --- sidebar --- */
-  --sidebar: #2C271D;
-  --sidebar-foreground: #F4EDE2;
-  --sidebar-primary: #F2A93B;
-  --sidebar-primary-foreground: #211D17;
-  --sidebar-accent: #362E22;
-  --sidebar-accent-foreground: #F4EDE2;
-  --sidebar-border: #4A3F2E;
-  --sidebar-ring: #F2A93B;
+  --sidebar: oklch(0.2050 0 0);
+  --sidebar-foreground: oklch(0.9850 0 0);
+  --sidebar-primary: oklch(0.7050 0.2130 47.6040);
+  --sidebar-primary-foreground: oklch(0.9800 0.0160 73.6840);
+  --sidebar-accent: oklch(0.2690 0 0);
+  --sidebar-accent-foreground: oklch(0.9850 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.5560 0 0);
+  --destructive-foreground: oklch(0.9850 0 0);
+  --header: oklch(0.1450 0 0);
+  --header-foreground: oklch(0.9850 0 0);
+  --footer: oklch(0.1450 0 0);
+  --footer-foreground: oklch(0.9850 0 0);
+  --code: oklch(0.2000 0 0);
+  --code-foreground: oklch(0.7080 0 0);
+  --code-highlight: oklch(0.2700 0 0);
+  --code-number: oklch(0.7200 0 0);
+  --code-selection: oklch(0.9220 0 0);
+  --code-border: oklch(1 0 0 / 10%);
 }
 
 /* -------------------------------------------------------------------- */
@@ -184,9 +232,24 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-body;
   }
   html {
     @apply font-sans;
   }
+  pre, code {
+    @apply font-geist-mono;
+  }
+}
+
+@utility font-display {
+    font-family: var(--font-display-family);
+    font-weight: var(--font-display-weight);
+    letter-spacing: var(--font-display-tracking);
+}
+
+@utility font-body {
+    font-family: var(--font-body-family);
+    font-weight: var(--font-body-weight);
+    letter-spacing: var(--font-body-tracking);
 }

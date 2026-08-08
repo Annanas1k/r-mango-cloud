@@ -8,37 +8,38 @@ import { useAppSelector } from "@/redux/hooks";
 import { selectDetailsView } from "@/redux/settings/settingsSlice";
 
 export const CloudLayout = () => {
-    const detailsView = useAppSelector(selectDetailsView);
+  const detailsView = useAppSelector(selectDetailsView);
 
-    return (
-        <SidebarProvider>
-            <AppSidebar />
-            <SidebarInset className="flex flex-col h-screen overflow-hidden">
-                <TopBar />
-                
-                <div className="flex flex-1 overflow-hidden relative">
-                    <main className="flex-1 overflow-y-auto transition-all duration-300 ease-in-out bg-gray-50">
-                        <Outlet />
-                    </main>
+  return (
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset className="flex flex-col h-screen overflow-hidden">
+        <TopBar />
 
-                    <aside
-                        className={`
+        <div className="flex flex-1 overflow-hidden relative">
+          <main className="flex-1 overflow-y-auto transition-all duration-300 ease-in-out bg-background">
+            <Outlet />
+          </main>
+
+          <aside
+            className={`
                             w-100 border-l bg-background h-full overflow-y-auto
                             transition-all duration-500 ease-in-out transform
-                            ${detailsView 
-                                ? "translate-x-0 opacity-100 relative" 
+                            ${
+                              detailsView
+                                ? "translate-x-0 opacity-100 relative"
                                 : "translate-x-full opacity-0 pointer-events-none absolute right-0"
                             }
                         `}
-                    >
-                        <InfoSideComponent />
-                    </aside>
-                </div>
+          >
+            <InfoSideComponent />
+          </aside>
+        </div>
 
-                <div className="p-5 border-t bg-background z-10">
-                    <CopyRight />
-                </div>
-            </SidebarInset>
-        </SidebarProvider>
-    );
+        <div className="p-5 border-t bg-background z-10">
+          <CopyRight />
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
+  );
 };
