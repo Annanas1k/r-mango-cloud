@@ -44,7 +44,7 @@ export const TopBar = () => {
 
         <AvatarDropDownButton>
           <button className="rounded-full outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring">
-            <AvatarCircle user={user} />
+            {user && <AvatarCircle user={user} />}
           </button>
         </AvatarDropDownButton>
       </div>
