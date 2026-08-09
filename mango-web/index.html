@@ -3,9 +3,8 @@
   <head>
     <script>
       (function () {
-        const stored = localStorage.getItem("theme");
-        const prefersDark = window.matchMedia("(prefers-color-scheme: light)").matches;
-        if (stored === "dark" || (!stored && prefersDark)) {
+        const stored = localStorage.getItem("app_theme");
+        if (stored === "dark") {
           document.documentElement.classList.add("dark");
         }
       })();

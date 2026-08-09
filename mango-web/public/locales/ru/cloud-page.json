@@ -1,0 +1,21 @@
+{
+  "cloud-page": {
+    "title": "Мой манго-сад",
+    "createFolder": "Создать папку",
+    "fileUpload": "Загрузить файл",
+    "folderUpload": "Загрузить папку",
+    "createFolderDialog": {
+      "title": "Создать новую папку",
+      "description": "Введите имя для новой папки.",
+      "nameLabel": "Имя папки",
+      "namePlaceholder": "Папка без названия",
+      "cancel": "Отмена",
+      "create": "Создать",
+      "creating": "Создание..."
+    },
+    "emptyState": {
+      "title": "Ваш манго-сад пуст",
+      "description": "Загрузите файлы и папки, чтобы начать."
+    }
+  }
+}

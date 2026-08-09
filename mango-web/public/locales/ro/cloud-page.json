@@ -1,0 +1,21 @@
+{
+  "cloud-page": {
+    "title": "Grădina mea de mango",
+    "createFolder": "Creează folder",
+    "fileUpload": "Încarcă fișier",
+    "folderUpload": "Încarcă folder",
+    "createFolderDialog": {
+      "title": "Creează folder nou",
+      "description": "Introdu un nume pentru noul tău folder.",
+      "nameLabel": "Numele folderului",
+      "namePlaceholder": "Folder fără titlu",
+      "cancel": "Anulează",
+      "create": "Creează",
+      "creating": "Se creează..."
+    },
+    "emptyState": {
+      "title": "Grădina ta de mango e goală",
+      "description": "Încarcă fișiere și foldere pentru a începe."
+    }
+  }
+}

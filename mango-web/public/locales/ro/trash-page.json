@@ -1,0 +1,16 @@
+{
+  "trash-page": {
+    "title": "Coș de gunoi",
+    "empty-trash": "Golește coșul",
+    "restore": "Restaurează",
+    "delete-permanently": "Șterge definitiv",
+    "confirm-delete-title": "Ești sigur că vrei să ștergi definitiv acest element?",
+    "confirm-delete-message": "Această acțiune nu poate fi anulată.",
+    "confirm-restore-title": "Ești sigur că vrei să restaurezi acest element?",
+    "confirm-restore-message": "Elementul va fi mutat înapoi la locația inițială.",
+    "emptyState": {
+      "title": "Coșul de gunoi este gol",
+      "description": "Nu ai niciun element în coșul de gunoi. Fișierele șterse vor apărea aici."
+    }
+  }
+}

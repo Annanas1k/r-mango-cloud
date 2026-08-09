@@ -1,0 +1,29 @@
+{
+  "footer": {
+    "tagline": "Stocare cloud sigură, cu gust de mango. Salvează, distribuie și accesează fișierele tale de oriunde.",
+    "newsletterPlaceholder": "Emailul tău",
+    "subscribe": "Abonează-te",
+    "rights": "Toate drepturile rezervate.",
+    "madeWith": "Făcut cu 🥭 de Annanas1k",
+    "product": {
+      "title": "Produs",
+      "overview": "Prezentare generală",
+      "features": "Funcționalități",
+      "pricing": "Prețuri",
+      "changelog": "Jurnal de modificări"
+    },
+    "company": {
+      "title": "Companie",
+      "about": "Despre noi",
+      "blog": "Blog",
+      "careers": "Cariere",
+      "contact": "Contact"
+    },
+    "legal": {
+      "title": "Legal",
+      "privacy": "Politica de confidențialitate",
+      "terms": "Termeni și condiții",
+      "security": "Securitate"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "sidebar": {
+    "new": "Nou",
+    "general": "General",
+    "quickAccess": "Acces rapid",
+    "utilities": "Utilitare",
+    "home": "Acasă",
+    "myCloud": "Cloud-ul meu",
+    "computers": "Calculatoare",
+    "shared": "Distribuite cu mine",
+    "recent": "Recente",
+    "starred": "Favorite",
+    "spam": "Spam",
+    "trash": "Coș de gunoi",
+    "storage": "Stocare"
+  }
+}

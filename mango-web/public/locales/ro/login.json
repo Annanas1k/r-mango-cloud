@@ -1,0 +1,10 @@
+{
+  "login": {
+    "title": "Bine ai venit pe MangoCloud",
+    "description": "Autentifică-te cu contul tău Google pentru a continua.",
+    "loading": "Se autentifică...",
+    "error": "Autentificarea a eșuat. Te rugăm să încerci din nou.",
+    "errorNoToken": "Nu s-a primit niciun token de la Google.",
+    "terms": "Continuând, ești de acord cu Termenii și condițiile și Politica de confidențialitate."
+  }
+}

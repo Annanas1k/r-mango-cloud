@@ -1,0 +1,14 @@
+{
+  "topbar": {
+    "search": "Caută...",
+    "support": "suport",
+    "help": "Ajutor",
+    "termsAndPolicy": "Termeni și politici",
+    "sendFeedback": "Trimite feedback echipei Mango",
+    "settings": "Setări",
+    "upgrade": "Actualizează",
+    "upgradeMessage": "Actualizează pentru funcții premium",
+    "mangoAccount": "Cont Mango",
+    "logout": "Deconectare"
+  }
+}

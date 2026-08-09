@@ -1,0 +1,13 @@
+{
+  "title": {
+    "empty": "Niciun element selectat",
+    "emptyDescription": "Selectează un element din listă pentru a-i vedea detaliile."
+  },
+  "tabs": {
+    "details": "Detalii",
+    "activity": "Activitate"
+  },
+  "actions": {
+    "close": "Închide panoul de detalii"
+  }
+}

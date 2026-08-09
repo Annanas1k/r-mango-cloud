@@ -18,25 +18,25 @@ import { ShareWithMePage } from "@/pages/cloud-pages/ShareWithMePape";
 import { RecentPage } from "@/pages/cloud-pages/RecentPage";
 import { SpamPage } from "@/pages/cloud-pages/SpamPage";
 import { TrashPage } from "@/pages/cloud-pages/TrashPage";
-
+import { SettingsPage } from "@/pages/cloud-pages/SettingsPage";
 
 export const router = createBrowserRouter([
   {
     element: <PublicRoute />,
     children: [
       {
-        element: <StartLayout/>,
+        element: <StartLayout />,
         children: [
-          {path: "/", element: <OverviewPage />},
-          {path: "/about", element: <AboutPage />},
-          {path: "/pricing", element: <PricingPage />},
-          {path: "/login", element: <LoginPage />},
-        ]
+          { path: "/", element: <OverviewPage /> },
+          { path: "/about", element: <AboutPage /> },
+          { path: "/pricing", element: <PricingPage /> },
+          { path: "/login", element: <LoginPage /> },
+        ],
       },
       {
         path: "/loading",
         element: <LoadingUI />,
-      }
+      },
     ],
   },
   {
@@ -56,11 +56,11 @@ export const router = createBrowserRouter([
           },
           {
             path: "my-computers",
-            element: <ComputersPage />
+            element: <ComputersPage />,
           },
           {
             path: "shared-with-me",
-            element: <ShareWithMePage />
+            element: <ShareWithMePage />,
           },
           {
             path: "starred",
@@ -68,17 +68,21 @@ export const router = createBrowserRouter([
           },
           {
             path: "recent",
-            element: <RecentPage />
+            element: <RecentPage />,
           },
           {
             path: "spam",
-            element: <SpamPage />
+            element: <SpamPage />,
           },
           {
             path: "trash",
-            element: <TrashPage />
-          }
-        ]
+            element: <TrashPage />,
+          },
+        ],
+      },
+      {
+        path: "/settings",
+        element: <SettingsPage />,
       },
       // aici adaugi restul rutelor protejate: /files, /settings etc.
     ],

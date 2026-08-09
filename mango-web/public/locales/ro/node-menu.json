@@ -1,0 +1,29 @@
+{
+  "node-menu": {
+    "download": "Descarcă",
+    "rename": "Redenumește",
+    "share": {
+      "title": "Distribuie",
+      "share": "Distribuie",
+      "copyLink": "Copiază linkul"
+    },
+    "organize": {
+      "title": "Organizează",
+      "move": "Mută",
+      "toggleStar": "Adaugă la favorite / Elimină"
+    },
+    "info": {
+      "title": "Informații despre fișier",
+      "details": "Detalii",
+      "activity": "Activitate"
+    },
+    "moveToTrash": "Mută la coșul de gunoi",
+    "renameDialog": {
+      "title": "Redenumește",
+      "description": "Introdu un nume nou pentru acest element.",
+      "cancel": "Anulează",
+      "save": "Salvează",
+      "saving": "Se salvează..."
+    }
+  }
+}

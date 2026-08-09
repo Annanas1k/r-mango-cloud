@@ -9,6 +9,9 @@
     "upgrade": "Upgrade",
     "upgradeMessage": "Upgrade for premium features",
     "mangoAccount": "Mango Account",
-    "logout": "Log out"
+    "logout": "Log out",
+    "account": "Account",
+    "general": "General",
+    "notifications": "Notifications"
   }
 }

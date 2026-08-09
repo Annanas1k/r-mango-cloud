@@ -1,0 +1,14 @@
+{
+  "topbar": {
+    "search": "Поиск...",
+    "support": "поддержка",
+    "help": "Помощь",
+    "termsAndPolicy": "Условия и политика",
+    "sendFeedback": "Отправить отзыв команде Mango",
+    "settings": "Настройки",
+    "upgrade": "Улучшить",
+    "upgradeMessage": "Улучшите план для премиум-функций",
+    "mangoAccount": "Аккаунт Mango",
+    "logout": "Выйти"
+  }
+}

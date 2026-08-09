@@ -35,7 +35,11 @@ const navGroups = [
     items: [
       { titleKey: "sidebar.home", url: "/cloud/home", icon: Home },
       { titleKey: "sidebar.myCloud", url: "/cloud/my-cloud", icon: Cloud },
-      { titleKey: "sidebar.computers", url: "/cloud/my-computers", icon: Computer },
+      {
+        titleKey: "sidebar.computers",
+        url: "/cloud/my-computers",
+        icon: Computer,
+      },
     ],
   },
   {
@@ -60,16 +64,16 @@ export const AppSidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { open } = useSidebar(); // Preluăm starea dacă sidebar-ul este deschis/restrâns
-    const {
-      fileInputRef,
-      folderInputRef,
-      handleCreateFolder,
-      handleFileInputChange,
-      handleFolderInputChange,
-      openFilePicker,
-      openFolderPicker,
-    } = useCloudUpload();
-    
+  const {
+    fileInputRef,
+    folderInputRef,
+    handleCreateFolder,
+    handleFileInputChange,
+    handleFolderInputChange,
+    openFilePicker,
+    openFolderPicker,
+  } = useCloudUpload();
+
   return (
     // 🔴 1. Cheia este atributul collapsible="icon"
     <Sidebar collapsible="icon">
@@ -86,37 +90,41 @@ export const AppSidebar = () => {
             src="/logo/MANOG-ICON.svg"
             alt="rMango Cloud Logo"
           />
-          {/* Ascundem titlul când e restrâns */}
           {open && (
             <h1 className="text-lg font-bold tracking-tight whitespace-nowrap">
-              r<span className="text-secondary">Mango</span> Cloud
+              r<span className="text-primary">Mango</span> Cloud
             </h1>
           )}
         </div>
-          <input
-        ref={fileInputRef}
-        type="file"
-        className="hidden"
-        onChange={handleFileInputChange}
-      />
-      <input
-        ref={folderInputRef}
-        type="file"
-        className="hidden"
-        // @ts-expect-error - webkitdirectory nu e în tipurile standard React/DOM,
-        // dar e suportat de toate browserele majore (Chrome, Edge, Safari)
-        webkitdirectory=""
-        directory=""
-        multiple
-        onChange={handleFolderInputChange}
-      />
-        {/* Butonul de adăugare își schimbă aspectul când e restrâns */}
-        <NewButtonDropDown className="w-full mt-2" createFolder={handleCreateFolder} onUploadFileClick={openFilePicker} onUploadFolderClick={openFolderPicker}>
+        <input
+          ref={fileInputRef}
+          type="file"
+          className="hidden"
+          onChange={handleFileInputChange}
+        />
+        <input
+          ref={folderInputRef}
+          type="file"
+          className="hidden"
+          // @ts-expect-error - webkitdirectory nu e în tipurile standard React/DOM,
+          // dar e suportat de toate browserele majore (Chrome, Edge, Safari)
+          webkitdirectory=""
+          directory=""
+          multiple
+          onChange={handleFolderInputChange}
+        />
+        <NewButtonDropDown
+          className="w-full mt-2"
+          createFolder={handleCreateFolder}
+          onUploadFileClick={openFilePicker}
+          onUploadFolderClick={openFolderPicker}
+        >
           <Button
             onClick={() => console.log("New action")}
-            /* Am scos mt-2 de aici! */
             className={`w-full transition-all ${
-              open ? "justify-start gap-2 h-11 px-4 text-base" : "h-10 w-10 p-0 justify-center"
+              open
+                ? "justify-start gap-2 h-11 px-4 text-base"
+                : "h-10 w-10 p-0 justify-center"
             }`}
             size={open ? "lg" : "icon"}
             title={!open ? t("sidebar.new") : undefined}
@@ -165,7 +173,9 @@ export const AppSidebar = () => {
       <SidebarFooter className="p-3">
         {open ? (
           <div className="text-xs text-muted-foreground">
-            <p className="font-medium text-foreground">Storage (inca nu lucareaza)</p>
+            <p className="font-medium text-foreground">
+              Storage (inca nu lucareaza)
+            </p>
 
             <div className="w-full bg-secondary h-1.5 rounded-full mt-1.5 overflow-hidden">
               <div className="bg-primary h-full w-[45%]" />

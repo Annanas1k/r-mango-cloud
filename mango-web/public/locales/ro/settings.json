@@ -1,0 +1,25 @@
+{
+  "settings": "Setări",
+  "general": "General",
+  "start-page": {
+    "title": "Pagina de start",
+    "description": "Alege ce se deschide când pornești aplicația",
+    "home": "Acasă",
+    "cloud": "Cloud"
+  },
+  "theme": {
+    "title": "Temă",
+    "light": "Deschisă",
+    "dark": "Închisă"
+  },
+  "preview-card": {
+    "title": "Previzualizare miniaturi",
+    "description": "Afișează previzualizări ale fișierelor în vizualizarea grilă"
+  },
+  "language": {
+    "title": "Limbă",
+    "en": "English",
+    "ro": "Română",
+    "ru": "Русский"
+  }
+}
