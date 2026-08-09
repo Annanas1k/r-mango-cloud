@@ -1,7 +1,16 @@
 import { Home, type LucideIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
+import { useSettings } from "@/hooks/useSettings";
+import { useAppSelector } from "@/redux/hooks";
+import {
+  selectCardPreview,
+  selectStartPage,
+} from "@/redux/settings/settingsSlice";
 import { Cloud, Moon, Sun } from "lucide-react";
+import { Checkbox } from "../ui/checkbox";
+import { Label } from "../ui/label";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import {
   Select,
   SelectContent,
@@ -12,14 +21,19 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Separator } from "../ui/separator";
-import { Checkbox } from "../ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { Label } from "../ui/label";
-import { useSettings } from "@/hooks/useSettings";
 
 export const GeneralSettings = () => {
   const { t } = useTranslation("settings");
-  const { language, handleSetLanguage } = useSettings();
+  const {
+    language,
+    handleSetLanguage,
+    handleStartPage,
+    theme,
+    handleSetTheme,
+    handleToggleCardPreview,
+  } = useSettings();
+  const startPage = useAppSelector(selectStartPage);
+  const cardPreview = useAppSelector(selectCardPreview);
 
   return (
     <div className="flex flex-col gap-0 max-w-xl">
@@ -30,10 +44,14 @@ export const GeneralSettings = () => {
         title={t("start-page.title")}
         description={t("start-page.description")}
       >
-        <RadioGroup defaultValue="home" className="flex flex-row gap-4">
+        <RadioGroup
+          value={startPage}
+          onValueChange={handleStartPage}
+          className="flex flex-row gap-4"
+        >
           <RadioOption value="home" label={t("start-page.home")} icon={Home} />
           <RadioOption
-            value="cloud"
+            value="my-cloud"
             label={t("start-page.cloud")}
             icon={Cloud}
           />
@@ -44,7 +62,11 @@ export const GeneralSettings = () => {
 
       {/* --- row 2: tema --- */}
       <SettingsRow title={t("theme.title")}>
-        <RadioGroup defaultValue="light" className="flex flex-row gap-4">
+        <RadioGroup
+          value={theme}
+          onValueChange={handleSetTheme}
+          className="flex flex-row gap-4"
+        >
           <RadioOption value="light" label={t("theme.light")} icon={Sun} />
           <RadioOption value="dark" label={t("theme.dark")} icon={Moon} />
         </RadioGroup>
@@ -57,7 +79,12 @@ export const GeneralSettings = () => {
         title={t("preview-card.title")}
         description={t("preview-card.description")}
       >
-        <Checkbox id="preview-card" defaultChecked />
+        <Checkbox
+          id="preview-card"
+          defaultChecked
+          checked={cardPreview}
+          onCheckedChange={handleToggleCardPreview}
+        />
       </SettingsRow>
 
       <Separator />

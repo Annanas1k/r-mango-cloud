@@ -12,24 +12,28 @@ import {
   DialogDescription,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setCredentials } from "@/redux/auth/authSlice";
 import { googleLoginRequest } from "@/api/auth.api";
+import { selectStartPage } from "@/redux/settings/settingsSlice";
 
 interface LoginDialogProps {
   trigger: React.ReactNode; // orice element care deschide dialogul (ex: butonul "Sign in")
 }
 
 export function LoginDialog({ trigger }: LoginDialogProps) {
-  const { t } = useTranslation('login');
+  const { t } = useTranslation("login");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const startPage = useAppSelector(selectStartPage);
 
-  const handleGoogleSuccess = async (credentialResponse: CredentialResponse) => {
+  const handleGoogleSuccess = async (
+    credentialResponse: CredentialResponse,
+  ) => {
     if (!credentialResponse.credential) {
       setError(t("login.errorNoToken"));
       return;
@@ -42,7 +46,7 @@ export function LoginDialog({ trigger }: LoginDialogProps) {
       const data = await googleLoginRequest(credentialResponse.credential);
       dispatch(setCredentials({ user: data.user }));
       setOpen(false);
-      navigate("/cloud/home");
+      navigate(`/cloud/${startPage}`);
     } catch (err) {
       console.error(err);
       setError(t("login.error"));
@@ -53,7 +57,7 @@ export function LoginDialog({ trigger }: LoginDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger >{trigger}</DialogTrigger>
+      <DialogTrigger>{trigger}</DialogTrigger>
 
       <DialogContent className="sm:max-w-sm">
         <DialogHeader className="items-center text-center">
@@ -72,7 +76,9 @@ export function LoginDialog({ trigger }: LoginDialogProps) {
           />
 
           {loading && (
-            <p className="text-sm text-muted-foreground">{t("login.loading")}</p>
+            <p className="text-sm text-muted-foreground">
+              {t("login.loading")}
+            </p>
           )}
           {error && <p className="text-sm text-destructive">{error}</p>}
         </div>

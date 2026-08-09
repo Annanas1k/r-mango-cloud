@@ -7,18 +7,20 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { ThemeToggle } from "./ThemeToggle";
 import { LoginDialog } from "./LoginDialog";
 import { useNavigate } from "react-router";
+import { selectStartPage } from "@/redux/settings/settingsSlice";
 
 export const StartHeader = () => {
   const { t } = useTranslation("navbar");
   const user = useAppSelector((state) => state.auth.user);
   const navigate = useNavigate();
+  const startPage = useAppSelector(selectStartPage);
 
   return (
     <header className="sticky top-0 z-20 border-b bg-background/80 backdrop-blur">
       <div className="mx-auto flex h-20 max-w-6xl items-center justify-between gap-6 px-4 sm:px-6">
         {/* 1. Brand Logo & Name */}
-        <div 
-          onClick={() => navigate("/")} 
+        <div
+          onClick={() => navigate("/")}
           className="flex shrink-0 cursor-pointer items-center gap-3"
         >
           <img
@@ -38,20 +40,27 @@ export const StartHeader = () => {
 
         {/* 3. Auth Actions & Controls */}
         <div className="flex shrink-0 items-center gap-3">
-          <Button variant="default" size="default" className="hidden sm:inline-flex h-10 px-4">
+          <Button
+            variant="default"
+            size="default"
+            className="hidden sm:inline-flex h-10 px-4"
+          >
             {t("navbar.try-free")}
           </Button>
 
           {user ? (
             <Button
-              onClick={() => navigate("/cloud/home")}
+              onClick={() => navigate(`/cloud/${startPage}`)}
               variant="outline"
               size="default"
               className="flex h-10 items-center gap-2.5 px-3 py-1 font-medium transition-all hover:bg-accent"
             >
               <span>Go to Cloud</span>
               <Avatar className="h-7 w-7 border">
-                <AvatarImage src={user.avatarUrl ?? undefined} alt={user.name} />
+                <AvatarImage
+                  src={user.avatarUrl ?? undefined}
+                  alt={user.name}
+                />
                 <AvatarFallback className="text-xs font-semibold">
                   {user.name.charAt(0).toUpperCase()}
                 </AvatarFallback>
@@ -60,7 +69,7 @@ export const StartHeader = () => {
           ) : (
             <LoginDialog
               trigger={
-                <span  className="h-10 px-4 border rounded-md text-sm font-medium transition-all hover:bg-accent hover:text-accent-foreground flex items-center justify-center">
+                <span className="h-10 px-4 border rounded-md text-sm font-medium transition-all hover:bg-accent hover:text-accent-foreground flex items-center justify-center">
                   {t("navbar.sign-in")}
                 </span>
               }

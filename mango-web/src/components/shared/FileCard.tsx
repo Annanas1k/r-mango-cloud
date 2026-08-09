@@ -13,6 +13,8 @@ import type { NodeDto } from "@/types/node.types";
 import { formatBytes } from "@/utils/formatBytesHelper";
 import { getIconForMimeType } from "@/utils/getIconForMimeTypeHelper";
 import { EllipsisVertical } from "lucide-react";
+import { useAppSelector } from "@/redux/hooks";
+import { selectCardPreview } from "@/redux/settings/settingsSlice";
 
 interface FileCardProps {
   file: NodeDto;
@@ -29,6 +31,7 @@ export const FileCard = ({
 }: FileCardProps) => {
   const classname = "size-5 shrink-0 text-primary";
   const icon = getIconForMimeType(file.mimeType, classname);
+  const cardPreview = useAppSelector(selectCardPreview);
 
   return (
     <Card
@@ -61,10 +64,19 @@ export const FileCard = ({
           </Button>
         </DropDownMenuForCards>
       </CardHeader>
-      <CardContent>
-        <div className="w-full h-40 flex items-center justify-center bg-sidebar-border rounded-md">
-          preview(future)
-        </div>
+      <CardContent className="px-4 pb-4">
+        {cardPreview ? (
+          <div className="w-full h-40 flex items-center justify-center rounded-md bg-linear-to-br from-muted to-muted/50 border border-border/50 overflow-hidden">
+            {/* preview real va veni aici în viitor */}
+            <span className="text-xs text-muted-foreground">
+              preview(future)
+            </span>
+          </div>
+        ) : (
+          <div className="w-full h-40 flex items-center justify-center rounded-md bg-muted/40 border border-dashed border-border [&>svg]:w-16 [&>svg]:h-16 [&>svg]:text-muted-foreground transition-colors hover:bg-muted/60">
+            {icon}
+          </div>
+        )}
       </CardContent>
       <CardFooter className="h-0">
         <p className="truncate text-xs text-muted-foreground">
