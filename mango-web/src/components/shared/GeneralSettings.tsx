@@ -21,6 +21,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Separator } from "../ui/separator";
+import { SettingsRow } from "./SettingsRow";
 
 export const GeneralSettings = () => {
   const { t } = useTranslation("settings");
@@ -84,6 +85,7 @@ export const GeneralSettings = () => {
           defaultChecked
           checked={cardPreview}
           onCheckedChange={handleToggleCardPreview}
+          className={"w-5 h-5 border-2"}
         />
       </SettingsRow>
 
@@ -108,27 +110,6 @@ export const GeneralSettings = () => {
     </div>
   );
 };
-interface SettingsRowProps {
-  title: string;
-  description?: string;
-  children: React.ReactNode;
-}
-
-export const SettingsRow = ({
-  title,
-  description,
-  children,
-}: SettingsRowProps) => (
-  <div className="flex items-center justify-between gap-6 py-4">
-    <div className="flex flex-col gap-0.5">
-      <span className="text-lg font-medium">{title}</span>
-      {description && (
-        <span className="text-md text-muted-foreground">{description}</span>
-      )}
-    </div>
-    {children}
-  </div>
-);
 
 interface RadioOptionProps {
   value: string;

@@ -1,6 +1,18 @@
 {
     "settings": "Settings",
   "general": "General",
+  "account": "Account",
+  "notifications": {
+    "title": "Notifications",
+    "browser": {
+      "title": "Browser Notifications",
+      "description": "Receive push notifications directly in your browser."
+    },
+    "email": {
+      "title": "Email Notifications",
+      "description": "Get important updates and announcements sent to your inbox."
+    }
+  },
   "start-page": {
     "title": "Start page",
     "description": "Choose what opens when you launch the app",

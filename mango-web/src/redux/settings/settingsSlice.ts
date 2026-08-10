@@ -13,6 +13,8 @@ interface SettingsState {
     detailsView: boolean
     startPage: StartPage
     cardPreview: boolean
+    browserNotification: boolean
+    emailNotification: boolean
 }
 
 function getInitialTheme(): ThemeMode {
@@ -28,6 +30,8 @@ const initialState: SettingsState = {
     detailsView: localStorage.getItem("app_detailsView") === "true",
     startPage: (localStorage.getItem("app_startPage") as StartPage) || "home",
     cardPreview: localStorage.getItem("app_cardPreview") === "true",
+    browserNotification: localStorage.getItem("app_browserNotification") === "true",
+    emailNotification: localStorage.getItem("app_emailNotification") === "true",
 
 }
 
@@ -65,11 +69,30 @@ export const settingsSlice = createSlice({
         toggleCardPreview: (state) => {
             state.cardPreview = !state.cardPreview;
             localStorage.setItem("app_cardPreview", String(state.cardPreview))
-        }
+        },
+        checkBrowserNotificaion: (state) => {
+            state.browserNotification = !state.browserNotification;
+            localStorage.setItem("app_browserNotification", String(state.browserNotification))
+        },
+        checkEmailNotification: (state) => {
+            state.emailNotification = !state.emailNotification;
+            localStorage.setItem("app_emailNotification", String(state.emailNotification))
+        },
+
     }
 })
 
-export const { setTheme, toggleTheme, setLanguage, toggleViewMode, toggleDetailsView, setStartPage, toggleCardPreview } = settingsSlice.actions
+export const {
+    setTheme,
+    toggleTheme,
+    setLanguage,
+    toggleViewMode,
+    toggleDetailsView,
+    setStartPage,
+    toggleCardPreview,
+    checkBrowserNotificaion,
+    checkEmailNotification
+} = settingsSlice.actions
 export const selectSettings = (state: RootState) => state.settings
 export const selectTheme = (state: RootState) => state.settings.theme
 export const selectLanguage = (state: RootState) => state.settings.language
@@ -77,4 +100,6 @@ export const selectViewMode = (state: RootState) => state.settings.viewMode
 export const selectDetailsView = (state: RootState) => state.settings.detailsView
 export const selectStartPage = (state: RootState) => state.settings.startPage
 export const selectCardPreview = (state: RootState) => state.settings.cardPreview
+export const selectBrowserNotification = (state: RootState) => state.settings.browserNotification
+export const selectEmailNotification = (state: RootState) => state.settings.emailNotification
 export default settingsSlice.reducer;

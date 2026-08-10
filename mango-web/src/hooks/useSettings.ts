@@ -1,6 +1,6 @@
 import i18n from "@/i18n/i18n.config";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks"
-import { selectLanguage, selectTheme, setLanguage, setStartPage, setTheme, toggleCardPreview, toggleDetailsView, toggleTheme, toggleViewMode } from "@/redux/settings/settingsSlice";
+import { checkBrowserNotificaion, checkEmailNotification, selectLanguage, selectTheme, setLanguage, setStartPage, setTheme, toggleCardPreview, toggleDetailsView, toggleTheme, toggleViewMode } from "@/redux/settings/settingsSlice";
 import { useEffect } from "react";
 
 
@@ -38,6 +38,14 @@ export const useSettings = () => {
         dispatch(toggleCardPreview())
     }
 
+    function handleCheckBrowserNotification() {
+        dispatch(checkBrowserNotificaion())
+    }
+
+    function handleCheckEmailNotification() {
+        dispatch(checkEmailNotification())
+    }
+
 
 
 
@@ -59,6 +67,8 @@ export const useSettings = () => {
         handleSetLanguage,
         handleStartPage,
         handleSetTheme,
-        handleToggleCardPreview
+        handleToggleCardPreview,
+        handleCheckBrowserNotification,
+        handleCheckEmailNotification
     }
 }
