@@ -1,16 +1,21 @@
-import type { NodeDto } from "@/types/node.types"
+import type { NodeDto } from "@/types/node.types";
+import { memo } from "react";
 
 interface InfoDetailsTabProps {
-    node: NodeDto;
+  node: NodeDto;
 }
 
-
-
-export const InfoDetailsTabs = ({node}: InfoDetailsTabProps) =>{
-    return (
+export const InfoDetailsTabs = memo(({ node }: InfoDetailsTabProps) => {
+  return (
     <div className="flex flex-col gap-2 p-4">
-      <p><strong>Nume:</strong> {node.name}</p>
-      <p><strong>Tip:</strong> {node.type}</p>
+      <p>
+        <strong>Nume:</strong> {node.name}
+      </p>
+      <p>
+        <strong>Tip:</strong> {node.type}
+      </p>
     </div>
-    )
-}
+  );
+});
+
+InfoDetailsTabs.displayName = "InfoDetailsTabs";
