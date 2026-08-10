@@ -4,8 +4,10 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
     checkBrowserNotificaion,
     checkEmailNotification,
+    openDetailsView,
     selectLanguage,
     selectTheme,
+    setInfoTab,
     setLanguage,
     setStartPage,
     setTheme,
@@ -14,6 +16,8 @@ import {
     toggleTheme,
     toggleViewMode
 } from "@/redux/settings/settingsSlice";
+import { selectNode } from "@/redux/nodes/nodesSlice";
+import type { NodeDto } from "@/types/node.types";
 
 export const useSettings = () => {
     const dispatch = useAppDispatch();
@@ -29,6 +33,16 @@ export const useSettings = () => {
     const handleToggleCardPreview = useCallback(() => dispatch(toggleCardPreview()), [dispatch]);
     const handleCheckBrowserNotification = useCallback(() => dispatch(checkBrowserNotificaion()), [dispatch]);
     const handleCheckEmailNotification = useCallback(() => dispatch(checkEmailNotification()), [dispatch]);
+    function handleSetInfoTab(tab: "details" | "activity") {
+        dispatch(setInfoTab(tab));
+    }
+
+    // deschide panoul de detalii pe un tab anume — folosit din node-menu
+    function handleOpenInfoPanel(node: NodeDto, tab: "details" | "activity") {
+        dispatch(selectNode(node.id));
+        dispatch(setInfoTab(tab));
+        dispatch(openDetailsView());
+    }
 
     useEffect(() => {
         document.documentElement.classList.toggle("dark", theme === "dark");
@@ -51,6 +65,8 @@ export const useSettings = () => {
         handleSetTheme,
         handleToggleCardPreview,
         handleCheckBrowserNotification,
-        handleCheckEmailNotification
+        handleCheckEmailNotification,
+        handleOpenInfoPanel,
+        handleSetInfoTab
     };
 };

@@ -8,15 +8,17 @@ import { InfoActivityTab } from "./InfoActivityTab";
 import { InfoDetailsTabs } from "./InfoDetailsTab";
 import { EmptyState } from "./EmptyState";
 import { useTranslation } from "react-i18next";
+import { selectInfoTab } from "@/redux/settings/settingsSlice";
 
 export const InfoSideComponent = () => {
   const { t } = useTranslation("info-side");
   const selectedNode = useAppSelector(selectSelectedNode);
-  const { handleToggleDetailsView } = useSettings();
+  const infoTab = useAppSelector(selectInfoTab);
+  const { handleToggleDetailsView, handleSetInfoTab } = useSettings();
 
   if (!selectedNode) {
     return (
-      <div className="flex items-center justify-center h-full p-4">
+      <div className="flex flex-col items-center justify-center h-full p-4">
         <EmptyState
           media={
             <FileQuestionMark className="w-10 h-10 text-muted-foreground" />
@@ -48,7 +50,13 @@ export const InfoSideComponent = () => {
         </Button>
       </div>
 
-      <Tabs defaultValue="details" className="w-full flex-1 flex flex-col">
+      <Tabs
+        value={infoTab}
+        onValueChange={(value) =>
+          handleSetInfoTab(value as "details" | "activity")
+        }
+        className="w-full flex-1 flex flex-col"
+      >
         <TabsList
           variant="line"
           className="w-full justify-start border-b rounded-none p-0 h-auto gap-4"

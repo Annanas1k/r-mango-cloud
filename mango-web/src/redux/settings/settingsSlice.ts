@@ -5,6 +5,7 @@ type ThemeMode = "light" | "dark"
 type Language = "en" | "ro" | "ru";
 type ViewMode = "grid" | "list"
 type StartPage = "home" | "my-cloud"
+type InfoTab = "details" | "activity";
 
 interface SettingsState {
     theme: ThemeMode;
@@ -15,6 +16,7 @@ interface SettingsState {
     cardPreview: boolean
     browserNotification: boolean
     emailNotification: boolean
+    infoTab: InfoTab
 }
 
 function getInitialTheme(): ThemeMode {
@@ -32,7 +34,7 @@ const initialState: SettingsState = {
     cardPreview: localStorage.getItem("app_cardPreview") === "true",
     browserNotification: localStorage.getItem("app_browserNotification") === "true",
     emailNotification: localStorage.getItem("app_emailNotification") === "true",
-
+    infoTab: (localStorage.getItem("app_infoTab") as InfoTab) || "details",
 }
 
 
@@ -66,6 +68,14 @@ export const settingsSlice = createSlice({
             state.detailsView = !state.detailsView;
             localStorage.setItem("app_detailsView", String(state.detailsView));
         },
+        openDetailsView: (state) => {
+            state.detailsView = true;
+            localStorage.setItem("app_detailsView", "true");
+        },
+        setInfoTab: (state, action: PayloadAction<InfoTab>) => {
+            state.infoTab = action.payload;
+        },
+
         toggleCardPreview: (state) => {
             state.cardPreview = !state.cardPreview;
             localStorage.setItem("app_cardPreview", String(state.cardPreview))
@@ -91,7 +101,9 @@ export const {
     setStartPage,
     toggleCardPreview,
     checkBrowserNotificaion,
-    checkEmailNotification
+    checkEmailNotification,
+    openDetailsView,
+    setInfoTab
 } = settingsSlice.actions
 export const selectSettings = (state: RootState) => state.settings
 export const selectTheme = (state: RootState) => state.settings.theme
@@ -102,4 +114,5 @@ export const selectStartPage = (state: RootState) => state.settings.startPage
 export const selectCardPreview = (state: RootState) => state.settings.cardPreview
 export const selectBrowserNotification = (state: RootState) => state.settings.browserNotification
 export const selectEmailNotification = (state: RootState) => state.settings.emailNotification
+export const selectInfoTab = (state: RootState) => state.settings.infoTab;
 export default settingsSlice.reducer;

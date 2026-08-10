@@ -1,6 +1,7 @@
 import { EmptyState } from "@/components/shared/EmptyState";
 import LoadingUI from "@/components/shared/LoadingUI";
 import { TrashCards } from "@/components/shared/TrashCards";
+import { PageToolbar } from "@/components/shared/PageToolbar";
 import { Button } from "@/components/ui/button";
 import { useNodeActions } from "@/hooks/useNodeActions";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -36,36 +37,47 @@ export const TrashPage = () => {
     dispatch(fetchTrash());
   }, [dispatch]);
 
-  if (status === "loading") return <LoadingUI />;
-  if (status === "failed") return <p>ups....</p>;
-
   return (
-    <main className="flex flex-col w-full gap-4 h-full">
-      <h1>{t("trash-page.title")}</h1>
-      <section>
-        <Button onClick={handleEmptyTrash} variant="destructive" size="sm">
-          {t("trash-page.empty-trash")}
-        </Button>
-        {trashItems.length === 0 ? (
+    <div className="flex flex-col w-full h-full">
+      <PageToolbar title={t("trash-page.title")} showViewToggle={false} />
+
+      <div className="flex flex-col flex-1 gap-4 px-6 pb-6">
+        {status === "loading" ? (
+          <LoadingUI />
+        ) : status === "failed" ? (
+          <p>ups....</p>
+        ) : trashItems.length === 0 ? (
           <EmptyState
             media={<Trash />}
             title={t("trash-page.emptyState.title")}
             description={t("trash-page.emptyState.description")}
           />
         ) : (
-          <div className="w-full h-full flex flex-wrap gap-4 bg-background">
-            {trashItems.map((item) => (
-              <TrashCards
-                key={item.id}
-                item={item}
-                isSelected={selectedId === item.id}
-                onSelect={handleSelect}
-                onOpen={handleOpen}
-              />
-            ))}
-          </div>
+          <>
+            <div className="flex justify-end">
+              <Button
+                onClick={handleEmptyTrash}
+                variant="destructive"
+                size="sm"
+              >
+                {t("trash-page.empty-trash")}
+              </Button>
+            </div>
+
+            <div className="w-full flex-1 flex flex-wrap gap-4">
+              {trashItems.map((item) => (
+                <TrashCards
+                  key={item.id}
+                  item={item}
+                  isSelected={selectedId === item.id}
+                  onSelect={handleSelect}
+                  onOpen={handleOpen}
+                />
+              ))}
+            </div>
+          </>
         )}
-      </section>
-    </main>
+      </div>
+    </div>
   );
 };

@@ -9,5 +9,14 @@
   },
   "actions": {
     "close": "Close details panel"
+  },
+  "details": {
+    "type": "Type",
+    "size": "Size",
+    "modified": "Modified",
+    "created": "Created",
+    "trashed": "Trashed",
+    "folder": "Folder",
+    "file": "File"
   }
 }
