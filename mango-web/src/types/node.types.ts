@@ -8,6 +8,7 @@ export interface NodeDto {
     trashedAt: string | null;      // ISO date, null dacă nu e în trash
     createdAt: string;
     updatedAt: string;
+    isStarred: boolean;
 }
 
 export interface BreadcrumbItem {

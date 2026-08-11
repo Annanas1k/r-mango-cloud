@@ -9,6 +9,7 @@ import {
   PencilLine,
   Share2,
   Star,
+  StarOff,
   Trash,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -41,8 +42,12 @@ export const DropDownMenuForCards = ({
 }: DropDownMenuForCardsProps) => {
   const { t } = useTranslation("node-menu");
   const [isRenameDialogOpen, setIsRenameDialogOpen] = useState(false);
-  const { handleDownload, handleRename, handleRemoveToTrash } =
-    useNodeActions();
+  const {
+    handleDownload,
+    handleRename,
+    handleRemoveToTrash,
+    handleToggleStar,
+  } = useNodeActions();
   const { handleOpenInfoPanel } = useSettings();
 
   return (
@@ -101,9 +106,21 @@ export const DropDownMenuForCards = ({
                     <FolderInput />
                     {t("node-menu.organize.move")}
                   </DropdownMenuItem>
-                  <DropdownMenuItem className={"cursor-pointer"}>
-                    <Star />
-                    {t("node-menu.organize.toggleStar")}
+                  <DropdownMenuItem
+                    className={"cursor-pointer"}
+                    onClick={() => handleToggleStar(node)}
+                  >
+                    {node.isStarred ? (
+                      <>
+                        <StarOff />
+                        {t("node-menu.organize.removeFromStarred")}
+                      </>
+                    ) : (
+                      <>
+                        <Star />
+                        {t("node-menu.organize.addToStarred")}
+                      </>
+                    )}
                   </DropdownMenuItem>
                 </DropdownMenuSubContent>
               </DropdownMenuPortal>

@@ -64,7 +64,7 @@ export const TrashPage = () => {
               </Button>
             </div>
 
-            <div className="w-full flex-1 flex flex-wrap gap-4">
+            <div className="w-full flex-1 flex flex-wrap gap-4 items-start content-start">
               {trashItems.map((item) => (
                 <TrashCards
                   key={item.id}

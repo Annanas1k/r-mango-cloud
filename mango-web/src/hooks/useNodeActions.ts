@@ -1,7 +1,7 @@
 import { getDownloadUrl } from "@/api/files.api";
-import { deleteNodePermanently, emptyTrash, renameNode, restoreNode, trashNode } from "@/api/nodes.api";
+import { deleteNodePermanently, emptyTrash, renameNode, restoreNode, toggleStar, trashNode } from "@/api/nodes.api";
 import { useAppDispatch } from "@/redux/hooks";
-import { emptyTrashLocally, markAsTrashedLocally, removeItemPermanentlyLocally, restoreFromTrashLocally, updateItemLocally } from "@/redux/nodes/nodesSlice";
+import { emptyTrashLocally, markAsTrashedLocally, removeItemPermanentlyLocally, restoreFromTrashLocally, toggleStarredLocally, updateItemLocally } from "@/redux/nodes/nodesSlice";
 import type { NodeDto } from "@/types/node.types";
 
 
@@ -84,6 +84,15 @@ export function useNodeActions() {
         }
     }
 
+    async function handleToggleStar(node: NodeDto) {
+        try {
+            const { starred } = await toggleStar(node.id)
+            dispatch(toggleStarredLocally({ ...node, isStarred: starred }))
+        } catch (error) {
+            console.error("Error starring", error)
+        }
+    }
+
 
 
     return {
@@ -92,7 +101,8 @@ export function useNodeActions() {
         handleRemoveToTrash,
         handleRestore,
         handleRemovePermanently,
-        handleEmptyTrash
+        handleEmptyTrash,
+        handleToggleStar
     }
 }
 

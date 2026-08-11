@@ -18,7 +18,13 @@ export const InfoSideComponent = () => {
 
   if (!selectedNode) {
     return (
-      <div className="flex flex-col items-center justify-center h-full p-4">
+      <div className="relative flex flex-col items-center justify-center h-full p-4">
+        <div className="absolute top-4 right-4">
+          <Button variant="outline" size="sm" onClick={handleToggleDetailsView}>
+            Close this tab <X />
+          </Button>
+        </div>
+
         <EmptyState
           media={
             <FileQuestionMark className="w-10 h-10 text-muted-foreground" />

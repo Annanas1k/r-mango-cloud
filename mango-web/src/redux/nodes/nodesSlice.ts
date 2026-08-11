@@ -13,6 +13,7 @@ interface NodesState {
     error: string | null;
     trashItems: NodeDto[];
     selectedId: string | null;
+    starredList: NodeDto[];
 }
 
 const initialState: NodesState = {
@@ -22,7 +23,8 @@ const initialState: NodesState = {
     status: "idle",
     error: null,
     trashItems: [],
-    selectedId: null
+    selectedId: null,
+    starredList: []
 };
 
 // -------------------------------------------------------------------------
@@ -49,10 +51,17 @@ export const fetchTrash = createAsyncThunk(
 
 export const fetchStarred = createAsyncThunk(
     "nodes/fetchStarred",
-    async () => {
-        return await starredList();
-    }
+    async (_: void, { rejectWithValue }) => {
+        try {
+            return await starredList();
+        } catch (err) {
+            return rejectWithValue(`Eroare la încărcarea favoritelor: ${err}`);
+        }
+    },
 );
+
+
+
 
 const nodesSlice = createSlice({
     name: "nodes",
@@ -107,6 +116,21 @@ const nodesSlice = createSlice({
             }
         },
         resetNodesState: () => initialState,
+        toggleStarredLocally: (state, action: PayloadAction<NodeDto>) => {
+            const updatedNode = action.payload;
+            const itemIndex = state.items.findIndex((item) => item.id === updatedNode.id);
+            if (itemIndex !== -1) {
+                state.items[itemIndex] = updatedNode;
+            }
+            if (updatedNode.isStarred) {
+                const existsInStarred = state.starredList.some((item) => item.id === updatedNode.id);
+                if (!existsInStarred) {
+                    state.starredList.unshift(updatedNode);
+                }
+            } else {
+                state.starredList = state.starredList.filter((item) => item.id !== updatedNode.id);
+            }
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -137,6 +161,18 @@ const nodesSlice = createSlice({
                 state.status = "failed";
                 state.error = "Failed to fetch trash data.";
             })
+            .addCase(fetchStarred.pending, (state) => {
+                state.status = "loading";
+                state.error = null;
+            })
+            .addCase(fetchStarred.fulfilled, (state, action) => {
+                state.starredList = action.payload;
+                state.status = "succeeded";
+            })
+            .addCase(fetchStarred.rejected, (state, action) => {
+                state.status = "failed";
+                state.error = action.payload as string ?? "Failed to fetch starred items.";
+            })
 
     },
 });
@@ -151,7 +187,8 @@ export const {
     removeItemPermanentlyLocally,
     emptyTrashLocally,
     selectNode,
-    clearSelection
+    clearSelection,
+    toggleStarredLocally
 } = nodesSlice.actions;
 
 export const selectCurrentItems = (state: RootState) => state.nodes.items;

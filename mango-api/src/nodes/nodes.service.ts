@@ -36,7 +36,8 @@ export class NodesService {
         trashedAt: Date | null;
         createdAt: Date;
         updatedAt: Date;
-    }) {
+    },
+        isStarred = false) {
         return {
             id: node.id,
             type: node.type,
@@ -47,6 +48,7 @@ export class NodesService {
             trashedAt: node.trashedAt,
             createdAt: node.createdAt,
             updatedAt: node.updatedAt,
+            isStarred
         };
     }
 
@@ -74,6 +76,16 @@ export class NodesService {
     // ---------------------------------------------------------------------
     // LISTARE — conținutul unui folder (sau al rădăcinii, dacă parentId e null)
     // ---------------------------------------------------------------------
+    private async getStarredIdsSet(userId: string, nodeIds: string[]): Promise<Set<string>> {
+        if (nodeIds.length === 0) return new Set();
+
+        const stars = await this.prisma.star.findMany({
+            where: { userId, nodeId: { in: nodeIds } },
+            select: { nodeId: true },
+        });
+
+        return new Set(stars.map((s) => s.nodeId));
+    }
     async listChildren(userId: string, parentId: string | null) {
         if (parentId) {
             await this.getOwnedNode(parentId, userId);
@@ -83,8 +95,12 @@ export class NodesService {
             where: { ownerId: userId, parentId, trashedAt: null },
             orderBy: [{ type: 'asc' }, { name: 'asc' }], // foldere înainte de fișiere, apoi alfabetic
         });
+        const starredIds = await this.getStarredIdsSet(
+            userId,
+            nodes.map((n) => n.id),
+        );
 
-        return nodes.map((n) => this.serialize(n));
+        return nodes.map((n) => this.serialize(n, starredIds.has(n.id)));
     }
 
     // ---------------------------------------------------------------------
@@ -105,7 +121,10 @@ export class NodesService {
 
     async getNode(userId: string, nodeId: string) {
         const node = await this.getOwnedNode(nodeId, userId);
-        return this.serialize(node);
+        const existing = await this.prisma.star.findFirst({
+            where: { nodeId, userId },
+        });
+        return this.serialize(node, !!existing);
     }
 
     // ---------------------------------------------------------------------
@@ -188,7 +207,7 @@ export class NodesService {
         });
         return stars
             .filter((s) => !s.node.trashedAt)
-            .map((s) => this.serialize(s.node));
+            .map((s) => this.serialize(s.node, true));
     }
 
     // ---------------------------------------------------------------------

@@ -10,7 +10,8 @@
     "organize": {
       "title": "Organize",
       "move": "Move",
-      "toggleStar": "Add to starred / Remove"
+      "addToStarred": "Add to starred",
+      "removeFromStarred": "Remove From Starred"
     },
     "info": {
       "title": "File information",
