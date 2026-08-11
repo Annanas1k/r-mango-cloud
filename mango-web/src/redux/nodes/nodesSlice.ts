@@ -137,6 +137,8 @@ const nodesSlice = createSlice({
             .addCase(fetchFolder.pending, (state) => {
                 state.status = "loading";
                 state.error = null;
+                state.items = []
+                state.breadcrumb = []
             })
             .addCase(fetchFolder.fulfilled, (state, action) => {
                 state.currentFolderId = action.payload.folderId;

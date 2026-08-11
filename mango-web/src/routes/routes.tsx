@@ -19,6 +19,7 @@ import { RecentPage } from "@/pages/cloud-pages/RecentPage";
 import { SpamPage } from "@/pages/cloud-pages/SpamPage";
 import { TrashPage } from "@/pages/cloud-pages/TrashPage";
 import { SettingsPage } from "@/pages/cloud-pages/SettingsPage";
+import { FolderPage } from "@/pages/cloud-pages/FolderPage";
 
 export const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ export const router = createBrowserRouter([
         path: "/cloud",
         element: <CloudLayout />,
         children: [
+          {
+            path: "folder/:folderId",
+            element: <FolderPage />,
+          },
           {
             path: "home",
             element: <HomePage />,

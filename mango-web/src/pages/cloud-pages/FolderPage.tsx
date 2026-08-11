@@ -1,35 +1,42 @@
-// pages/CloudPage.tsx
+// FolderPage.tsx
+import { PageToolbar } from "@/components/shared/PageToolbar";
+import { EmptyState } from "@/components/shared/EmptyState";
+import { NodeCards } from "@/components/shared/NodeCards";
+import { NodeList } from "@/components/shared/NodeList";
+import { Folder } from "lucide-react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import {
+  fetchFolder,
+  selectCurrentItems,
+  selectNodesStatus,
+  selectCurrentFolderId,
+} from "@/redux/nodes/nodesSlice";
+import { selectViewMode } from "@/redux/settings/settingsSlice";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router";
 import { ContextMenuBasic } from "@/components/shared/ContextMenuBasic";
-import { NodeList } from "@/components/shared/NodeList";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { fetchFolder } from "@/redux/nodes/nodesSlice";
 import { useCloudUpload } from "@/hooks/useCloudUpload";
-import { NodeCards } from "@/components/shared/NodeCards";
-import { EmptyState } from "@/components/shared/EmptyState";
-import { Cloud } from "lucide-react";
-import { PageToolbar } from "@/components/shared/PageToolbar";
-import { selectViewMode } from "@/redux/settings/settingsSlice";
 
-export const CloudPage = () => {
-  const { t } = useTranslation("cloud-page");
+export const FolderPage = () => {
+  const { folderId } = useParams<{ folderId: string }>();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation("folder-page");
 
-  const items = useAppSelector((state) => state.nodes.items);
-  const status = useAppSelector((state) => state.nodes.status);
-  const currentFolderId = useAppSelector(
-    (state) => state.nodes.currentFolderId,
-  );
   const viewMode = useAppSelector(selectViewMode);
+  const items = useAppSelector(selectCurrentItems);
+  const status = useAppSelector(selectNodesStatus);
+  const currentFolderId = useAppSelector(selectCurrentFolderId);
 
   useEffect(() => {
-    dispatch(fetchFolder(null));
-  }, [dispatch]);
+    dispatch(fetchFolder(folderId ?? null));
+  }, [folderId, dispatch]);
 
-  const isStale = currentFolderId !== null;
+  const requestedId = folderId ?? null;
+  const isStale = currentFolderId !== requestedId;
   const isLoading = status === "loading" || isStale;
   const isEmpty = !isLoading && status === "succeeded" && items.length === 0;
+
   const {
     fileInputRef,
     folderInputRef,
@@ -42,9 +49,9 @@ export const CloudPage = () => {
 
   return (
     <main className="flex flex-col w-full h-full">
-      <PageToolbar title={t("cloud-page.title")}></PageToolbar>
+      <PageToolbar title={t("title")} />
+
       <div className="flex flex-col flex-1 gap-4 px-6 pb-6">
-        {/* inputuri "invizibile", declanșate programatic din context menu */}
         <input
           ref={fileInputRef}
           type="file"
@@ -62,7 +69,6 @@ export const CloudPage = () => {
           multiple
           onChange={handleFolderInputChange}
         />
-
         <ContextMenuBasic
           createFolder={handleCreateFolder}
           onUploadFileClick={openFilePicker}
@@ -70,9 +76,9 @@ export const CloudPage = () => {
         >
           {isLoading ? null : isEmpty ? (
             <EmptyState
-              media={<Cloud />}
-              title={t("cloud-page.emptyState.title")}
-              description={t("cloud-page.emptyState.description")}
+              media={<Folder />}
+              title={t("emptyState.title")}
+              description={t("emptyState.description")}
             />
           ) : (
             <div className="w-full h-full flex-1">

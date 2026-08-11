@@ -4,7 +4,9 @@ import { api } from "./axiosInstance"
 
 
 export const listNodes = async (parentId: string | null): Promise<NodeDto[]> => {
-    const { data } = await api.get<NodeDto[]>(`/nodes`, { params: parentId })
+    const { data } = await api.get<NodeDto[]>(`/nodes`, {
+        params: parentId ? { parentId } : undefined
+    });
     return data;
 }
 

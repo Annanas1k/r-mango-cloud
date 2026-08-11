@@ -3,8 +3,13 @@ import LoadingUI from "./LoadingUI";
 import { FolderCard } from "./FolderCard";
 import { FileCard } from "./FileCard";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { selectNode, selectSelectedId } from "@/redux/nodes/nodesSlice";
+import {
+  fetchFolder,
+  selectNode,
+  selectSelectedId,
+} from "@/redux/nodes/nodesSlice";
 import { useMemo } from "react";
+import { useNavigate } from "react-router";
 
 interface NodeCardsProps {
   items: NodeDto[];
@@ -14,13 +19,19 @@ interface NodeCardsProps {
 export const NodeCards = ({ items, status }: NodeCardsProps) => {
   const dispatch = useAppDispatch();
   const selectedId = useAppSelector(selectSelectedId);
+  const navigate = useNavigate();
 
   const handleSelect = (id: string) => {
     dispatch(selectNode(id));
   };
 
-  const handleOpen = (folder: NodeDto) => {
-    console.log("aici ceva va fi", folder);
+  const handleOpen = (node: NodeDto) => {
+    if (node.type === "FOLDER") {
+      dispatch(fetchFolder(node.id));
+      navigate(`/cloud/folder/${node.id}`);
+    } else {
+      console.log("preview file");
+    }
   };
 
   const folders = useMemo(

@@ -1,45 +1,62 @@
 import { cn } from "@/lib/utils";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { selectNode, selectSelectedId } from "@/redux/nodes/nodesSlice";
+import {
+  fetchFolder,
+  selectNode,
+  selectSelectedId,
+} from "@/redux/nodes/nodesSlice";
 import type { NodeDto } from "@/types/node.types";
 import { formatBytes } from "@/utils/formatBytesHelper";
 import { getIconForMimeType } from "@/utils/getIconForMimeTypeHelper";
 import { EllipsisVertical, FolderIcon } from "lucide-react";
 import { Button } from "../ui/button";
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
 import { DropDownMenuForCards } from "./DropDownMenuForCards";
 import LoadingUI from "./LoadingUI";
+import { useNavigate } from "react-router";
 
 interface NodeListProps {
-    items: NodeDto[];
-    status: string;
-    onOpen?: (node: NodeDto) => void;
+  items: NodeDto[];
+  status: string;
 }
 
-export const NodeList = ({items, status, onOpen}: NodeListProps) =>{
-    const dispatch = useAppDispatch();
-    const selectedId = useAppSelector(selectSelectedId);
+export const NodeList = ({ items, status }: NodeListProps) => {
+  const dispatch = useAppDispatch();
+  const selectedId = useAppSelector(selectSelectedId);
+  const navigate = useNavigate();
+  if (status === "loading") return <LoadingUI />;
+  if (status === "failed") return <p>ups....</p>;
 
-    if(status === "loading") return <LoadingUI />
-    if(status === "failed") return <p>ups....</p>
+  const handleSelect = (id: string) => {
+    dispatch(selectNode(id));
+  };
 
-    const handleSelect = (id: string) => {
-        dispatch(selectNode(id));
+  const handleOpen = (node: NodeDto) => {
+    if (node.type === "FOLDER") {
+      dispatch(fetchFolder(node.id));
+      navigate(`/cloud/folder/${node.id}`);
+    } else {
+      console.log("preview file");
     }
+  };
+  const sortedItems = [...items].sort((a, b) => {
+    const aIsFolder = a.type === "FOLDER";
+    const bIsFolder = b.type === "FOLDER";
 
-    const handleOpen = (node: NodeDto) => {
-        onOpen?.(node);
-    }
-    const sortedItems = [...items].sort((a, b) => {
-        const aIsFolder = a.type === "FOLDER";
-        const bIsFolder = b.type === "FOLDER";
-
-        if (aIsFolder === bIsFolder) return 0; 
-        return aIsFolder ? -1 : 1; 
-    });
-return (
+    if (aIsFolder === bIsFolder) return 0;
+    return aIsFolder ? -1 : 1;
+  });
+  return (
     <Table>
-        <TableCaption>A list of garden mango.</TableCaption>
+      <TableCaption>A list of garden mango.</TableCaption>
       <TableHeader>
         <TableRow className="hover:bg-transparent">
           <TableHead>Name</TableHead>
@@ -54,9 +71,11 @@ return (
         {sortedItems.map((node) => {
           const isFolder = node.type === "FOLDER";
           const isSelected = selectedId === node.id;
-          const icon = isFolder
-            ? <FolderIcon className="size-5 shrink-0 text-primary" />
-            : getIconForMimeType(node.mimeType, "size-5 shrink-0 text-primary");
+          const icon = isFolder ? (
+            <FolderIcon className="size-5 shrink-0 text-primary" />
+          ) : (
+            getIconForMimeType(node.mimeType, "size-5 shrink-0 text-primary")
+          );
 
           return (
             <TableRow
@@ -65,7 +84,7 @@ return (
               onDoubleClick={() => handleOpen(node)}
               className={cn(
                 "cursor-pointer select-none",
-                isSelected && "bg-secondary/50 hover:bg-secondary/60"
+                isSelected && "bg-secondary/50 hover:bg-secondary/60",
               )}
             >
               <TableCell className="flex items-center gap-2 font-medium">
@@ -84,12 +103,12 @@ return (
               <TableCell className="text-muted-foreground">
                 {node.updatedAt
                   ? new Intl.DateTimeFormat("ro-RO", {
-                        day: "numeric",
-                        month: "short",
-                        year: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        }).format(new Date(node.createdAt))
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    }).format(new Date(node.createdAt))
                   : "—"}
               </TableCell>
 
@@ -110,5 +129,5 @@ return (
         })}
       </TableBody>
     </Table>
-  )
-}
+  );
+};
