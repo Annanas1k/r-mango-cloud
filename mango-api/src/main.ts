@@ -10,6 +10,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: ['log', 'error', 'warn', 'debug', 'verbose'],
   });
+  app.enableShutdownHooks();
   app.use(morgan('dev'));
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
@@ -48,6 +49,8 @@ async function bootstrap() {
   await app.listen(process.env.PORT ?? 3000);
   console.log(` -> api access poit: http://localhost:${process.env.PORT}/api`);
   console.log(` -> web access point: http://localhost:5173`)
+  console.log(` -> admin access point: http://localhost:5174`)
+
 
 }
 

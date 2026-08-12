@@ -1,0 +1,23 @@
+{
+  "name": "r-mango-cloud",
+  "version": "1.0.0",
+  "description": "A personal project, still in development — a cloud storage built from scratch, as a naive idea put into practice. Open to ideas, suggestions or help from any angle.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "concurrently -n API,WEB,ADMIN -k -c blue,green,magenta \"npm run start:dev --prefix mango-api\" \"npm run dev --prefix mango-web\" \"npm run dev --prefix mango-admin\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Annanas1k/r-mango-cloud.git"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Annanas1k/r-mango-cloud/issues"
+  },
+  "homepage": "https://github.com/Annanas1k/r-mango-cloud#readme",
+  "devDependencies": {
+    "concurrently": "^10.0.4"
+  }
+}
