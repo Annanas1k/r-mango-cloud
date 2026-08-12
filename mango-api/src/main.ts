@@ -30,7 +30,7 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       'http://localhost:5173', // web version
-      'http://localhost:5173', // admin panel
+      'http://localhost:5174', // admin panel
       'http://localhost:4173',  // live preview
     ],
     credentials: true,
