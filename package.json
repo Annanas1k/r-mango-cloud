@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "concurrently -n API,WEB,ADMIN -k -c blue,green,magenta \"npm run start:dev --prefix mango-api\" \"npm run dev --prefix mango-web\" \"npm run dev --prefix mango-admin\""
+     "predev": "lsof -ti:3000,5173,5174 | xargs kill -9 2>/dev/null || true",
+     "dev": "concurrently -n API,WEB,ADMIN -k -c blue,green,magenta \"npm run start:dev --prefix mango-api\" \"npm run dev --prefix mango-web\" \"npm run dev --prefix mango-admin\""
   },
   "repository": {
     "type": "git",
