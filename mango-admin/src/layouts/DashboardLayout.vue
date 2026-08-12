@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import AppSidebar from '@/components/shared/AppSidebar.vue';
-import Button from '@/components/ui/button/Button.vue';
+// Folosim named import { Button } din folderul componentei
+import { Button } from '@/components/ui/button';
+import { useAuth } from '@/composables/useAuth';
 
-
+const { logout } = useAuth();
 </script>
 
 <template>
-    <AppSidebar />
-    <Button>shadcn vue</Button>
+  <AppSidebar />
+  <Button @click="logout">shadcn vue</Button>
 </template>

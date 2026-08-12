@@ -1,6 +1,7 @@
 // src/composables/useAuth.ts
 import { ref } from 'vue'
 import { authApi } from '@/api/auth.api'
+import { router } from '@/router'
 
 const isAuthenticated = ref(false)
 const isCheckingAuth = ref(true)
@@ -25,6 +26,7 @@ export function useAuth() {
     async function logout() {
         await authApi.logout()
         isAuthenticated.value = false
+        router.push('/login')
     }
 
     return { isAuthenticated, isCheckingAuth, checkAuth, login, logout }
