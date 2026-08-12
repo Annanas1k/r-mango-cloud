@@ -8,6 +8,7 @@ import { EmailModule } from './email/email.module';
 import { StorageModule } from './storage/storage.module';
 import { FilesModule } from './files/files.module';
 import { NodesModule } from './nodes/nodes.module';
+import { AdminModule } from './admin/admin.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -19,6 +20,7 @@ import { NodesModule } from './nodes/nodes.module';
     StorageModule,
     FilesModule,
     NodesModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppService],

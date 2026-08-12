@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import cookieSession from 'cookie-session';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: ['log', 'error', 'warn', 'debug', 'verbose'],
@@ -11,11 +13,26 @@ async function bootstrap() {
   app.use(morgan('dev'));
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
+  const sessionSecret = process.env.SESSION_SECRET
+  if (!sessionSecret) {
+    throw new Error('SESSION_SECRET is not defined in .env')
+  }
+  app.use(
+    cookieSession({
+      name: 'mango-admin-session',
+      keys: [sessionSecret],
+      maxAge: 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
+    }),
+  )
   app.enableCors({
     origin: [
-      'http://localhost:5173',
-      'http://localhost:4173',
-      'https://0nqh52rc-5173.euw.devtunnels.ms/'],
+      'http://localhost:5173', // web version
+      'http://localhost:5173', // admin panel
+      'http://localhost:4173',  // live preview
+    ],
     credentials: true,
   });
   app.setGlobalPrefix('api');
