@@ -5,8 +5,8 @@ import {
   selectViewMode,
 } from "@/redux/settings/settingsSlice";
 import type { BreadcrumbItem } from "@/types/node.types";
-import { ChevronRight, Info, LayoutGrid, List, Undo2 } from "lucide-react";
-import { Link, useNavigate } from "react-router";
+import { ChevronRight, Info, LayoutGrid, List } from "lucide-react";
+import { Link } from "react-router";
 import { Toggle } from "../ui/toggle";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 import { CustomTooltip } from "./CustomTooltip";
@@ -15,6 +15,10 @@ interface PageToolbarProps {
   title: string;
   rootPath: string;
   breadcrumb: BreadcrumbItem[];
+  /** ex: "/cloud/folder" — baza pe care se construiesc linkurile din mijlocul breadcrumb-ului */
+  basePath?: string;
+  /** ex: "starred" | "cloud" | "trash" — propagat ca ?from= pe fiecare link din breadcrumb */
+  fromSection?: string;
   showViewToggle?: boolean;
   showInfoButton?: boolean;
   children?: React.ReactElement;
@@ -24,6 +28,8 @@ export const PageToolbar = ({
   title,
   rootPath,
   breadcrumb = [],
+  basePath = "/cloud/folder",
+  fromSection,
   showViewToggle = true,
   showInfoButton = true,
   children,
@@ -31,22 +37,14 @@ export const PageToolbar = ({
   const viewMode = useAppSelector(selectViewMode);
   const isDetailsOpen = useAppSelector(selectDetailsView);
   const { handleToggleViewMode, handleToggleDetailsView } = useSettings();
-  const navigate = useNavigate();
   const hasBreadcrumb = breadcrumb.length > 0;
+
+  const buildFolderLink = (id: string) =>
+    fromSection ? `${basePath}/${id}?from=${fromSection}` : `${basePath}/${id}`;
+
   return (
     <div className="flex w-full h-20   justify-between mb-4 sticky top-0 z-10 bg-background px-6 py-4">
       <div className="flex items-center gap-2 min-w-0">
-        {hasBreadcrumb && (
-          <button
-            type="button"
-            onClick={() => navigate(-1)}
-            className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
-            aria-label="Go back"
-          >
-            <Undo2 />
-          </button>
-        )}
-
         {/* Root Link / Titlu Rădăcină */}
         {hasBreadcrumb ? (
           <Link
@@ -77,7 +75,7 @@ export const PageToolbar = ({
                 </h1>
               ) : (
                 <Link
-                  to={`/cloud/folder/${item.id}`}
+                  to={buildFolderLink(item.id)}
                   className="truncate text-xl font-semibold text-muted-foreground transition-colors hover:text-foreground max-w-37.5 shrink-0"
                 >
                   {item.name}

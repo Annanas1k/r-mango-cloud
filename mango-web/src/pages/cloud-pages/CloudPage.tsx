@@ -1,6 +1,6 @@
-// pages/CloudPage.tsx
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 import { ContextMenuBasic } from "@/components/shared/ContextMenuBasic";
 import { NodeList } from "@/components/shared/NodeList";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -15,6 +15,7 @@ import { selectViewMode } from "@/redux/settings/settingsSlice";
 export const CloudPage = () => {
   const { t } = useTranslation("cloud-page");
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const items = useAppSelector((state) => state.nodes.items);
   const status = useAppSelector((state) => state.nodes.status);
@@ -40,6 +41,10 @@ export const CloudPage = () => {
     openFilePicker,
     openFolderPicker,
   } = useCloudUpload();
+
+  const handleOpenFolder = (id: string) => {
+    navigate(`/cloud/folder/${id}?from=cloud`);
+  };
 
   return (
     <main className="flex flex-col w-full h-full">
@@ -82,10 +87,18 @@ export const CloudPage = () => {
           ) : (
             <div className="w-full h-full flex-1">
               {viewMode === "grid" && (
-                <NodeCards items={items} status={status} />
+                <NodeCards
+                  items={items}
+                  status={status}
+                  onOpenFolder={handleOpenFolder}
+                />
               )}
               {viewMode === "list" && (
-                <NodeList items={items} status={status} />
+                <NodeList
+                  items={items}
+                  status={status}
+                  onOpenFolder={handleOpenFolder}
+                />
               )}
             </div>
           )}

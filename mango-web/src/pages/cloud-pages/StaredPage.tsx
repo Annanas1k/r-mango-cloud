@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 import { Star } from "lucide-react";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { NodeCards } from "@/components/shared/NodeCards";
@@ -13,6 +14,7 @@ import { fetchStarred } from "@/redux/nodes/nodesSlice";
 export const StarredPage = () => {
   const { t } = useTranslation("starred-page");
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const viewMode = useAppSelector(selectViewMode);
   const starredItems = useAppSelector((state) => state.nodes.starredList);
@@ -24,10 +26,17 @@ export const StarredPage = () => {
 
   const isEmpty = status === "succeeded" && starredItems.length === 0;
 
+  const handleOpenFolder = (id: string) => {
+    navigate(`/cloud/folder/${id}?from=starred`);
+  };
+
   return (
     <main className="flex flex-col w-full h-full">
-      <PageToolbar title={t("title")} />
-
+      <PageToolbar
+        title={t("title")}
+        rootPath="/cloud/starred"
+        breadcrumb={[]}
+      />
       <div className="flex flex-col flex-1 gap-4 px-6 pb-6">
         {isEmpty ? (
           <EmptyState
@@ -38,10 +47,18 @@ export const StarredPage = () => {
         ) : (
           <div className="w-full h-full flex-1">
             {viewMode === "grid" && (
-              <NodeCards items={starredItems} status={status} />
+              <NodeCards
+                items={starredItems}
+                status={status}
+                onOpenFolder={handleOpenFolder}
+              />
             )}
             {viewMode === "list" && (
-              <NodeList items={starredItems} status={status} />
+              <NodeList
+                items={starredItems}
+                status={status}
+                onOpenFolder={handleOpenFolder}
+              />
             )}
           </div>
         )}

@@ -5,6 +5,7 @@ import type { BreadcrumbItem, NodeDto } from "@/types/node.types";
 import { listNodes, getNodeBreadcrumb, starredList, listTrash } from "@/api/nodes.api";
 import type { RootState } from "../store";
 
+
 interface NodesState {
     currentFolderId: string | null;
     items: NodeDto[];
@@ -24,7 +25,7 @@ const initialState: NodesState = {
     error: null,
     trashItems: [],
     selectedId: null,
-    starredList: []
+    starredList: [],
 };
 
 // -------------------------------------------------------------------------

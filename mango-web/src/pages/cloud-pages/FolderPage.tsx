@@ -1,43 +1,37 @@
-// FolderPage.tsx
-import { ContextMenuBasic } from "@/components/shared/ContextMenuBasic";
-import { EmptyState } from "@/components/shared/EmptyState";
-import { NodeCards } from "@/components/shared/NodeCards";
-import { NodeList } from "@/components/shared/NodeList";
-import { PageToolbar } from "@/components/shared/PageToolbar";
-import { useCloudUpload } from "@/hooks/useCloudUpload";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import {
-  fetchFolder,
-  selectBreadcrumb,
-  selectCurrentFolderId,
-  selectCurrentItems,
-  selectNodesStatus,
-} from "@/redux/nodes/nodesSlice";
-import { selectViewMode } from "@/redux/settings/settingsSlice";
-import { Folder } from "lucide-react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router";
+import { useNavigate, useParams, useSearchParams } from "react-router";
+import { ContextMenuBasic } from "@/components/shared/ContextMenuBasic";
+import { PageToolbar } from "@/components/shared/PageToolbar";
+import { NodeList } from "@/components/shared/NodeList";
+import { NodeCards } from "@/components/shared/NodeCards";
+import { EmptyState } from "@/components/shared/EmptyState";
+import { Folder } from "lucide-react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { fetchFolder, selectBreadcrumb } from "@/redux/nodes/nodesSlice";
+import { selectViewMode } from "@/redux/settings/settingsSlice";
+import { useCloudUpload } from "@/hooks/useCloudUpload";
+import {
+  SECTION_CONFIG,
+  DEFAULT_SECTION,
+  isValidSection,
+} from "@/utils/sections";
 
 export const FolderPage = () => {
+  const { t } = useTranslation("common");
   const { folderId } = useParams<{ folderId: string }>();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { t } = useTranslation("folder-page");
 
-  const viewMode = useAppSelector(selectViewMode);
-  const items = useAppSelector(selectCurrentItems);
-  const status = useAppSelector(selectNodesStatus);
-  const currentFolderId = useAppSelector(selectCurrentFolderId);
+  const rawFrom = searchParams.get("from");
+  const from = isValidSection(rawFrom) ? rawFrom : DEFAULT_SECTION;
+  const { rootPath, basePath, titleKey } = SECTION_CONFIG[from];
+
+  const items = useAppSelector((state) => state.nodes.items);
+  const status = useAppSelector((state) => state.nodes.status);
   const breadcrumb = useAppSelector(selectBreadcrumb);
-
-  useEffect(() => {
-    dispatch(fetchFolder(folderId ?? null));
-  }, [folderId, dispatch]);
-
-  const requestedId = folderId ?? null;
-  const isStale = currentFolderId !== requestedId;
-  const isLoading = status === "loading" || isStale;
-  const isEmpty = !isLoading && status === "succeeded" && items.length === 0;
+  const viewMode = useAppSelector(selectViewMode);
 
   const {
     fileInputRef,
@@ -49,10 +43,26 @@ export const FolderPage = () => {
     openFolderPicker,
   } = useCloudUpload();
 
+  useEffect(() => {
+    if (folderId) dispatch(fetchFolder(folderId));
+  }, [dispatch, folderId]);
+
+  const handleOpenFolder = (id: string) => {
+    navigate(`${basePath}/${id}?from=${from}`);
+  };
+
+  const isLoading = status === "loading";
+  const isEmpty = !isLoading && status === "succeeded" && items.length === 0;
+
   return (
     <main className="flex flex-col w-full h-full">
-      <PageToolbar title={""} rootPath={""} breadcrumb={breadcrumb} />
-
+      <PageToolbar
+        title={t(titleKey)}
+        rootPath={rootPath}
+        basePath={basePath}
+        fromSection={from}
+        breadcrumb={breadcrumb}
+      />
       <div className="flex flex-col flex-1 gap-4 px-6 pb-6">
         <input
           ref={fileInputRef}
@@ -71,6 +81,7 @@ export const FolderPage = () => {
           multiple
           onChange={handleFolderInputChange}
         />
+
         <ContextMenuBasic
           createFolder={handleCreateFolder}
           onUploadFileClick={openFilePicker}
@@ -79,16 +90,26 @@ export const FolderPage = () => {
           {isLoading ? null : isEmpty ? (
             <EmptyState
               media={<Folder />}
-              title={t("emptyState.title")}
-              description={t("emptyState.description")}
+              title={t("emptyFolder.title", { defaultValue: "Folder gol" })}
+              description={t("emptyFolder.description", {
+                defaultValue: "Nu există fișiere sau foldere aici.",
+              })}
             />
           ) : (
             <div className="w-full h-full flex-1">
               {viewMode === "grid" && (
-                <NodeCards items={items} status={status} />
+                <NodeCards
+                  items={items}
+                  status={status}
+                  onOpenFolder={handleOpenFolder}
+                />
               )}
               {viewMode === "list" && (
-                <NodeList items={items} status={status} />
+                <NodeList
+                  items={items}
+                  status={status}
+                  onOpenFolder={handleOpenFolder}
+                />
               )}
             </div>
           )}

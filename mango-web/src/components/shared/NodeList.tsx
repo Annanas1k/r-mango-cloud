@@ -1,10 +1,6 @@
 import { cn } from "@/lib/utils";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import {
-  fetchFolder,
-  selectNode,
-  selectSelectedId,
-} from "@/redux/nodes/nodesSlice";
+import { selectNode, selectSelectedId } from "@/redux/nodes/nodesSlice";
 import type { NodeDto } from "@/types/node.types";
 import { formatBytes } from "@/utils/formatBytesHelper";
 import { getIconForMimeType } from "@/utils/getIconForMimeTypeHelper";
@@ -21,17 +17,17 @@ import {
 } from "../ui/table";
 import { DropDownMenuForCards } from "./DropDownMenuForCards";
 import LoadingUI from "./LoadingUI";
-import { useNavigate } from "react-router";
 
 interface NodeListProps {
   items: NodeDto[];
   status: string;
+  onOpenFolder: (id: string) => void;
 }
 
-export const NodeList = ({ items, status }: NodeListProps) => {
+export const NodeList = ({ items, status, onOpenFolder }: NodeListProps) => {
   const dispatch = useAppDispatch();
   const selectedId = useAppSelector(selectSelectedId);
-  const navigate = useNavigate();
+
   if (status === "loading") return <LoadingUI />;
   if (status === "failed") return <p>ups....</p>;
 
@@ -41,12 +37,12 @@ export const NodeList = ({ items, status }: NodeListProps) => {
 
   const handleOpen = (node: NodeDto) => {
     if (node.type === "FOLDER") {
-      dispatch(fetchFolder(node.id));
-      navigate(`/cloud/folder/${node.id}`);
+      onOpenFolder(node.id);
     } else {
       console.log("preview file");
     }
   };
+
   const sortedItems = [...items].sort((a, b) => {
     const aIsFolder = a.type === "FOLDER";
     const bIsFolder = b.type === "FOLDER";
@@ -54,6 +50,7 @@ export const NodeList = ({ items, status }: NodeListProps) => {
     if (aIsFolder === bIsFolder) return 0;
     return aIsFolder ? -1 : 1;
   });
+
   return (
     <Table>
       <TableCaption>A list of garden mango.</TableCaption>
