@@ -1,16 +1,20 @@
-import { Info, LayoutGrid, List } from "lucide-react";
-import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
-import { Toggle } from "../ui/toggle";
+import { useSettings } from "@/hooks/useSettings";
 import { useAppSelector } from "@/redux/hooks";
 import {
   selectDetailsView,
   selectViewMode,
 } from "@/redux/settings/settingsSlice";
-import { useSettings } from "@/hooks/useSettings";
+import type { BreadcrumbItem } from "@/types/node.types";
+import { ChevronRight, Info, LayoutGrid, List, Undo2 } from "lucide-react";
+import { Link, useNavigate } from "react-router";
+import { Toggle } from "../ui/toggle";
+import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 import { CustomTooltip } from "./CustomTooltip";
 
 interface PageToolbarProps {
   title: string;
+  rootPath: string;
+  breadcrumb: BreadcrumbItem[];
   showViewToggle?: boolean;
   showInfoButton?: boolean;
   children?: React.ReactElement;
@@ -18,6 +22,8 @@ interface PageToolbarProps {
 
 export const PageToolbar = ({
   title,
+  rootPath,
+  breadcrumb = [],
   showViewToggle = true,
   showInfoButton = true,
   children,
@@ -25,12 +31,62 @@ export const PageToolbar = ({
   const viewMode = useAppSelector(selectViewMode);
   const isDetailsOpen = useAppSelector(selectDetailsView);
   const { handleToggleViewMode, handleToggleDetailsView } = useSettings();
+  const navigate = useNavigate();
+  const hasBreadcrumb = breadcrumb.length > 0;
   return (
     <div className="flex w-full h-20   justify-between mb-4 sticky top-0 z-10 bg-background px-6 py-4">
-      <div className="flex items-center gap-2">
-        <h1 className="text-xl font-semibold text-foreground tracking-tight">
-          {title}
-        </h1>
+      <div className="flex items-center gap-2 min-w-0">
+        {hasBreadcrumb && (
+          <button
+            type="button"
+            onClick={() => navigate(-1)}
+            className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+            aria-label="Go back"
+          >
+            <Undo2 />
+          </button>
+        )}
+
+        {/* Root Link / Titlu Rădăcină */}
+        {hasBreadcrumb ? (
+          <Link
+            to={rootPath}
+            className="truncate text-xl font-semibold text-muted-foreground transition-colors hover:text-foreground max-w-37.5 shrink-0"
+          >
+            {title}
+          </Link>
+        ) : (
+          <h1 className="truncate text-xl font-semibold text-foreground tracking-tight">
+            {title}
+          </h1>
+        )}
+
+        {/* Elemente Breadcrumb */}
+        {breadcrumb.map((item, index) => {
+          const isLast = index === breadcrumb.length - 1;
+
+          return (
+            <div
+              key={item.id || item.name}
+              className="flex items-center gap-2 min-w-0"
+            >
+              <ChevronRight className="size-4 shrink-0 text-muted-foreground/60" />
+              {isLast ? (
+                <h1 className="truncate text-xl font-semibold text-foreground tracking-tight">
+                  {item.name}
+                </h1>
+              ) : (
+                <Link
+                  to={`/cloud/folder/${item.id}`}
+                  className="truncate text-xl font-semibold text-muted-foreground transition-colors hover:text-foreground max-w-37.5 shrink-0"
+                >
+                  {item.name}
+                </Link>
+              )}
+            </div>
+          );
+        })}
+
         {children}
       </div>
       <div className="flex items-center gap-2">

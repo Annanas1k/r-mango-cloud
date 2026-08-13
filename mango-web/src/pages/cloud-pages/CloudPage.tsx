@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { ContextMenuBasic } from "@/components/shared/ContextMenuBasic";
 import { NodeList } from "@/components/shared/NodeList";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { fetchFolder } from "@/redux/nodes/nodesSlice";
+import { fetchFolder, selectBreadcrumb } from "@/redux/nodes/nodesSlice";
 import { useCloudUpload } from "@/hooks/useCloudUpload";
 import { NodeCards } from "@/components/shared/NodeCards";
 import { EmptyState } from "@/components/shared/EmptyState";
@@ -22,6 +22,7 @@ export const CloudPage = () => {
     (state) => state.nodes.currentFolderId,
   );
   const viewMode = useAppSelector(selectViewMode);
+  const breadcrumb = useAppSelector(selectBreadcrumb);
 
   useEffect(() => {
     dispatch(fetchFolder(null));
@@ -42,7 +43,11 @@ export const CloudPage = () => {
 
   return (
     <main className="flex flex-col w-full h-full">
-      <PageToolbar title={t("cloud-page.title")}></PageToolbar>
+      <PageToolbar
+        title={t("cloud-page.title")}
+        rootPath="/cloud/my-cloud"
+        breadcrumb={breadcrumb}
+      ></PageToolbar>
       <div className="flex flex-col flex-1 gap-4 px-6 pb-6">
         {/* inputuri "invizibile", declanșate programatic din context menu */}
         <input

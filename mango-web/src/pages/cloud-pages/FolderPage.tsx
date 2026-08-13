@@ -1,22 +1,23 @@
 // FolderPage.tsx
-import { PageToolbar } from "@/components/shared/PageToolbar";
+import { ContextMenuBasic } from "@/components/shared/ContextMenuBasic";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { NodeCards } from "@/components/shared/NodeCards";
 import { NodeList } from "@/components/shared/NodeList";
-import { Folder } from "lucide-react";
+import { PageToolbar } from "@/components/shared/PageToolbar";
+import { useCloudUpload } from "@/hooks/useCloudUpload";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   fetchFolder,
+  selectBreadcrumb,
+  selectCurrentFolderId,
   selectCurrentItems,
   selectNodesStatus,
-  selectCurrentFolderId,
 } from "@/redux/nodes/nodesSlice";
 import { selectViewMode } from "@/redux/settings/settingsSlice";
+import { Folder } from "lucide-react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
-import { ContextMenuBasic } from "@/components/shared/ContextMenuBasic";
-import { useCloudUpload } from "@/hooks/useCloudUpload";
 
 export const FolderPage = () => {
   const { folderId } = useParams<{ folderId: string }>();
@@ -27,6 +28,7 @@ export const FolderPage = () => {
   const items = useAppSelector(selectCurrentItems);
   const status = useAppSelector(selectNodesStatus);
   const currentFolderId = useAppSelector(selectCurrentFolderId);
+  const breadcrumb = useAppSelector(selectBreadcrumb);
 
   useEffect(() => {
     dispatch(fetchFolder(folderId ?? null));
@@ -49,7 +51,7 @@ export const FolderPage = () => {
 
   return (
     <main className="flex flex-col w-full h-full">
-      <PageToolbar title={t("title")} />
+      <PageToolbar title={""} rootPath={""} breadcrumb={breadcrumb} />
 
       <div className="flex flex-col flex-1 gap-4 px-6 pb-6">
         <input
