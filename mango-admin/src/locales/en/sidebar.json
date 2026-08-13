@@ -1,0 +1,20 @@
+{
+  "groups": {
+    "main": "Main",
+    "management": "Management",
+    "system": "System"
+  },
+  "dashboard": "Dashboard",
+  "cloud": "Cloud",
+  "starred": "Starred",
+  "trash": "Trash",
+  "users": "Users",
+  "reports": "Reports",
+  "settings": "Settings",
+  "language": "Language",
+  "theme": {
+    "label": "Theme",
+    "light": "Light",
+    "dark": "Dark"
+  }
+}

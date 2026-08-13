@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { GalleryVerticalEnd } from "@lucide/vue"
-import LoginForm from "@/components/shared/LoginForm.vue"
+import LoginForm from "@/components/shared/LoginForm.vue";
 </script>
 
 <template>
@@ -9,7 +8,7 @@ import LoginForm from "@/components/shared/LoginForm.vue"
       <div class="flex justify-center gap-2 md:justify-start">
         <a href="#" class="flex items-center gap-2 font-medium">
           <div class="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
-            <GalleryVerticalEnd class="size-4" />
+            <img src="../assets/background.png" alt="mango-logo" />
           </div>
           rMango CLoud.
         </a>
