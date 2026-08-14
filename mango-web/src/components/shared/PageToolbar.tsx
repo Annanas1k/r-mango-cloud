@@ -14,10 +14,8 @@ import { CustomTooltip } from "./CustomTooltip";
 interface PageToolbarProps {
   title: string;
   rootPath: string;
-  breadcrumb: BreadcrumbItem[];
-  /** ex: "/cloud/folder" — baza pe care se construiesc linkurile din mijlocul breadcrumb-ului */
+  breadcrumb?: BreadcrumbItem[];
   basePath?: string;
-  /** ex: "starred" | "cloud" | "trash" — propagat ca ?from= pe fiecare link din breadcrumb */
   fromSection?: string;
   showViewToggle?: boolean;
   showInfoButton?: boolean;

@@ -39,7 +39,11 @@ export const TrashPage = () => {
 
   return (
     <div className="flex flex-col w-full h-full">
-      <PageToolbar title={t("trash-page.title")} showViewToggle={false} />
+      <PageToolbar
+        title={t("trash-page.title")}
+        rootPath="/cloud/trash"
+        showViewToggle={false}
+      />
 
       <div className="flex flex-col flex-1 gap-4 px-6 pb-6">
         {status === "loading" ? (
