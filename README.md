@@ -19,3 +19,4 @@ A personal project, still in development — a cloud storage built from scratch,
 ![Vue.js](https://img.shields.io/badge/Vue.js-4FC08D?style=for-the-badge&logo=vuedotjs&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![Pinia](https://img.shields.io/badge/Pinia-FFE56D?style=for-the-badge&logo=vue.js&logoColor=black)
+![shadcn--vue](https://img.shields.io/badge/shadcn--vue-000000?style=for-the-badge&logo=shadcnui&logoColor=white)
