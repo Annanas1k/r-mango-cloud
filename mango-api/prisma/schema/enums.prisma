@@ -27,3 +27,10 @@ enum ActivityAction {
     DOWNLOAD
     UPLOAD_VERSION
 }
+
+enum StoragePlan {
+    FREE
+    BASIC
+    PRO
+    BUSINESS
+}

@@ -8,12 +8,14 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { StorageService } from '../storage/storage.service';
+import { QuotaService } from 'src/quota/quota.service';
 
 @Injectable()
 export class NodesService {
     constructor(
         private readonly prisma: PrismaService,
         private readonly storage: StorageService,
+        private readonly quota: QuotaService,
     ) { }
 
     // ---------------------------------------------------------------------
@@ -291,9 +293,21 @@ export class NodesService {
             await this.storage.deleteObjects(versions.map((v) => v.storageKey));
         }
 
+        // NOU: calculăm bytes-ii eliberați ÎNAINTE de ștergere (după, node-urile nu mai există)
+        const nodesToDelete = await this.prisma.node.findMany({
+            where: { id: { in: allIds }, type: 'FILE' },
+            select: { sizeBytes: true },
+        });
+        const freedBytes = nodesToDelete.reduce((sum, n) => sum + n.sizeBytes, 0n);
+
         // ștergerea node-ului rădăcină cascadează automat spre copii + FileVersion,
         // datorită onDelete: Cascade din schema Prisma
         await this.prisma.node.delete({ where: { id: nodeId } });
+
+        // NOU: eliberăm spațiul din cotă
+        if (freedBytes > 0n) {
+            await this.quota.freeSpace(userId, freedBytes);
+        }
 
         return { success: true, deletedCount: allIds.length };
     }
@@ -301,7 +315,7 @@ export class NodesService {
     async emptyTrash(userId: string) {
         const trashed = await this.prisma.node.findMany({
             where: { ownerId: userId, trashedAt: { not: null } },
-            select: { id: true },
+            select: { id: true, type: true, sizeBytes: true }, // NOU: type + sizeBytes
         });
 
         const versions = await this.prisma.fileVersion.findMany({
@@ -313,9 +327,19 @@ export class NodesService {
             await this.storage.deleteObjects(versions.map((v) => v.storageKey));
         }
 
+        // NOU: calculăm bytes-ii eliberați, doar pentru FILE (folderele au sizeBytes 0)
+        const freedBytes = trashed
+            .filter((n) => n.type === 'FILE')
+            .reduce((sum, n) => sum + n.sizeBytes, 0n);
+
         await this.prisma.node.deleteMany({
             where: { ownerId: userId, trashedAt: { not: null } },
         });
+
+        // NOU: eliberăm spațiul din cotă
+        if (freedBytes > 0n) {
+            await this.quota.freeSpace(userId, freedBytes);
+        }
 
         return { success: true, deletedCount: trashed.length };
     }

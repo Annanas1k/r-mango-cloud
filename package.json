@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
      "predev": "lsof -ti:3000,5173,5174 | xargs kill -9 2>/dev/null || true",
-     "dev": "concurrently -n API,WEB,ADMIN -k -c blue,green,magenta \"npm run start:dev --prefix mango-api\" \"npm run dev --prefix mango-web\" \"npm run dev --prefix mango-admin\""
+     "dev": "concurrently -n API,WEB,ADMIN -k -c blue,green,magenta \"npm run start:dev --prefix mango-api -- --port 3000\" \"npm run dev --prefix mango-web -- --port 5173\" \"npm run dev --prefix mango-admin -- --port 5174\""
   },
   "repository": {
     "type": "git",

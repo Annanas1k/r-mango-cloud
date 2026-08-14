@@ -28,6 +28,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { NewButtonDropDown } from "./NewButtonDropDown";
 import { useCloudUpload } from "@/hooks/useCloudUpload";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { fetchQuotaUsage, selectQuota } from "@/redux/quota/quotaSlice";
+import { useEffect } from "react";
+import { formatBytes } from "@/utils/formatBytesHelper";
+import { Progress } from "../ui/progress";
 
 const navGroups = [
   {
@@ -74,9 +79,23 @@ export const AppSidebar = () => {
     openFolderPicker,
   } = useCloudUpload();
 
+  const dispatch = useAppDispatch();
+  const { usedBytes, quotaBytes, percentUsed, status } =
+    useAppSelector(selectQuota);
+
+  useEffect(() => {
+    dispatch(fetchQuotaUsage());
+  }, [dispatch]);
+
+  const usageLabel =
+    status === "succeeded"
+      ? `${formatBytes(usedBytes)} / ${formatBytes(quotaBytes)} ${t("sidebar.used")}`
+      : "Se încarcă...";
+
+  console.log(usedBytes);
   return (
     // 🔴 1. Cheia este atributul collapsible="icon"
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="icon" variant="floating">
       {/* -------------------------------------------------------------- */}
       {/* Header — Logo & Button "New"                                    */}
       {/* -------------------------------------------------------------- */}
@@ -173,18 +192,32 @@ export const AppSidebar = () => {
       {/* -------------------------------------------------------------- */}
       <SidebarFooter className="p-3">
         {open ? (
-          <div className="text-xs text-muted-foreground">
-            <p className="font-medium text-foreground">
-              Storage (inca nu lucareaza)
-            </p>
-
-            <div className="w-full bg-secondary h-1.5 rounded-full mt-1.5 overflow-hidden">
-              <div className="bg-primary h-full w-[45%]" />
+          <div className="flex flex-col gap-2 px-1">
+            <div className="flex items-center gap-1.5">
+              <Cloud className="h-3.5 w-3.5 text-muted-foreground" />
+              <span className="text-xs font-medium text-foreground">
+                {t("sidebar.storage")}
+              </span>
             </div>
-            <p className="mt-1">6.7 GB of 15 GB used</p>
+
+            <Progress
+              value={status === "succeeded" ? Math.min(percentUsed, 100) : 0}
+              className="h-1.5"
+            />
+
+            <p className="text-xs text-muted-foreground">{usageLabel}</p>
+
+            <Button
+              variant="outline"
+              size="sm"
+              className="mt-1 w-full text-xs"
+              onClick={() => navigate("/settings/billing")}
+            >
+              {t("sidebar.buyStorage")}
+            </Button>
           </div>
         ) : (
-          <div className="flex justify-center" title="6.7 GB of 15 GB used">
+          <div className="flex justify-center" title={usageLabel}>
             <Cloud className="h-5 w-5 text-muted-foreground" />
           </div>
         )}

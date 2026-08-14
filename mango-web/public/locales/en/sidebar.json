@@ -12,6 +12,8 @@
     "starred": "Starred",
     "spam": "Spam",
     "trash": "Trash",
-    "storage": "Storage"
+    "storage": "Storage",
+    "buyStorage": "Buy more storage",
+    "used": "used"
   }
 }

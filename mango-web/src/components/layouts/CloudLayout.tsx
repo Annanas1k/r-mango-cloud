@@ -23,7 +23,7 @@ export const CloudLayout = () => {
 
           <aside
             className={`
-                            w-100 border-l bg-background h-full overflow-y-auto
+                            w-120 border-l bg-background h-full overflow-y-auto
                             transition-all duration-500 ease-in-out transform
                             ${
                               detailsView

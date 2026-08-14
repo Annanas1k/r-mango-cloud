@@ -4,12 +4,14 @@ import { createHash, randomUUID } from 'crypto';
 import { lookup } from 'mime-types';
 import { PrismaService } from '../prisma/prisma.service';
 import { StorageService } from '../storage/storage.service';
+import { QuotaService } from '../quota/quota.service'; // NOU
 
 @Injectable()
 export class FilesService {
     constructor(
         private readonly prisma: PrismaService,
         private readonly storage: StorageService,
+        private readonly quota: QuotaService, // NOU
     ) { }
 
     async uploadFile(
@@ -24,6 +26,11 @@ export class FilesService {
             }
         }
 
+        const fileSize = BigInt(file.size);
+
+        // NOU: verifică ȘI rezervă spațiul ATOMIC, ÎNAINTE de orice upload către R2
+        await this.quota.reserveSpace(userId, fileSize);
+
         const mimeType =
             !file.mimetype || file.mimetype === 'application/octet-stream'
                 ? lookup(file.originalname) || 'application/octet-stream'
@@ -32,43 +39,56 @@ export class FilesService {
         const checksum = createHash('sha256').update(file.buffer).digest('hex');
         const storageKey = `${userId}/${randomUUID()}-${file.originalname}`;
 
-        await this.storage.uploadBuffer(storageKey, file.buffer, mimeType);
+        try {
+            await this.storage.uploadBuffer(storageKey, file.buffer, mimeType);
 
-        const node = await this.prisma.$transaction(async (tx) => {
-            const createdNode = await tx.node.create({
-                data: {
-                    type: 'FILE',
-                    name: file.originalname,
-                    ownerId: userId,
-                    parentId,
-                    mimeType,
-                    sizeBytes: BigInt(file.size),
-                },
+            const node = await this.prisma.$transaction(async (tx) => {
+                const createdNode = await tx.node.create({
+                    data: {
+                        type: 'FILE',
+                        name: file.originalname,
+                        ownerId: userId,
+                        parentId,
+                        mimeType,
+                        sizeBytes: fileSize,
+                    },
+                });
+
+                await tx.fileVersion.create({
+                    data: {
+                        nodeId: createdNode.id,
+                        versionNumber: 1,
+                        storageKey,
+                        sizeBytes: fileSize,
+                        checksum,
+                        mimeType,
+                        createdById: userId,
+                    },
+                });
+
+                return createdNode;
             });
 
-            await tx.fileVersion.create({
-                data: {
-                    nodeId: createdNode.id,
-                    versionNumber: 1,
-                    storageKey,
-                    sizeBytes: BigInt(file.size),
-                    checksum,
-                    mimeType,
-                    createdById: userId,
-                },
+            return {
+                id: node.id,
+                name: node.name,
+                mimeType: node.mimeType,
+                sizeBytes: node.sizeBytes.toString(),
+                parentId: node.parentId,
+                createdAt: node.createdAt,
+            };
+        } catch (error) {
+            // NOU: rollback pe cotă dacă upload-ul R2 sau tranzacția DB eșuează
+            await this.quota.releaseSpace(userId, fileSize);
+
+            // dacă upload-ul R2 a reușit dar tranzacția DB a eșuat, mai rămâne
+            // un obiect orfan în bucket — încearcă să-l cureți și pe ăla
+            await this.storage.deleteObject(storageKey).catch(() => {
+                // ignorăm eroarea de cleanup, ca să nu mascheze eroarea originală
             });
 
-            return createdNode;
-        });
-
-        return {
-            id: node.id,
-            name: node.name,
-            mimeType: node.mimeType,
-            sizeBytes: node.sizeBytes.toString(),
-            parentId: node.parentId,
-            createdAt: node.createdAt,
-        };
+            throw error;
+        }
     }
 
     async getDownloadUrl(userId: string, nodeId: string) {
