@@ -10,9 +10,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
   SidebarInset,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
@@ -21,11 +18,11 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
+import { Switch } from '@/components/ui/switch';
 import { useAuth } from '@/composables/useAuth';
 import {
   ChevronRight,
   FileText,
-  Languages,
   LayoutDashboard,
   LogOut,
   Moon,
@@ -35,21 +32,25 @@ import {
 } from 'lucide-vue-next';
 import { useI18n } from 'vue-i18n';
 import { RouterLink } from 'vue-router';
-import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
+import { useSettingsStore, type Language } from '@/stores/settings.store';
+import type { SidebarGroupConfig } from '@/types/sidebar.types';
+import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group';
 
-const { t, locale } = useI18n();
+const { t } = useI18n();
 const { logout } = useAuth();
 
-interface SidebarLinkItem {
-  label: string;
-  to: string;
-  icon: any;
-}
+const settingsStore = useSettingsStore();
+const { theme, language } = storeToRefs(settingsStore);
+const { setThemeExplicit, setLanguage } = settingsStore;
 
-interface SidebarGroupConfig {
-  label: string;
-  children: SidebarLinkItem[];
-}
+const isDark = computed({
+  get: () => theme.value === 'dark',
+  set: (value: boolean) => setThemeExplicit(value ? 'dark' : 'light'),
+});
+
+
 
 const sidebarGroups: SidebarGroupConfig[] = [
   {
@@ -67,31 +68,8 @@ const sidebarGroups: SidebarGroupConfig[] = [
   },
 ];
 
-// --- Setări: limbă + temă, tratate separat pentru că nu sunt linkuri ---
-const LANGUAGES = [
-  { code: 'ro', label: 'Română' },
-  { code: 'en', label: 'English' },
-];
 
-const THEMES = [
-  { code: 'light', label: t('sidebar.theme.light'), icon: Sun },
-  { code: 'dark', label: t('sidebar.theme.dark'), icon: Moon },
-];
 
-const theme = ref<'light' | 'dark'>(
-  (localStorage.getItem('theme') as 'light' | 'dark') ?? 'light',
-);
-
-function setLanguage(code: string) {
-  locale.value = code;
-  localStorage.setItem('locale', code);
-}
-
-function setTheme(code: 'light' | 'dark') {
-  theme.value = code;
-  localStorage.setItem('theme', code);
-  document.documentElement.classList.toggle('dark', code === 'dark');
-}
 </script>
 
 <template>
@@ -129,76 +107,53 @@ function setTheme(code: 'light' | 'dark') {
         </SidebarGroupContent>
       </SidebarGroup>
 
-      <!-- Setări, cu submenu pentru limbă și temă -->
+      <!-- Setări: Collapsible cu temă (switch) + limbă (3 butoane) -->
       <SidebarGroup>
         <SidebarGroupLabel>{{ t('sidebar.groups.system') }}</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
-            <Collapsible as-child class="group/collapsible">
+            <Collapsible as-child class="group/settings">
               <SidebarMenuItem>
                 <CollapsibleTrigger as-child>
                   <SidebarMenuButton :tooltip="t('sidebar.settings')">
-                    <Settings />
+                    <Settings class="size-4" />
                     <span>{{ t('sidebar.settings') }}</span>
-                    <ChevronRight class="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                    <ChevronRight class="ml-auto size-4 transition-transform duration-200 group-data-[state=open]/settings:rotate-90" />
                   </SidebarMenuButton>
                 </CollapsibleTrigger>
 
                 <CollapsibleContent>
-                  <SidebarMenuSub>
-                    <!-- Limbă -->
-                    <Collapsible as-child class="group/lang">
-                      <SidebarMenuSubItem>
-                        <CollapsibleTrigger as-child>
-                          <SidebarMenuSubButton>
-                            <Languages class="size-4" />
-                            <span>{{ t('sidebar.language') }}</span>
-                            <ChevronRight class="ml-auto size-3 transition-transform duration-200 group-data-[state=open]/lang:rotate-90" />
-                          </SidebarMenuSubButton>
-                        </CollapsibleTrigger>
-                        <CollapsibleContent>
-                          <SidebarMenuSub>
-                            <SidebarMenuSubItem v-for="lang in LANGUAGES" :key="lang.code">
-                              <SidebarMenuSubButton
-                                as="button"
-                                :is-active="locale === lang.code"
-                                @click="setLanguage(lang.code)"
-                              >
-                                <span>{{ lang.label }}</span>
-                              </SidebarMenuSubButton>
-                            </SidebarMenuSubItem>
-                          </SidebarMenuSub>
-                        </CollapsibleContent>
-                      </SidebarMenuSubItem>
-                    </Collapsible>
+                  <div class="flex flex-col gap-3 px-2 py-2">
+                    <!-- Rând temă -->
+                    <div class="flex items-center justify-between gap-2">
+                      <span class="text-xs text-muted-foreground">
+                        {{ t('sidebar.theme.label') }}
+                      </span>
+                      <div class="flex items-center gap-1.5">
+                        <Sun class="size-3.5 text-muted-foreground" />
+                        <Switch v-model="isDark" :aria-label="t('sidebar.theme.label')" />
+                        <Moon class="size-3.5 text-muted-foreground" />
+                      </div>
+                    </div>
 
-                    <!-- Temă -->
-                    <Collapsible as-child class="group/theme">
-                      <SidebarMenuSubItem>
-                        <CollapsibleTrigger as-child>
-                          <SidebarMenuSubButton>
-                            <Sun class="size-4" />
-                            <span>{{ t('sidebar.theme.label') }}</span>
-                            <ChevronRight class="ml-auto size-3 transition-transform duration-200 group-data-[state=open]/theme:rotate-90" />
-                          </SidebarMenuSubButton>
-                        </CollapsibleTrigger>
-                        <CollapsibleContent>
-                          <SidebarMenuSub>
-                            <SidebarMenuSubItem v-for="opt in THEMES" :key="opt.code">
-                              <SidebarMenuSubButton
-                                as="button"
-                                :is-active="theme === opt.code"
-                                @click="setTheme(opt.code as 'light' | 'dark')"
-                              >
-                                <component :is="opt.icon" class="size-4" />
-                                <span>{{ opt.label }}</span>
-                              </SidebarMenuSubButton>
-                            </SidebarMenuSubItem>
-                          </SidebarMenuSub>
-                        </CollapsibleContent>
-                      </SidebarMenuSubItem>
-                    </Collapsible>
-                  </SidebarMenuSub>
+                    <!-- Rând limbă -->
+                    <div class="flex items-center justify-between gap-2">
+                      <span class="text-xs text-muted-foreground">
+                        {{ t('sidebar.language') }}
+                      </span>
+                        <ToggleGroup
+                          type="single"
+                          :model-value="language"
+                          variant="outline"
+                          class="flex gap-2"
+                          @update:model-value="(val) => val && setLanguage(val as Language)"
+                        >
+                          <ToggleGroupItem value="en" class="rounded-md">EN</ToggleGroupItem>
+                          <ToggleGroupItem value="ro" class="rounded-md">RO</ToggleGroupItem>
+                          <ToggleGroupItem value="ru" class="rounded-md">RU</ToggleGroupItem>
+                        </ToggleGroup>
+                    </div>
+                  </div>
                 </CollapsibleContent>
               </SidebarMenuItem>
             </Collapsible>

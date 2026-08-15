@@ -9,6 +9,9 @@ const messages = {
     en: {
         sidebar: enSidebar
     },
+    ru: {
+
+    }
 };
 
 export const i18n = createI18n({
