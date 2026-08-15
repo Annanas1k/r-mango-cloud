@@ -4,17 +4,25 @@ import {
   selectDetailsView,
   selectViewMode,
 } from "@/redux/settings/settingsSlice";
-import type { BreadcrumbItem } from "@/types/node.types";
-import { ChevronRight, Info, LayoutGrid, List } from "lucide-react";
+import type { BreadcrumbItems } from "@/types/node.types";
+import { DotIcon, Info, LayoutGrid, List } from "lucide-react";
 import { Link } from "react-router";
 import { Toggle } from "../ui/toggle";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 import { CustomTooltip } from "./CustomTooltip";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "../ui/breadcrumb";
 
 interface PageToolbarProps {
   title: string;
   rootPath: string;
-  breadcrumb?: BreadcrumbItem[];
+  breadcrumb?: BreadcrumbItems[];
   basePath?: string;
   fromSection?: string;
   showViewToggle?: boolean;
@@ -44,44 +52,61 @@ export const PageToolbar = ({
     <div className="flex w-full h-20   justify-between mb-4 sticky top-0 z-10 bg-background px-6 py-4">
       <div className="flex items-center gap-2 min-w-0">
         {/* Root Link / Titlu Rădăcină */}
-        {hasBreadcrumb ? (
-          <Link
-            to={rootPath}
-            className="truncate text-xl font-semibold text-muted-foreground transition-colors hover:text-foreground max-w-37.5 shrink-0"
-          >
-            {title}
-          </Link>
-        ) : (
-          <h1 className="truncate text-xl font-semibold text-foreground tracking-tight">
-            {title}
-          </h1>
-        )}
-
-        {/* Elemente Breadcrumb */}
-        {breadcrumb.map((item, index) => {
-          const isLast = index === breadcrumb.length - 1;
-
-          return (
-            <div
-              key={item.id || item.name}
-              className="flex items-center gap-2 min-w-0"
-            >
-              <ChevronRight className="size-4 shrink-0 text-muted-foreground/60" />
-              {isLast ? (
-                <h1 className="truncate text-xl font-semibold text-foreground tracking-tight">
-                  {item.name}
-                </h1>
+        <Breadcrumb>
+          <BreadcrumbList className="flex-nowrap">
+            <BreadcrumbItem>
+              {hasBreadcrumb ? (
+                <BreadcrumbLink
+                  render={
+                    <Link
+                      to={rootPath}
+                      className="truncate text-xl font-semibold text-muted-foreground transition-colors hover:text-foreground max-w-37.5"
+                    >
+                      {title}
+                    </Link>
+                  }
+                ></BreadcrumbLink>
               ) : (
-                <Link
-                  to={buildFolderLink(item.id)}
-                  className="truncate text-xl font-semibold text-muted-foreground transition-colors hover:text-foreground max-w-37.5 shrink-0"
-                >
-                  {item.name}
-                </Link>
+                <BreadcrumbPage className="truncate text-xl font-semibold text-foreground tracking-tight">
+                  {title}
+                </BreadcrumbPage>
               )}
-            </div>
-          );
-        })}
+            </BreadcrumbItem>
+
+            {breadcrumb.map((item, index) => {
+              const isLast = index === breadcrumb.length - 1;
+
+              return (
+                <span
+                  key={item.id || item.name}
+                  className="flex items-center gap-2 min-w-0"
+                >
+                  <BreadcrumbSeparator>
+                    <DotIcon />
+                  </BreadcrumbSeparator>
+                  <BreadcrumbItem>
+                    {isLast ? (
+                      <BreadcrumbPage className="truncate text-xl font-semibold text-foreground tracking-tight">
+                        {item.name}
+                      </BreadcrumbPage>
+                    ) : (
+                      <BreadcrumbLink
+                        render={
+                          <Link
+                            to={buildFolderLink(item.id)}
+                            className="truncate text-xl font-semibold text-muted-foreground transition-colors hover:text-foreground max-w-37.5"
+                          >
+                            {item.name}
+                          </Link>
+                        }
+                      ></BreadcrumbLink>
+                    )}
+                  </BreadcrumbItem>
+                </span>
+              );
+            })}
+          </BreadcrumbList>
+        </Breadcrumb>
 
         {children}
       </div>

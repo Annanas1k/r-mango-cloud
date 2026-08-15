@@ -1,4 +1,4 @@
-import type { BreadcrumbItem, NodeDto, ToggleStarResponse, TrashActionResponse, TrashCountResponse } from "@/types/node.types"
+import type { BreadcrumbItems, NodeDto, ToggleStarResponse, TrashActionResponse, TrashCountResponse } from "@/types/node.types"
 import { api } from "./axiosInstance"
 
 
@@ -21,7 +21,7 @@ export const getNodeById = async (id: string): Promise<NodeDto> => {
 }
 
 export const getNodeBreadcrumb = async (id: string) => {
-    const { data } = await api.get<BreadcrumbItem[]>(`/nodes/${id}/breadcrumb`)
+    const { data } = await api.get<BreadcrumbItems[]>(`/nodes/${id}/breadcrumb`)
     return data;
 }
 

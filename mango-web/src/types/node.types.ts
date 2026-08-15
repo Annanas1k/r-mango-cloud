@@ -11,7 +11,7 @@ export interface NodeDto {
     isStarred: boolean;
 }
 
-export interface BreadcrumbItem {
+export interface BreadcrumbItems {
     id: string;
     name: string;
 }

@@ -5,6 +5,7 @@ import { FileCard } from "./FileCard";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { selectNode, selectSelectedId } from "@/redux/nodes/nodesSlice";
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 interface NodeCardsProps {
   items: NodeDto[];
@@ -13,6 +14,7 @@ interface NodeCardsProps {
 }
 
 export const NodeCards = ({ items, status, onOpenFolder }: NodeCardsProps) => {
+  const { t } = useTranslation("node-cards");
   const dispatch = useAppDispatch();
   const selectedId = useAppSelector(selectSelectedId);
 
@@ -49,8 +51,8 @@ export const NodeCards = ({ items, status, onOpenFolder }: NodeCardsProps) => {
       {/* --- FOLDERE, sus --- */}
       {folders.length > 0 && (
         <section>
-          <h2>Folders</h2>
-          <div className="flex flex-wrap gap-4">
+          <h2 className="mb-4">{t("folders")}</h2>
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4">
             {folders.map((folder) => (
               <FolderCard
                 key={folder.id}
@@ -67,8 +69,8 @@ export const NodeCards = ({ items, status, onOpenFolder }: NodeCardsProps) => {
       {/* --- FIȘIERE, jos --- */}
       {files.length > 0 && (
         <section>
-          <h2>Files</h2>
-          <div className="flex flex-wrap gap-4">
+          <h2 className="mb-4">{t("files")}</h2>
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4">
             {files.map((file) => (
               <FileCard
                 key={file.id}

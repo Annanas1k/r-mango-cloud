@@ -1,7 +1,7 @@
 // redux/nodes/nodesSlice.ts
 import { createSlice, createAsyncThunk, createSelector } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { BreadcrumbItem, NodeDto } from "@/types/node.types";
+import type { BreadcrumbItems, NodeDto } from "@/types/node.types";
 import { listNodes, getNodeBreadcrumb, starredList, listTrash } from "@/api/nodes.api";
 import type { RootState } from "../store";
 
@@ -9,7 +9,7 @@ import type { RootState } from "../store";
 interface NodesState {
     currentFolderId: string | null;
     items: NodeDto[];
-    breadcrumb: BreadcrumbItem[];
+    breadcrumb: BreadcrumbItems[];
     status: "idle" | "loading" | "succeeded" | "failed";
     error: string | null;
     trashItems: NodeDto[];
