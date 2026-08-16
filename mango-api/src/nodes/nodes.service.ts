@@ -38,6 +38,7 @@ export class NodesService {
         trashedAt: Date | null;
         createdAt: Date;
         updatedAt: Date;
+        lastAccessedAt: Date | null;
     },
         isStarred = false) {
         return {
@@ -50,6 +51,7 @@ export class NodesService {
             trashedAt: node.trashedAt,
             createdAt: node.createdAt,
             updatedAt: node.updatedAt,
+            lastAccessedAt: node.lastAccessedAt,
             isStarred
         };
     }
@@ -342,5 +344,31 @@ export class NodesService {
         }
 
         return { success: true, deletedCount: trashed.length };
+    }
+
+    async listRecent(userId: string, limit = 30) {
+        const nodes = await this.prisma.node.findMany({
+            where: {
+                ownerId: userId,
+                type: 'FILE',
+                trashedAt: null,
+                lastAccessedAt: { not: null },
+            },
+            orderBy: { lastAccessedAt: 'desc' },
+            take: limit,
+        });
+
+        const starredIds = await this.getStarredIdsSet(userId, nodes.map((n) => n.id));
+
+        return nodes.map((n) => this.serialize(n, starredIds.has(n.id)));
+    }
+
+    async touchLastAccessed(userId: string, nodeId: string) {
+        await this.getOwnedNode(nodeId, userId);
+        const updated = await this.prisma.node.update({
+            where: { id: nodeId },
+            data: { lastAccessedAt: new Date() },
+        });
+        return this.serialize(updated);
     }
 }

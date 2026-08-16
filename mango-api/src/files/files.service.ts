@@ -102,7 +102,10 @@ export class FilesService {
             orderBy: { versionNumber: 'desc' },
         });
         if (!latestVersion) throw new NotFoundException('Nu există o versiune a fișierului');
-
+        this.prisma.node.update({
+            where: { id: nodeId },
+            data: { lastAccessedAt: new Date() },
+        }).catch(() => { });
         const url = await this.storage.getSignedDownloadUrl(
             latestVersion.storageKey,
             node.name,

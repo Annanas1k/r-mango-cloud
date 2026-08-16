@@ -51,6 +51,11 @@ export class NodesController {
     return this.nodesService.emptyTrash(req.user.sub);
   }
 
+  @Get('recent')
+  listRecent(@Req() req: any) {
+    return this.nodesService.listRecent(req.user.sub);
+  }
+
   @Get(':id')
   getNode(@Param('id') id: string, @Req() req: any) {
     return this.nodesService.getNode(req.user.sub, id);
@@ -64,6 +69,11 @@ export class NodesController {
   @Patch(':id/rename')
   rename(@Param('id') id: string, @Body() dto: RenameNodeDto, @Req() req: any) {
     return this.nodesService.rename(req.user.sub, id, dto.name);
+  }
+
+  @Post(':id/touch')
+  touchAccess(@Param('id') id: string, @Req() req: any) {
+    return this.nodesService.touchLastAccessed(req.user.sub, id);
   }
 
   @Patch(':id/move')

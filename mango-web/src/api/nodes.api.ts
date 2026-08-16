@@ -30,6 +30,11 @@ export const renameNode = async (id: string, newName: string) => {
     return data;
 }
 
+export const touchNodeAccess = async (id: string): Promise<NodeDto> => {
+    const { data } = await api.post<NodeDto>(`/nodes/${id}/touch`);
+    return data;
+};
+
 export const moveNode = async (id: string, parentId: string | null): Promise<NodeDto> => {
     const { data } = await api.patch<NodeDto>(`/nodes/${id}/move`, { parentId })
     return data
@@ -73,4 +78,10 @@ export const emptyTrash = async (): Promise<TrashCountResponse> => {
     return data;
 };
 
+
+// recent
+export const recentList = async (): Promise<NodeDto[]> => {
+    const { data } = await api.get<NodeDto[]>(`/nodes/recent`)
+    return data
+}
 

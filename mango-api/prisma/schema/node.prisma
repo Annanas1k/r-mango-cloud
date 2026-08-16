@@ -19,8 +19,9 @@ model Node {
     trashedAt   DateTime?
     trashedById String?   @db.Uuid
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    createdAt      DateTime  @default(now())
+    updatedAt      DateTime  @updatedAt
+    lastAccessedAt DateTime?
 
     versions     FileVersion[]
     permissions  Permission[]

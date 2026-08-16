@@ -3,14 +3,18 @@ import LoadingUI from "./LoadingUI";
 import { FolderCard } from "./FolderCard";
 import { FileCard } from "./FileCard";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { selectNode, selectSelectedId } from "@/redux/nodes/nodesSlice";
+import {
+  selectNode,
+  selectSelectedId,
+  touchAccess,
+} from "@/redux/nodes/nodesSlice";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 interface NodeCardsProps {
   items: NodeDto[];
   status: string;
-  onOpenFolder: (id: string) => void;
+  onOpenFolder?: (id: string) => void;
 }
 
 export const NodeCards = ({ items, status, onOpenFolder }: NodeCardsProps) => {
@@ -26,6 +30,7 @@ export const NodeCards = ({ items, status, onOpenFolder }: NodeCardsProps) => {
     if (node.type === "FOLDER") {
       onOpenFolder(node.id);
     } else {
+      dispatch(touchAccess(node.id));
       console.log("preview file");
     }
   };

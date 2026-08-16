@@ -1,8 +1,8 @@
 // redux/nodes/nodesSlice.ts
-import { createSlice, createAsyncThunk, createSelector } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import { getNodeBreadcrumb, listNodes, listTrash, recentList, starredList, touchNodeAccess } from "@/api/nodes.api";
 import type { BreadcrumbItems, NodeDto } from "@/types/node.types";
-import { listNodes, getNodeBreadcrumb, starredList, listTrash } from "@/api/nodes.api";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 
 
@@ -15,6 +15,7 @@ interface NodesState {
     trashItems: NodeDto[];
     selectedId: string | null;
     starredList: NodeDto[];
+    recentItems: NodeDto[]
 }
 
 const initialState: NodesState = {
@@ -26,6 +27,7 @@ const initialState: NodesState = {
     trashItems: [],
     selectedId: null,
     starredList: [],
+    recentItems: []
 };
 
 // -------------------------------------------------------------------------
@@ -61,6 +63,25 @@ export const fetchStarred = createAsyncThunk(
     },
 );
 
+
+export const fetchRecent = createAsyncThunk(
+    "nodes/fetchRecent",
+    async (_: void, { rejectWithValue }) => {
+        try {
+            return await recentList();
+        } catch (err) {
+            return rejectWithValue(`Eroare la încărcarea fișierelor recente: ${err}`);
+        }
+    },
+);
+
+
+export const touchAccess = createAsyncThunk(
+    "nodes/touchAccess",
+    async (nodeId: string) => {
+        return await touchNodeAccess(nodeId);
+    },
+);
 
 
 
@@ -176,6 +197,25 @@ const nodesSlice = createSlice({
                 state.status = "failed";
                 state.error = action.payload as string ?? "Failed to fetch starred items.";
             })
+            .addCase(fetchRecent.pending, (state) => {
+                state.status = "loading";
+                state.error = null;
+            })
+            .addCase(fetchRecent.fulfilled, (state, action) => {
+                state.recentItems = action.payload;
+                state.status = "succeeded";
+            })
+            .addCase(fetchRecent.rejected, (state, action) => {
+                state.status = "failed";
+                state.error = (action.payload as string) ?? "Failed to fetch recent items.";
+            })
+            .addCase(touchAccess.fulfilled, (state, action) => {
+                const updated = action.payload;
+                const index = state.items.findIndex((item) => item.id === updated.id);
+                if (index !== -1) {
+                    state.items[index] = updated;
+                }
+            })
 
     },
 });
@@ -201,6 +241,10 @@ export const selectBreadcrumb = (state: RootState) => state.nodes.breadcrumb;
 export const selectNodesStatus = (state: RootState) => state.nodes.status;
 export const selectNodesError = (state: RootState) => state.nodes.error;
 export const selectSelectedId = (state: RootState) => state.nodes.selectedId;
+export const selectRecentNodes = (state: RootState) => state.nodes.recentItems
+
+
+
 export const selectSelectedNode = createSelector(
     [selectCurrentItems, selectTrashItems, selectSelectedId],
     (items, trashItems, selectedId) => {

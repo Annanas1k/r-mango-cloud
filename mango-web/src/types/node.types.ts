@@ -8,6 +8,7 @@ export interface NodeDto {
     trashedAt: string | null;      // ISO date, null dacă nu e în trash
     createdAt: string;
     updatedAt: string;
+    lastAccessedAt: string | null;
     isStarred: boolean;
 }
 

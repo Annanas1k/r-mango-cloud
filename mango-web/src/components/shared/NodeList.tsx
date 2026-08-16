@@ -1,6 +1,10 @@
 import { cn } from "@/lib/utils";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { selectNode, selectSelectedId } from "@/redux/nodes/nodesSlice";
+import {
+  selectNode,
+  selectSelectedId,
+  touchAccess,
+} from "@/redux/nodes/nodesSlice";
 import type { NodeDto } from "@/types/node.types";
 import { formatBytes } from "@/utils/formatBytesHelper";
 import { getIconForMimeType } from "@/utils/getIconForMimeTypeHelper";
@@ -21,7 +25,7 @@ import LoadingUI from "./LoadingUI";
 interface NodeListProps {
   items: NodeDto[];
   status: string;
-  onOpenFolder: (id: string) => void;
+  onOpenFolder?: (id: string) => void;
 }
 
 export const NodeList = ({ items, status, onOpenFolder }: NodeListProps) => {
@@ -39,6 +43,7 @@ export const NodeList = ({ items, status, onOpenFolder }: NodeListProps) => {
     if (node.type === "FOLDER") {
       onOpenFolder(node.id);
     } else {
+      dispatch(touchAccess(node.id));
       console.log("preview file");
     }
   };
