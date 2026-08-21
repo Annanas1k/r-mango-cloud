@@ -1,0 +1,34 @@
+{
+  "eyebrow": "Personal project · open to ideas",
+  "title_line1": "A cloud,",
+  "title_highlight": "built by hand.",
+  "lede": "MangoCloud is a personal project, still in development — a cloud storage built from scratch, as a naive idea put into practice.",
+  "lede_strong": "Open to ideas, suggestions or help from any angle.",
+  "tags": {
+    "no_funding": "no funding",
+    "no_team": "no team",
+    "just_time": "just time and stubbornness"
+  },
+  "components_heading": "Project components",
+  "components_count": "3 services",
+  "services": {
+    "backend": {
+      "name": "Backend Services",
+      "description": "The engine underneath — storage, auth, and the API everything else talks to.",
+      "status": "in development"
+    },
+    "web": {
+      "name": "Web Client",
+      "description": "The browser app you'd actually use day to day — upload, organize, share.",
+      "status": "in development"
+    },
+    "admin": {
+      "name": "Admin Dashboard",
+      "description": "A control room for the whole system — users, storage, and what's breaking.",
+      "status": "early stages"
+    }
+  },
+  "invite_title": "Built solo — for now",
+  "invite_text": "No idea is too small, no feedback too harsh. If you'd like to contribute or just ask something, reach out.",
+  "invite_cta": "Get in touch"
+}

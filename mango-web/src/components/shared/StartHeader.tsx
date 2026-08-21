@@ -29,7 +29,7 @@ export const StartHeader = () => {
             alt="rMango Cloud Logo"
           />
           <h1 className="text-lg font-bold sm:text-xl tracking-tight">
-            r<span className="text-secondary">Mango</span> Cloud
+            r<span className="text-primary">Mango</span> Cloud
           </h1>
         </div>
 

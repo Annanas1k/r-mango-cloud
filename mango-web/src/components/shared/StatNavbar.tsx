@@ -7,6 +7,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { useTranslation } from "react-i18next";
+import { NavLink } from "react-router";
 
 const features = [
   { id: 1, title: "feature 1", description: "Description for feature 1" },
@@ -21,9 +22,13 @@ export const StartNavbar = () => {
     <NavigationMenu>
       <NavigationMenuList className="flex items-center gap-6">
         <NavigationMenuItem value="overview">
-          <NavigationMenuLink href="/">
-            {t("navbar.overview")}
-          </NavigationMenuLink>
+          <NavigationMenuLink
+            render={
+              <NavLink to="/" viewTransition>
+                {t("navbar.overview")}
+              </NavLink>
+            }
+          />
         </NavigationMenuItem>
 
         <NavigationMenuItem value="features" className="hidden md:flex">
@@ -45,14 +50,22 @@ export const StartNavbar = () => {
         </NavigationMenuItem>
 
         <NavigationMenuItem value="about">
-          <NavigationMenuLink href="/about">
-            {t("navbar.about")}
-          </NavigationMenuLink>
+          <NavigationMenuLink
+            render={
+              <NavLink to="/about" viewTransition>
+                {t("navbar.about")}
+              </NavLink>
+            }
+          />
         </NavigationMenuItem>
         <NavigationMenuItem value="pricing">
-          <NavigationMenuLink href="/pricing">
-            {t("navbar.pricing")}
-          </NavigationMenuLink>
+          <NavigationMenuLink
+            render={
+              <NavLink to="/pricing" viewTransition>
+                {t("navbar.pricing")}
+              </NavLink>
+            }
+          />
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
