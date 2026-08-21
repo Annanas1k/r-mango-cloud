@@ -174,7 +174,9 @@ export const AppSidebar = () => {
                       <SidebarMenuButton
                         isActive={isActive}
                         tooltip={t(item.titleKey)} // Afișează Tooltip când sidebar-ul e restrâns
-                        onClick={() => navigate(item.url)}
+                        onClick={() =>
+                          navigate(item.url, { viewTransition: true })
+                        }
                         className="cursor-pointer"
                       >
                         <Icon className="h-4 w-4 shrink-0" />

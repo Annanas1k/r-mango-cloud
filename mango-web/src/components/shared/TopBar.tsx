@@ -18,25 +18,36 @@ export const TopBar = () => {
   const user = useAppSelector((state) => state.auth.user);
 
   return (
-    <header className="flex sticky top-0 h-15 shrink-0 items-center justify-between gap-2 border-b border-border bg-background px-4">
-      <div className="flex items-center">
+    <header className="flex sticky top-0 z-30 h-15 shrink-0 items-center justify-between gap-2 border-b border-border bg-background px-3 sm:px-4">
+      {/* Partea Stângă: Trigger Sidebar + Search */}
+      <div className="flex items-center gap-2 flex-1 min-w-0 mr-2 sm:mr-4">
         <SidebarTrigger />
-        <InputGroup className="w-150 h-full bg-muted rounded-full">
-          <InputGroupInput placeholder={t("topbar.search")} />
+
+        {/* InputGroup Adaptabil: Pe mobil ocupă spațiul rămas, pe desktop se oprește la o lățime fixă */}
+        <InputGroup className="w-full max-w-xs sm:max-w-md md:max-w-xl h-9 sm:h-10 bg-muted rounded-full">
+          <InputGroupInput
+            placeholder={t("topbar.search")}
+            className="text-xs sm:text-sm"
+          />
           <InputGroupAddon>
-            <Search />
+            <Search className="h-4 w-4 text-muted-foreground" />
           </InputGroupAddon>
           <InputGroupAddon align="inline-end">
-            <InputGroupButton>
-              <SlidersVertical />
+            <InputGroupButton className="h-7 w-7 sm:h-8 sm:w-8">
+              <SlidersVertical className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </InputGroupButton>
           </InputGroupAddon>
         </InputGroup>
       </div>
 
-      <div className="flex items-center justify-around gap-4">
+      {/* Partea Dreaptă: Acțiuni + Avatar */}
+      <div className="flex items-center justify-end gap-1.5 sm:gap-3 shrink-0">
         <SupportDropDownButton />
-        <UpgradeButton />
+
+        {/* Ascundem butonul de Upgrade pe telefoane foarte mici pentru a economisi spațiu */}
+        <div className="hidden sm:block">
+          <UpgradeButton />
+        </div>
 
         <AvatarDropDownButton>
           <button className="rounded-full outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring">

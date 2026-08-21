@@ -1,0 +1,18 @@
+{
+  "help": {
+    "title": "Help",
+    "description": "Quick answers to get you moving.",
+    "content": "### Getting Started\n\n**MangoCloud** is a simple, intuitive cloud storage platform designed to help you back up, organize, and access your personal files from anywhere.\n\n### Key Features & How-To\n\n* **Uploading Files:** Drag and drop files anywhere into the main file view, or click the **Upload** button located in the top toolbar.\n* **Organizing Content:** Create custom folders, move items around, and rename files to keep your workspace structured.\n* **Sharing:** Right-click any file or folder to open the context menu and select **Generate Share Link** to quickly share items with others.\n\n### Need Extra Help?\n\nIf you run into issues or have questions that aren't covered here, check the **Support** section below to get in touch."
+  },
+  "support": {
+    "title": "Support",
+    "description": "Built and maintained by one person — every message gets read.",
+    "content": "### Support & Feedback\n\nSomething not working, or got an idea? **MangoCloud** is an independent, solo-developed project, so while response times may vary, every message is read and taken into account.\n\n### How to Reach Out\n\n* **Direct Email:** Contact directly at [support@mangocloud.dev](mailto:support@mangocloud.dev) for bug reports, account issues, or general inquiries.\n* **Quick Feedback:** Use the **\"Send Feedback\"** option in the app interface for quick suggestions, UI tweaks, or feature requests.\n\n### Reporting an Issue\n\nTo help resolve technical problems faster, please include:\n\n1. What you were trying to do (the steps to reproduce).\n2. What actually happened (error messages or unexpected behavior).\n3. Details about your browser or device if relevant."
+  },
+  "terms": {
+    "title": "Terms and Policy",
+    "description": "The short, honest version.",
+    "content": "### Welcome to MangoCloud\n\nMangoCloud is an independent, personal project created and operated solely by an individual developer. The platform is currently in active development, which means it is constantly evolving as new features, improvements, and architectural updates are introduced.\n\n### What This Means for You\n\n* **Active Changes:** Features, functionality, and the overall user interface may change, be redesigned, or be temporarily removed without prior notice.\n* **Service Availability:** Because this is a non-commercial project (for now), there are no guarantees regarding continuous uptime, system availability, or formal Service Level Agreements (SLAs).\n* **Support:** While issues are addressed as quickly as possible, dedicated customer or technical support is not guaranteed.\n\n### Your Data & Privacy\n\n* **Storage & Usage:** Files you upload to MangoCloud are stored solely to provide you with access to the cloud service. Your personal data and uploaded files are never sold, rented, or shared with third parties.\n* **Data Safety & Backups:** As the project is in its early stages, system resets, database migrations, or unexpected data loss may occur. You are strongly advised to keep independent backups of any important files in another location.\n\n### Terms Updates & Contact\n\nThese terms and guidelines are subject to change as MangoCloud grows into a more stable product. If you have questions, feedback, or need assistance, feel free to reach out directly via the Support section."
+  },
+  "sendFeedback": "Send Feedback to Mango devs"
+}

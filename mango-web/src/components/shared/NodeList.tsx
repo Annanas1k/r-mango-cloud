@@ -33,7 +33,8 @@ export const NodeList = ({ items, status, onOpenFolder }: NodeListProps) => {
   const selectedId = useAppSelector(selectSelectedId);
 
   if (status === "loading") return <LoadingUI />;
-  if (status === "failed") return <p>ups....</p>;
+  if (status === "failed")
+    return <p className="text-center py-4 text-muted-foreground">ups....</p>;
 
   const handleSelect = (id: string) => {
     dispatch(selectNode(id));
@@ -41,10 +42,19 @@ export const NodeList = ({ items, status, onOpenFolder }: NodeListProps) => {
 
   const handleOpen = (node: NodeDto) => {
     if (node.type === "FOLDER") {
-      onOpenFolder(node.id);
+      onOpenFolder?.(node.id);
     } else {
       dispatch(touchAccess(node.id));
       console.log("preview file");
+    }
+  };
+
+  // Handler unificat pentru Click/Tap (Single tap pe mobil, Double click pe desktop)
+  const handleClick = (node: NodeDto) => {
+    handleSelect(node.id);
+
+    if (window.matchMedia("(pointer: coarse)").matches) {
+      handleOpen(node);
     }
   };
 
@@ -57,79 +67,93 @@ export const NodeList = ({ items, status, onOpenFolder }: NodeListProps) => {
   });
 
   return (
-    <Table>
-      <TableCaption>A list of garden mango.</TableCaption>
-      <TableHeader>
-        <TableRow className="hover:bg-transparent">
-          <TableHead>Name</TableHead>
-          <TableHead>Type</TableHead>
-          <TableHead>Size</TableHead>
-          <TableHead>Modified At</TableHead>
-          <TableHead className="w-10" />
-        </TableRow>
-      </TableHeader>
+    <div className="w-full overflow-x-auto">
+      <Table>
+        <TableCaption>A list of garden mango.</TableCaption>
+        <TableHeader>
+          <TableRow className="hover:bg-transparent">
+            <TableHead className="w-[50%] sm:w-[40%]">Name</TableHead>
+            <TableHead className="hidden md:table-cell">Type</TableHead>
+            <TableHead className="w-[25%] sm:w-[20%]">Size</TableHead>
+            <TableHead className="hidden md:table-cell">Modified At</TableHead>
+            <TableHead className="w-10 text-right" />
+          </TableRow>
+        </TableHeader>
 
-      <TableBody>
-        {sortedItems.map((node) => {
-          const isFolder = node.type === "FOLDER";
-          const isSelected = selectedId === node.id;
-          const icon = isFolder ? (
-            <FolderIcon className="size-5 shrink-0 text-primary" />
-          ) : (
-            getIconForMimeType(node.mimeType, "size-5 shrink-0 text-primary")
-          );
+        <TableBody>
+          {sortedItems.map((node) => {
+            const isFolder = node.type === "FOLDER";
+            const isSelected = selectedId === node.id;
+            const icon = isFolder ? (
+              <FolderIcon className="size-4 sm:size-5 shrink-0 text-primary" />
+            ) : (
+              getIconForMimeType(
+                node.mimeType,
+                "size-4 sm:size-5 shrink-0 text-primary",
+              )
+            );
 
-          return (
-            <TableRow
-              key={node.id}
-              onClick={() => handleSelect(node.id)}
-              onDoubleClick={() => handleOpen(node)}
-              className={cn(
-                "cursor-pointer select-none",
-                isSelected && "bg-secondary/50 hover:bg-secondary/60",
-              )}
-            >
-              <TableCell className="flex items-center gap-2 font-medium">
-                {icon}
-                <span className="truncate">{node.name}</span>
-              </TableCell>
+            return (
+              <TableRow
+                key={node.id}
+                onClick={() => handleClick(node)}
+                onDoubleClick={() => handleOpen(node)}
+                className={cn(
+                  "cursor-pointer select-none transition-colors",
+                  isSelected && "bg-secondary/50 hover:bg-secondary/60",
+                )}
+              >
+                {/* Nume & Iconiță */}
+                <TableCell className="py-2.5 sm:py-3 font-medium">
+                  <div className="flex items-center gap-2 min-w-0 max-w-[180px] xs:max-w-[220px] sm:max-w-none">
+                    {icon}
+                    <span className="truncate text-xs sm:text-sm">
+                      {node.name}
+                    </span>
+                  </div>
+                </TableCell>
 
-              <TableCell className="text-muted-foreground">
-                {isFolder ? "Folder" : (node.mimeType ?? "File")}
-              </TableCell>
+                {/* Tip Fișier (Ascuns pe mobil) */}
+                <TableCell className="hidden md:table-cell text-xs sm:text-sm text-muted-foreground">
+                  {isFolder ? "Folder" : (node.mimeType ?? "File")}
+                </TableCell>
 
-              <TableCell className="text-muted-foreground">
-                {isFolder ? "—" : formatBytes(node.sizeBytes)}
-              </TableCell>
+                {/* Dimensiune */}
+                <TableCell className="py-2.5 sm:py-3 text-xs sm:text-sm text-muted-foreground whitespace-nowrap">
+                  {isFolder ? "—" : formatBytes(node.sizeBytes)}
+                </TableCell>
 
-              <TableCell className="text-muted-foreground">
-                {node.updatedAt
-                  ? new Intl.DateTimeFormat("ro-RO", {
-                      day: "numeric",
-                      month: "short",
-                      year: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    }).format(new Date(node.createdAt))
-                  : "—"}
-              </TableCell>
+                {/* Data modificării (Ascuns pe mobil) */}
+                <TableCell className="hidden md:table-cell text-xs sm:text-sm text-muted-foreground whitespace-nowrap">
+                  {node.updatedAt || node.createdAt
+                    ? new Intl.DateTimeFormat("ro-RO", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      }).format(new Date(node.updatedAt ?? node.createdAt))
+                    : "—"}
+                </TableCell>
 
-              <TableCell>
-                <DropDownMenuForCards node={node}>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="size-7 shrink-0"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <EllipsisVertical className="size-4" />
-                  </Button>
-                </DropDownMenuForCards>
-              </TableCell>
-            </TableRow>
-          );
-        })}
-      </TableBody>
-    </Table>
+                {/* Meniu Acțiuni */}
+                <TableCell className="py-2.5 sm:py-3 text-right">
+                  <DropDownMenuForCards node={node}>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="size-8 sm:size-7 shrink-0 cursor-pointer"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <EllipsisVertical className="size-4" />
+                    </Button>
+                  </DropDownMenuForCards>
+                </TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    </div>
   );
 };

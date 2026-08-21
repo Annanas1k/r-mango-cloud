@@ -28,7 +28,7 @@ export const NodeCards = ({ items, status, onOpenFolder }: NodeCardsProps) => {
 
   const handleOpen = (node: NodeDto) => {
     if (node.type === "FOLDER") {
-      onOpenFolder(node.id);
+      onOpenFolder?.(node.id);
     } else {
       dispatch(touchAccess(node.id));
       console.log("preview file");
@@ -49,15 +49,23 @@ export const NodeCards = ({ items, status, onOpenFolder }: NodeCardsProps) => {
   );
 
   if (status === "loading") return <LoadingUI />;
-  if (status === "failed") return <p>ups....</p>;
+  if (status === "failed")
+    return (
+      <div className="flex h-32 items-center justify-center text-sm text-muted-foreground">
+        ups....
+      </div>
+    );
 
   return (
-    <section className="w-full h-auto flex flex-col gap-6">
+    <section className="flex h-auto w-full flex-col gap-4 sm:gap-6">
       {/* --- FOLDERE, sus --- */}
       {folders.length > 0 && (
         <section>
-          <h2 className="mb-4">{t("folders")}</h2>
-          <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4">
+          <h2 className="mb-2 text-sm font-semibold sm:mb-3 sm:text-base md:text-lg">
+            {t("folders")}
+          </h2>
+          {/* Grid responsive: 2 coloane pe mobil, scalând până la 6 pe ecran foarte mare */}
+          <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
             {folders.map((folder) => (
               <FolderCard
                 key={folder.id}
@@ -74,8 +82,11 @@ export const NodeCards = ({ items, status, onOpenFolder }: NodeCardsProps) => {
       {/* --- FIȘIERE, jos --- */}
       {files.length > 0 && (
         <section>
-          <h2 className="mb-4">{t("files")}</h2>
-          <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4">
+          <h2 className="mb-2 text-sm font-semibold sm:mb-3 sm:text-base md:text-lg">
+            {t("files")}
+          </h2>
+          {/* Grid responsive optimizat pentru preview-uri de fișiere */}
+          <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
             {files.map((file) => (
               <FileCard
                 key={file.id}
