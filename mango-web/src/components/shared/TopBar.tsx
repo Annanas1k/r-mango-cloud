@@ -10,7 +10,6 @@ import {
 import { SidebarTrigger } from "../ui/sidebar";
 import { AvatarCircle } from "./AvatarCircle";
 import { AvatarDropDownButton } from "./AvatarDropDownButton";
-import { SettingsDropDownButton } from "./SettingsDropDownButton";
 import { SupportDropDownButton } from "./SupportDropDownButton";
 import { UpgradeButton } from "./UpgradeButton";
 
@@ -37,7 +36,6 @@ export const TopBar = () => {
 
       <div className="flex items-center justify-around gap-4">
         <SupportDropDownButton />
-        <SettingsDropDownButton />
         <UpgradeButton />
 
         <AvatarDropDownButton>

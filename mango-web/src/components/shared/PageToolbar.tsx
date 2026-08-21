@@ -7,9 +7,6 @@ import {
 import type { BreadcrumbItems } from "@/types/node.types";
 import { DotIcon, Info, LayoutGrid, List } from "lucide-react";
 import { Link } from "react-router";
-import { Toggle } from "../ui/toggle";
-import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
-import { CustomTooltip } from "./CustomTooltip";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -18,6 +15,9 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "../ui/breadcrumb";
+import { Toggle } from "../ui/toggle";
+import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
+import { CustomTooltip } from "./CustomTooltip";
 
 interface PageToolbarProps {
   title: string;
@@ -49,8 +49,8 @@ export const PageToolbar = ({
     fromSection ? `${basePath}/${id}?from=${fromSection}` : `${basePath}/${id}`;
 
   return (
-    <div className="flex w-full h-20   justify-between mb-4 sticky top-0 z-10 bg-background px-6 py-4">
-      <div className="flex items-center gap-2 min-w-0">
+    <div className="flex w-full h-auto   justify-between mb-4 sticky top-0 z-10 bg-background px-6 py-4 border-b-2">
+      <div className="flex items-start gap-2 min-w-0 flex-col">
         {/* Root Link / Titlu Rădăcină */}
         <Breadcrumb>
           <BreadcrumbList className="flex-nowrap">

@@ -83,11 +83,11 @@ export const router = createBrowserRouter([
             path: "trash",
             element: <TrashPage />,
           },
+          {
+            path: "settings",
+            element: <SettingsPage />,
+          },
         ],
-      },
-      {
-        path: "/settings",
-        element: <SettingsPage />,
       },
       // aici adaugi restul rutelor protejate: /files, /settings etc.
     ],

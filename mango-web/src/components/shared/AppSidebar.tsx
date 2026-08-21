@@ -11,6 +11,7 @@ import {
   Cloud,
   Computer,
   AlertCircle,
+  Settings,
 } from "lucide-react";
 import {
   Sidebar,
@@ -60,6 +61,7 @@ const navGroups = [
     items: [
       { titleKey: "sidebar.spam", url: "/cloud/spam", icon: AlertCircle },
       { titleKey: "sidebar.trash", url: "/cloud/trash", icon: Trash2 },
+      { titleKey: "sidebar.settings", url: "/cloud/settings", icon: Settings },
     ],
   },
 ];
