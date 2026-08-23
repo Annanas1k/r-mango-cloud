@@ -93,7 +93,12 @@ export const GeneralSettings = () => {
 
       {/* --- row 4: limba --- */}
       <SettingsRow title={t("language.title")}>
-        <Select value={language} onValueChange={handleSetLanguage}>
+        <Select
+          value={language}
+          onValueChange={(val) => {
+            if (val) handleSetLanguage(val);
+          }}
+        >
           <SelectTrigger className="w-40">
             <SelectValue />
           </SelectTrigger>

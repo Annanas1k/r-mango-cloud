@@ -117,7 +117,6 @@ export const PageToolbar = ({
               variant="outline"
               className="flex"
               spacing={0}
-              typeof="single"
               value={[viewMode]}
               onValueChange={handleToggleViewMode}
             >

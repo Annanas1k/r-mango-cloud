@@ -35,14 +35,17 @@ const socials = [
 ];
 
 export const StartFooter = () => {
-  const { t } = useTranslation('footer');
+  const { t } = useTranslation("footer");
   return (
     <footer className="border-t border-border bg-background">
-      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-5">
+      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-5">
           {/* --- Brand + newsletter --- */}
-          <div className="col-span-2 space-y-4">
-            <Link to="/" className="flex items-baseline gap-1 font-semibold">
+          <div className="space-y-4 sm:col-span-2">
+            <Link
+              to="/"
+              className="flex items-baseline gap-1 font-semibold text-lg sm:text-base"
+            >
               <span className="text-muted-foreground">r</span>
               <span className="text-foreground">Mango</span>
               <span className="text-primary">Cloud</span>
@@ -53,14 +56,18 @@ export const StartFooter = () => {
 
             <form
               onSubmit={(e) => e.preventDefault()}
-              className="flex max-w-sm items-center gap-2"
+              className="flex w-full max-w-sm flex-col gap-2 sm:flex-row sm:items-center"
             >
               <Input
                 type="email"
                 placeholder={t("footer.newsletterPlaceholder")}
-                className="h-9"
+                className="h-9 w-full"
               />
-              <Button type="submit" size="sm" className="shrink-0">
+              <Button
+                type="submit"
+                size="sm"
+                className="w-full shrink-0 sm:w-auto"
+              >
                 {t("footer.subscribe")}
               </Button>
             </form>
@@ -81,17 +88,32 @@ export const StartFooter = () => {
             </div>
           </div>
 
-          {/* --- Product --- */}
-          <FooterColumn titleKey="footer.product.title" links={footerLinks.product} t={t} />
+          {/* Wrapper pentru coloanele de link-uri pe ecran mic */}
+          <div className="grid grid-cols-2 gap-8 sm:col-span-2 md:col-span-3 md:grid-cols-3">
+            {/* --- Product --- */}
+            <FooterColumn
+              titleKey="footer.product.title"
+              links={footerLinks.product}
+              t={t}
+            />
 
-          {/* --- Company --- */}
-          <FooterColumn titleKey="footer.company.title" links={footerLinks.company} t={t} />
+            {/* --- Company --- */}
+            <FooterColumn
+              titleKey="footer.company.title"
+              links={footerLinks.company}
+              t={t}
+            />
 
-          {/* --- Legal --- */}
-          <FooterColumn titleKey="footer.legal.title" links={footerLinks.legal} t={t} />
+            {/* --- Legal --- */}
+            <FooterColumn
+              titleKey="footer.legal.title"
+              links={footerLinks.legal}
+              t={t}
+            />
+          </div>
         </div>
 
-        <Separator className="my-8" />
+        <Separator className="my-6 sm:my-8" />
         <CopyRight />
       </div>
     </footer>

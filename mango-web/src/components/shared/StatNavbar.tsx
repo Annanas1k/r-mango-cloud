@@ -20,7 +20,7 @@ export const StartNavbar = () => {
   const { t } = useTranslation("navbar");
   return (
     <NavigationMenu>
-      <NavigationMenuList className="flex items-center gap-6">
+      <NavigationMenuList className="flex  items-center gap-6">
         <NavigationMenuItem value="overview">
           <NavigationMenuLink
             render={
