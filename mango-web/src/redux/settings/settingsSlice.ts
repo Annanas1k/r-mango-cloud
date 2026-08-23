@@ -64,6 +64,10 @@ export const settingsSlice = createSlice({
             state.viewMode = state.viewMode === "grid" ? "list" : "grid"
             localStorage.setItem("app_viewMode", state.viewMode)
         },
+        setViewMode: (state, action: PayloadAction<"grid" | "list">) => {
+            state.viewMode = action.payload;
+            localStorage.setItem("app_viewMode", action.payload);
+        },
         toggleDetailsView: (state) => {
             state.detailsView = !state.detailsView;
             localStorage.setItem("app_detailsView", String(state.detailsView));
@@ -97,6 +101,7 @@ export const {
     toggleTheme,
     setLanguage,
     toggleViewMode,
+    setViewMode,
     toggleDetailsView,
     setStartPage,
     toggleCardPreview,

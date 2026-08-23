@@ -6,12 +6,14 @@ import { CopyRight } from "../shared/CopyRight";
 import { InfoSideComponent } from "../shared/InfoSideComponent";
 import { useAppSelector } from "@/redux/hooks";
 import { selectDetailsView } from "@/redux/settings/settingsSlice";
+import { ScrollToTop } from "../utils/ScrollToTop";
 
 export const CloudLayout = () => {
   const detailsView = useAppSelector(selectDetailsView);
 
   return (
     <SidebarProvider>
+      <ScrollToTop />
       <AppSidebar />
       <SidebarInset className="flex flex-col h-screen overflow-hidden">
         <TopBar />

@@ -42,7 +42,7 @@ export const PageToolbar = ({
 }: PageToolbarProps) => {
   const viewMode = useAppSelector(selectViewMode);
   const isDetailsOpen = useAppSelector(selectDetailsView);
-  const { handleToggleViewMode, handleToggleDetailsView } = useSettings();
+  const { handleSetViewMode, handleToggleDetailsView } = useSettings();
   const hasBreadcrumb = breadcrumb.length > 0;
 
   const buildFolderLink = (id: string) =>
@@ -118,7 +118,7 @@ export const PageToolbar = ({
               className="flex"
               spacing={0}
               value={[viewMode]}
-              onValueChange={handleToggleViewMode}
+              onValueChange={handleSetViewMode}
             >
               <CustomTooltip tooltipMessage="list view">
                 <ToggleGroupItem

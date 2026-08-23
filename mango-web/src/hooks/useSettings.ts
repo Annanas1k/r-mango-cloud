@@ -11,6 +11,7 @@ import {
     setLanguage,
     setStartPage,
     setTheme,
+    setViewMode,
     toggleCardPreview,
     toggleDetailsView,
     toggleTheme,
@@ -25,6 +26,15 @@ export const useSettings = () => {
     const language = useAppSelector(selectLanguage);
 
     const handleToggleViewMode = useCallback(() => dispatch(toggleViewMode()), [dispatch]);
+    const handleSetViewMode = useCallback(
+        (groupValue: string[]) => {
+            const mode = groupValue[0];
+            if (mode === "grid" || mode === "list") {
+                dispatch(setViewMode(mode));
+            }
+        },
+        [dispatch]
+    );
     const handleToggleDetailsView = useCallback(() => dispatch(toggleDetailsView()), [dispatch]);
     const handleToggleTheme = useCallback(() => dispatch(toggleTheme()), [dispatch]);
     const handleSetTheme = useCallback((value: "light" | "dark") => dispatch(setTheme(value)), [dispatch]);
@@ -58,6 +68,7 @@ export const useSettings = () => {
         theme,
         language,
         handleToggleViewMode,
+        handleSetViewMode,
         handleToggleDetailsView,
         handleToggleTheme,
         handleSetLanguage,
