@@ -7,6 +7,8 @@ type PageHeroVariant = "gradient" | "image" | "solid";
 type PageHeroSize = "sm" | "md" | "lg" | "screen";
 type ContentPosition =
   | "center"
+  | "top-center"
+  | "bottom-center"
   | "left"
   | "left-top"
   | "left-center"
@@ -34,6 +36,8 @@ const sizeMap: Record<PageHeroSize, string> = {
 // Mapare pentru poziționarea flex a div-ului copil
 const positionMap: Record<ContentPosition, string> = {
   center: "items-center justify-center text-center",
+  "top-center": "items-center justify-start text-center pt-12 sm:pt-20",
+  "bottom-center": "items-center justify-end text-center pb-12 sm:pb-20",
   left: "items-start justify-center text-left",
   "left-top": "items-start justify-start text-left pt-12 sm:pt-20",
   "left-center": "items-start justify-center text-left",
@@ -87,10 +91,10 @@ export const PageHero = ({
       >
         {children}
         <Button nativeButton variant="link">
-          <a href="#plans">continue</a>
+          <a href="#end">continue</a>
           <CornerDownRight />
         </Button>
-        <span id="plans" className="w-0 h-0"></span>
+        <span id="end" className="w-0 h-0 sticky bottom-0"></span>
       </div>
     </section>
   );

@@ -1,3 +1,4 @@
+import { OverviewHeroContent } from "@/components/hero/OverviewHeroContent";
 import { PageHero } from "@/components/layouts/PageHero";
 
 export default function OverviewPage() {
@@ -8,9 +9,9 @@ export default function OverviewPage() {
         size="screen"
         imageSrc="/images/hero-mango.png"
         imagePosition="center 60%"
+        contentPosition="left-center"
       >
-        <h1 className="text-4xl font-bold sm:text-5xl">Titlul tău aici</h1>
-        <p className="mt-4 text-lg opacity-90">Subtitlu</p>
+        <OverviewHeroContent />
       </PageHero>
       <h1>Welcome to the Start Page</h1>
     </div>

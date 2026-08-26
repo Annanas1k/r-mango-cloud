@@ -30,5 +30,12 @@
   },
   "invite_title": "Built solo — for now",
   "invite_text": "No idea is too small, no feedback too harsh. If you'd like to contribute or just ask something, reach out.",
-  "invite_cta": "Get in touch"
+  "invite_cta": "Get in touch",
+  "hero": {
+    "badge": "About us",
+    "titlePrefix": "Built with",
+    "titleHighlight": "passion, not corporate red tape",
+    "subtitle": "rMango started with a simple idea: cloud storage that doesn't take itself too seriously, but takes serious care of your files.",
+    "cta": "Meet the team"
+  }
 }

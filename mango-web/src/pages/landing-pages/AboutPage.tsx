@@ -1,3 +1,4 @@
+import { AboutHeroContent } from "@/components/hero/AboutHeroContent";
 import { PageHero } from "@/components/layouts/PageHero";
 import { cn } from "@/lib/utils";
 import { LayoutDashboard, Server, Globe, type LucideIcon } from "lucide-react";
@@ -43,10 +44,10 @@ export const AboutPage = () => {
         variant="image"
         size="lg"
         imageSrc="/images/hero-about.png"
-        imagePosition="center 100%"
+        imagePosition="center 85%"
+        contentPosition="top-center"
       >
-        <h1 className="text-4xl font-bold sm:text-5xl">Titlul tău aici</h1>
-        <p className="mt-4 text-lg opacity-90">Subtitlu</p>
+        <AboutHeroContent />
       </PageHero>
       <div className="flex flex-col w-full max-w-2xl mx-auto gap-14">
         <section className="flex flex-col gap-5">

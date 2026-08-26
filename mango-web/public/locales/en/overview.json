@@ -1,0 +1,20 @@
+{
+  "home": {
+    "hero": {
+      "titlePrefix": "Your files,",
+      "titleHighlight": "finally organized",
+      "subtitle": "No chaotic folders, no searching for hours. Just upload and find whatever you need, instantly.",
+      "points": {
+        "point1": "Unlimited upload",
+        "point2": "Instant sync",
+        "point3": "One-click share"
+      },
+      "cta": "Get started for free",
+      "stats": {
+        "users": { "value": "10k+", "label": "active users" },
+        "uptime": { "value": "99.9%", "label": "uptime" },
+        "storage": { "value": "2PB", "label": "stored data" }
+      }
+    }
+  }
+}
