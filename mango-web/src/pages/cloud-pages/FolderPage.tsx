@@ -1,21 +1,20 @@
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import { useNavigate, useParams, useSearchParams } from "react-router";
 import { ContextMenuBasic } from "@/components/shared/ContextMenuBasic";
-import { PageToolbar } from "@/components/shared/PageToolbar";
-import { NodeList } from "@/components/shared/NodeList";
-import { NodeCards } from "@/components/shared/NodeCards";
 import { EmptyState } from "@/components/shared/EmptyState";
-import { Folder } from "lucide-react";
+import { NodeCards } from "@/components/shared/NodeCards";
+import { NodeList } from "@/components/shared/NodeList";
+import { PageToolbar } from "@/components/shared/PageToolbar";
+import { useCloudUpload } from "@/hooks/useCloudUpload";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { fetchFolder, selectBreadcrumb } from "@/redux/nodes/nodesSlice";
 import { selectViewMode } from "@/redux/settings/settingsSlice";
-import { useCloudUpload } from "@/hooks/useCloudUpload";
 import {
-  SECTION_CONFIG,
   DEFAULT_SECTION,
   isValidSection,
+  SECTION_CONFIG,
 } from "@/utils/sections";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate, useParams, useSearchParams } from "react-router";
 
 export const FolderPage = () => {
   const { t } = useTranslation("common");
@@ -89,10 +88,10 @@ export const FolderPage = () => {
         >
           {isLoading ? null : isEmpty ? (
             <EmptyState
-              media={<Folder />}
-              title={t("emptyFolder.title", { defaultValue: "Folder gol" })}
+              illustrationSrc="/images/empty/empty-folder.png"
+              title={t("emptyFolder.title", { defaultValue: "Empty Folder" })}
               description={t("emptyFolder.description", {
-                defaultValue: "Nu există fișiere sau foldere aici.",
+                defaultValue: "Files in this folder not exists.",
               })}
             />
           ) : (

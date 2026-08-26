@@ -1,16 +1,15 @@
+import { ContextMenuBasic } from "@/components/shared/ContextMenuBasic";
+import { EmptyState } from "@/components/shared/EmptyState";
+import { NodeCards } from "@/components/shared/NodeCards";
+import { NodeList } from "@/components/shared/NodeList";
+import { PageToolbar } from "@/components/shared/PageToolbar";
+import { useCloudUpload } from "@/hooks/useCloudUpload";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { fetchFolder, selectBreadcrumb } from "@/redux/nodes/nodesSlice";
+import { selectViewMode } from "@/redux/settings/settingsSlice";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
-import { ContextMenuBasic } from "@/components/shared/ContextMenuBasic";
-import { NodeList } from "@/components/shared/NodeList";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { fetchFolder, selectBreadcrumb } from "@/redux/nodes/nodesSlice";
-import { useCloudUpload } from "@/hooks/useCloudUpload";
-import { NodeCards } from "@/components/shared/NodeCards";
-import { EmptyState } from "@/components/shared/EmptyState";
-import { Cloud } from "lucide-react";
-import { PageToolbar } from "@/components/shared/PageToolbar";
-import { selectViewMode } from "@/redux/settings/settingsSlice";
 
 export const CloudPage = () => {
   const { t } = useTranslation("cloud-page");
@@ -80,7 +79,7 @@ export const CloudPage = () => {
         >
           {isLoading ? null : isEmpty ? (
             <EmptyState
-              media={<Cloud />}
+              illustrationSrc="/images/empty/empty-cloud.png"
               title={t("cloud-page.emptyState.title")}
               description={t("cloud-page.emptyState.description")}
             />

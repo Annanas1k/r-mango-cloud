@@ -1,14 +1,14 @@
-import { FileQuestionMark, ReceiptText, SquareActivity, X } from "lucide-react";
+import { useSettings } from "@/hooks/useSettings";
 import { useAppSelector } from "@/redux/hooks";
 import { selectSelectedNode } from "@/redux/nodes/nodesSlice";
-import { useSettings } from "@/hooks/useSettings";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { selectInfoTab } from "@/redux/settings/settingsSlice";
+import { ReceiptText, SquareActivity, X } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { EmptyState } from "./EmptyState";
 import { InfoActivityTab } from "./InfoActivityTab";
 import { InfoDetailsTabs } from "./InfoDetailsTab";
-import { EmptyState } from "./EmptyState";
-import { useTranslation } from "react-i18next";
-import { selectInfoTab } from "@/redux/settings/settingsSlice";
 
 export const InfoSideComponent = () => {
   const { t } = useTranslation("info-side");
@@ -26,9 +26,7 @@ export const InfoSideComponent = () => {
         </div>
 
         <EmptyState
-          media={
-            <FileQuestionMark className="w-10 h-10 text-muted-foreground" />
-          }
+          illustrationSrc="/images/empty/empty-detail.png"
           title={t("title.empty")}
           description={t("title.emptyDescription")}
         />

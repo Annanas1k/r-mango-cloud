@@ -1,15 +1,14 @@
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
-import { Star } from "lucide-react";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { NodeCards } from "@/components/shared/NodeCards";
 import { NodeList } from "@/components/shared/NodeList";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 
 import { PageToolbar } from "@/components/shared/PageToolbar";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { selectViewMode } from "@/redux/settings/settingsSlice";
 import { fetchStarred } from "@/redux/nodes/nodesSlice";
+import { selectViewMode } from "@/redux/settings/settingsSlice";
 
 export const StarredPage = () => {
   const { t } = useTranslation("starred-page");
@@ -40,7 +39,7 @@ export const StarredPage = () => {
       <div className="flex flex-col flex-1 gap-4 px-6 pb-6">
         {isEmpty ? (
           <EmptyState
-            media={<Star />}
+            illustrationSrc="/images/empty/empty-starred.png"
             title={t("emptyState.title")}
             description={t("emptyState.description")}
           />

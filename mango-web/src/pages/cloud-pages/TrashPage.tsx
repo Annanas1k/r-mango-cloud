@@ -1,7 +1,7 @@
 import { EmptyState } from "@/components/shared/EmptyState";
 import LoadingUI from "@/components/shared/LoadingUI";
-import { TrashCards } from "@/components/shared/TrashCards";
 import { PageToolbar } from "@/components/shared/PageToolbar";
+import { TrashCards } from "@/components/shared/TrashCards";
 import { Button } from "@/components/ui/button";
 import { useNodeActions } from "@/hooks/useNodeActions";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -13,7 +13,6 @@ import {
   selectTrashItems,
 } from "@/redux/nodes/nodesSlice";
 import type { NodeDto } from "@/types/node.types";
-import { Trash } from "lucide-react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -52,7 +51,7 @@ export const TrashPage = () => {
           <p>ups....</p>
         ) : trashItems.length === 0 ? (
           <EmptyState
-            media={<Trash />}
+            illustrationSrc="/images/empty/empty-trash.png"
             title={t("trash-page.emptyState.title")}
             description={t("trash-page.emptyState.description")}
           />

@@ -13,7 +13,6 @@ import { HomePage } from "@/pages/cloud-pages/HomePage";
 import { CloudPage } from "@/pages/cloud-pages/CloudPage";
 import { CloudLayout } from "@/components/layouts/CloudLayout";
 import { StarredPage } from "@/pages/cloud-pages/StaredPage";
-import { ComputersPage } from "@/pages/cloud-pages/ComputersPgae";
 import { ShareWithMePage } from "@/pages/cloud-pages/ShareWithMePape";
 import { RecentPage } from "@/pages/cloud-pages/RecentPage";
 import { SpamPage } from "@/pages/cloud-pages/SpamPage";
@@ -58,10 +57,6 @@ export const router = createBrowserRouter([
           {
             path: "my-cloud",
             element: <CloudPage />,
-          },
-          {
-            path: "my-computers",
-            element: <ComputersPage />,
           },
           {
             path: "shared-with-me",

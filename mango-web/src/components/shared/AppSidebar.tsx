@@ -1,39 +1,38 @@
 // components/layout/AppSidebar.tsx
-import { useTranslation } from "react-i18next";
-import { useNavigate, useLocation } from "react-router";
-import {
-  Plus,
-  Users,
-  Clock,
-  Star,
-  Trash2,
-  Home,
-  Cloud,
-  Computer,
-  AlertCircle,
-  Settings,
-} from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarHeader,
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
   SidebarMenu,
-  SidebarMenuItem,
   SidebarMenuButton,
+  SidebarMenuItem,
   useSidebar, // Importat pentru a verifica starea (open/collapsed)
 } from "@/components/ui/sidebar";
-import { Button } from "@/components/ui/button";
-import { NewButtonDropDown } from "./NewButtonDropDown";
 import { useCloudUpload } from "@/hooks/useCloudUpload";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { fetchQuotaUsage, selectQuota } from "@/redux/quota/quotaSlice";
-import { useEffect } from "react";
 import { formatBytes } from "@/utils/formatBytesHelper";
+import {
+  AlertCircle,
+  Clock,
+  Cloud,
+  Home,
+  Plus,
+  Settings,
+  Star,
+  Trash2,
+  Users,
+} from "lucide-react";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation, useNavigate } from "react-router";
 import { Progress } from "../ui/progress";
+import { NewButtonDropDown } from "./NewButtonDropDown";
 
 const navGroups = [
   {
@@ -41,11 +40,6 @@ const navGroups = [
     items: [
       { titleKey: "sidebar.home", url: "/cloud/home", icon: Home },
       { titleKey: "sidebar.myCloud", url: "/cloud/my-cloud", icon: Cloud },
-      {
-        titleKey: "sidebar.computers",
-        url: "/cloud/my-computers",
-        icon: Computer,
-      },
     ],
   },
   {

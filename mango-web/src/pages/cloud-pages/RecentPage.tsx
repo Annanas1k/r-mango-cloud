@@ -10,7 +10,6 @@ import {
 } from "@/redux/nodes/nodesSlice";
 import { selectViewMode } from "@/redux/settings/settingsSlice";
 import { groupNodesByRecency } from "@/utils/groupByRecency";
-import { Clock } from "lucide-react";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -35,7 +34,11 @@ export const RecentPage = () => {
 
       <div className="flex flex-col flex-1 gap-4 px-6 pb-6">
         {isEmpty ? (
-          <EmptyState media={<Clock />} title={t("")} description={t("")} />
+          <EmptyState
+            illustrationSrc="/images/empty/empty-recent.png"
+            title={t("")}
+            description={t("")}
+          />
         ) : (
           groups.map((group) => (
             <div key={group.labelKey} className="flex flex-col gap-3">
