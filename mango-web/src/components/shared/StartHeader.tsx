@@ -1,7 +1,7 @@
 // components/layout/StartHeader.tsx
 import { useState } from "react";
 import { useAppSelector } from "@/redux/hooks";
-import { Button } from "../ui/button";
+import { Button, buttonVariants } from "../ui/button";
 import { StartNavbar } from "./StatNavbar";
 import { useTranslation } from "react-i18next";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -104,10 +104,14 @@ export const StartHeader = () => {
           {/* 4. Meniu Burger Mobil (Sheet) */}
           <div className="flex md:hidden">
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
-              <SheetTrigger>
-                <Button variant="ghost" size="icon" className="h-9 w-9">
-                  <Menu className="h-5 w-5" />
-                </Button>
+              <SheetTrigger
+                className={buttonVariants({
+                  variant: "ghost",
+                  size: "icon",
+                  className: "h-9 w-9",
+                })}
+              >
+                <Menu className="h-5 w-5" />
               </SheetTrigger>
               <SheetContent
                 side="right"

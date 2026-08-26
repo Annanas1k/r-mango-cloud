@@ -1,17 +1,27 @@
 // components/layout/PageHero.tsx
-import { cn } from "@/lib/utils"; // dacă ai deja acest helper de la shadcn; altfel șterge linia și folosește template strings
+import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
+import { CornerDownRight } from "lucide-react";
 
 type PageHeroVariant = "gradient" | "image" | "solid";
 type PageHeroSize = "sm" | "md" | "lg" | "screen";
+type ContentPosition =
+  | "center"
+  | "left"
+  | "left-top"
+  | "left-center"
+  | "right-center"
+  | "bottom-left";
 
 interface PageHeroProps {
   children: React.ReactNode;
   variant?: PageHeroVariant;
   size?: PageHeroSize;
-  imageSrc?: string; // obligatoriu doar dacă variant="image"
-  imagePosition?: string; // ex: "center", "top", "50% 30%"
-  overlay?: boolean; // strat semi-transparent peste imagine, ca textul să rămână lizibil
-  className?: string; // pentru orice override punctual, fără să modifici componenta
+  imageSrc?: string;
+  imagePosition?: string;
+  overlay?: boolean;
+  contentPosition?: ContentPosition;
+  className?: string;
 }
 
 const sizeMap: Record<PageHeroSize, string> = {
@@ -21,6 +31,16 @@ const sizeMap: Record<PageHeroSize, string> = {
   screen: "min-h-screen",
 };
 
+// Mapare pentru poziționarea flex a div-ului copil
+const positionMap: Record<ContentPosition, string> = {
+  center: "items-center justify-center text-center",
+  left: "items-start justify-center text-left",
+  "left-top": "items-start justify-start text-left pt-12 sm:pt-20",
+  "left-center": "items-start justify-center text-left",
+  "right-center": "items-end justify-center text-right",
+  "bottom-left": "items-start justify-end text-left pb-12 sm:pb-20",
+};
+
 export const PageHero = ({
   children,
   variant = "gradient",
@@ -28,12 +48,13 @@ export const PageHero = ({
   imageSrc,
   imagePosition = "center",
   overlay = true,
+  contentPosition = "center",
   className,
 }: PageHeroProps) => {
   return (
     <section
       className={cn(
-        "relative flex items-center justify-center overflow-hidden text-background",
+        "relative flex w-full overflow-hidden text-background",
         sizeMap[size],
         variant === "gradient" &&
           "bg-linear-to-br from-primary/90 via-primary to-primary/70",
@@ -41,8 +62,7 @@ export const PageHero = ({
         className,
       )}
     >
-      {/* Imaginea e element separat, NU background CSS — 
-          asta rezolvă problema de "nu încape toată" */}
+      {/* Imaginea de fundal */}
       {variant === "image" && imageSrc && (
         <img
           src={imageSrc}
@@ -53,14 +73,24 @@ export const PageHero = ({
         />
       )}
 
-      {/* Overlay opțional, ca textul să rămână lizibil peste orice imagine */}
+      {/* Overlay opțional */}
       {variant === "image" && overlay && (
-        <div className="absolute inset-0 bg-black/20" />
+        <div className="absolute inset-0 bg-black/30" />
       )}
 
-      {/* Conținutul (titlu, text) stă mereu deasupra, indiferent de variantă */}
-      <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
+      {/* Containerul de conținut — Flex flexibil bazat pe contentPosition */}
+      <div
+        className={cn(
+          "relative z-10 mx-auto flex w-full max-w-7xl flex-col px-6 py-12",
+          positionMap[contentPosition],
+        )}
+      >
         {children}
+        <Button nativeButton variant="link">
+          <a href="#plans">continue</a>
+          <CornerDownRight />
+        </Button>
+        <span id="plans" className="w-0 h-0"></span>
       </div>
     </section>
   );

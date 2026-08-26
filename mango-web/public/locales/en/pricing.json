@@ -1,0 +1,70 @@
+{
+  "hero": {
+    "badge": "Simple, transparent pricing",
+    "titlePrefix": "Storage that",
+    "titleHighlight": "just works",
+    "subtitle": "No hidden fees. No surprises. Just pick a plan and start uploading.",
+    "cta": "Get started free",
+    "ctaNote": "No credit card required"
+  },
+  "plans": {
+    "sprout": {
+      "title": "Sprout",
+      "description": "Just getting started",
+      "cta": "Start for free",
+      "attributes": ["5 GB storage", "Upload up to 100MB per file"]
+    },
+    "ripe": {
+      "title": "Ripe",
+      "description": "For active users",
+      "cta": "Choose plan",
+      "attributes": [
+        "100 GB storage",
+        "Unlimited uploads",
+        "Sync across all devices"
+      ]
+    },
+    "harvest": {
+      "title": "Harvest",
+      "description": "For teams",
+      "cta": "Choose plan",
+      "attributes": ["1 TB storage", "Team collaboration", "Priority support"]
+    }
+  },
+  "card": {
+    "recommended": "Recommended",
+    "whatsIncluded": "What's included?",
+    "period": "/month",
+    "defaultCta": "Choose plan"
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "subtitle": "Still unsure? Here's what people usually ask before signing up.",
+    "items": {
+      "upgrade-downgrade": {
+        "question": "Can I switch plans later?",
+        "answer": "Yes, you can upgrade or downgrade at any time. Upgrades apply immediately, and downgrades take effect at the start of your next billing cycle."
+      },
+      "storage-exceeded": {
+        "question": "What happens if I go over my storage limit?",
+        "answer": "You'll get a notification once you're close to your limit. If you go over, you won't lose any files — you just won't be able to upload new ones until you free up space or upgrade your plan."
+      },
+      "cancel-refund": {
+        "question": "Can I cancel anytime, and do you offer refunds?",
+        "answer": "You can cancel your subscription at any time with no extra fees. If you're on a paid plan and cancel within 14 days, you're eligible for a full refund."
+      },
+      "data-security": {
+        "question": "How secure are my files?",
+        "answer": "All files are encrypted both in transit and at rest. Only you (and anyone you explicitly share with) can access your data."
+      },
+      "data-after-cancel": {
+        "question": "What happens to my files if I cancel?",
+        "answer": "Your files stay accessible in read-only mode for 30 days after cancellation, giving you time to download everything. After that, your data is permanently deleted."
+      },
+      "ripe-vs-harvest": {
+        "question": "What's the real difference between Ripe and Harvest?",
+        "answer": "Beyond more storage, Harvest is built for teams — it adds shared folders, team member roles, and priority support, while Ripe is designed for individual power users."
+      }
+    }
+  }
+}
