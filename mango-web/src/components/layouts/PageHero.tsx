@@ -85,7 +85,7 @@ export const PageHero = ({
       {/* Containerul de conținut — Flex flexibil bazat pe contentPosition */}
       <div
         className={cn(
-          "relative z-10 mx-auto flex w-full max-w-7xl flex-col px-6 py-12",
+          "relative z-10 mx-auto flex w-full max-w-7xl flex-col px-6 py-12 animate-in fade-in slide-in-from-bottom-8 duration-700",
           positionMap[contentPosition],
         )}
       >

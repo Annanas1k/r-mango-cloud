@@ -47,7 +47,7 @@ export const PricingCard = ({
   return (
     <Card
       className={cn(
-        "relative flex flex-col overflow-hidden transition-shadow",
+        "relative flex flex-col overflow-hidden transition-shadow ",
         featured && "border-primary shadow-lg ring-1 ring-primary",
       )}
     >

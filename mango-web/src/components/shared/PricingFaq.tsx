@@ -21,7 +21,7 @@ export const PricingFaq = () => {
   const { t } = useTranslation("pricing");
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
+    <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 ">
       <h2 className="text-center text-4xl font-bold">{t("faq.title")}</h2>
       <p className="mt-2 text-center text-muted-foreground">
         {t("faq.subtitle")}

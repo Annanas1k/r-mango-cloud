@@ -1,37 +1,36 @@
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router";
 
-const features = [
-  { id: 1, title: "feature 1", description: "Description for feature 1" },
-  { id: 2, title: "feature 2", description: "Description for feature 2" },
-  { id: 3, title: "feature 3", description: "Description for feature 3" },
-  { id: 4, title: "feature 4", description: "Description for feature 4" },
-];
+// const features = [
+//   { id: 1, title: "feature 1", description: "Description for feature 1" },
+//   { id: 2, title: "feature 2", description: "Description for feature 2" },
+//   { id: 3, title: "feature 3", description: "Description for feature 3" },
+//   { id: 4, title: "feature 4", description: "Description for feature 4" },
+// ];
 
 export const StartNavbar = () => {
   const { t } = useTranslation("navbar");
+
   return (
     <NavigationMenu>
       <NavigationMenuList className="flex  items-center gap-6">
         <NavigationMenuItem value="overview">
           <NavigationMenuLink
-            render={
-              <NavLink to="/" viewTransition>
-                {t("navbar.overview")}
-              </NavLink>
-            }
-          />
+            render={<NavLink to="/" viewTransition />}
+            className={navigationMenuTriggerStyle()}
+          >
+            {t("navbar.overview")}
+          </NavigationMenuLink>
         </NavigationMenuItem>
 
-        <NavigationMenuItem value="features" className="hidden md:flex">
+        {/* <NavigationMenuItem value="features" className="hidden md:flex">
           <NavigationMenuTrigger>{t("navbar.features")}</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-100 gap-2 md:w-125 md:grid-cols-2 lg:w-150">
@@ -47,25 +46,23 @@ export const StartNavbar = () => {
               ))}
             </ul>
           </NavigationMenuContent>
-        </NavigationMenuItem>
+        </NavigationMenuItem> */}
 
         <NavigationMenuItem value="about">
           <NavigationMenuLink
-            render={
-              <NavLink to="/about" viewTransition>
-                {t("navbar.about")}
-              </NavLink>
-            }
-          />
+            render={<NavLink to="/about" viewTransition />}
+            className={navigationMenuTriggerStyle()}
+          >
+            {t("navbar.about")}
+          </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem value="pricing">
           <NavigationMenuLink
-            render={
-              <NavLink to="/pricing" viewTransition>
-                {t("navbar.pricing")}
-              </NavLink>
-            }
-          />
+            render={<NavLink to="/pricing" viewTransition />}
+            className={navigationMenuTriggerStyle()}
+          >
+            {t("navbar.pricing")}
+          </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
