@@ -1,15 +1,17 @@
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
+import { Badge } from "../ui/badge";
+import { BadgeCheck } from "lucide-react";
 
 export const PricingHeroContent = () => {
   const { t } = useTranslation("pricing");
   return (
     <div className="max-w-2xl">
       {/* Eyebrow badge — context rapid, înainte de titlu */}
-      <span className="inline-flex items-center gap-2 rounded-full border border-background/20 bg-background/10 px-4 py-1.5 text-sm font-medium backdrop-blur">
-        <span className="h-2 w-2 rounded-full bg-primary" />
+      <Badge variant="outline" className="text-background p-3">
+        <BadgeCheck className="text-sidebar-primary" />
         {t("hero.badge")}
-      </span>
+      </Badge>
 
       {/* Titlu cu accent de culoare pe cuvântul cheie */}
       <h1 className="mt-6 text-4xl font-bold bg leading-tight sm:text-6xl">
