@@ -94,7 +94,7 @@ export const PageHero = ({
           <a href="#end">continue</a>
           <CornerDownRight />
         </Button>
-        <span id="end" className="w-0 h-0 sticky bottom-0"></span>
+        <span id="end" className="w-0 h-0 absolute bottom-9"></span>
       </div>
     </section>
   );

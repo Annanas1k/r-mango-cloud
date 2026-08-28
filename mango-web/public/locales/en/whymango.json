@@ -1,0 +1,31 @@
+{
+  "why": {
+    "badge": "why mango cloud",
+    "title": "From digital chaos, to",
+    "titleHighlight": "Mango Cloud",
+    "subtitle": "Why you need a cloud, why Mango, and what it actually fixes.",
+    "steps": [
+      {
+        "eyebrow": "01 · the need",
+        "title": "Your files deserve more than a hard drive",
+        "text": "A laptop can break. A phone can get lost. The cloud keeps your files everywhere you need them, on any device, at any time."
+      },
+      {
+        "eyebrow": "02 · the choice",
+        "title": "Because simple should taste like mango",
+        "text": "One rule guided Mango Cloud: if a step doesn't help you, it goes. Clean interface, instant upload, no hidden menus."
+      },
+      {
+        "eyebrow": "03 · the result",
+        "title": "Three problems, solved at once",
+        "text": "Lost or overwritten files. Slow syncing across devices. Messy collaboration. Mango Cloud closes all three with automatic backup, real-time sync, and clear sharing permissions."
+      }
+    ],
+    "cta": {
+      "eyebrow": "ready for the next step",
+      "title": "See how sweet the price can be",
+      "subtitle": "Simple plans, no hidden costs.",
+      "button": "View plans"
+    }
+  }
+}

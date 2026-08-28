@@ -1,5 +1,6 @@
 import { OverviewHeroContent } from "@/components/hero/OverviewHeroContent";
 import { PageHero } from "@/components/layouts/PageHero";
+import WhyMangoSection from "@/components/shared/Whymangosection";
 
 export default function OverviewPage() {
   return (
@@ -13,7 +14,7 @@ export default function OverviewPage() {
       >
         <OverviewHeroContent />
       </PageHero>
-      <h1>Welcome to the Start Page</h1>
+      <WhyMangoSection />
     </div>
   );
 }
