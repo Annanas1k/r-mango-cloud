@@ -2,7 +2,6 @@ import { Outlet } from "react-router";
 import { SidebarInset, SidebarProvider } from "../ui/sidebar";
 import { AppSidebar } from "../shared/AppSidebar";
 import { TopBar } from "../shared/TopBar";
-import { CopyRight } from "../shared/CopyRight";
 import { InfoSideComponent } from "../shared/InfoSideComponent";
 import { useAppSelector } from "@/redux/hooks";
 import { selectDetailsView } from "@/redux/settings/settingsSlice";
@@ -36,10 +35,6 @@ export const CloudLayout = () => {
           >
             <InfoSideComponent />
           </aside>
-        </div>
-
-        <div className="p-5 border-t bg-background z-10">
-          <CopyRight />
         </div>
       </SidebarInset>
     </SidebarProvider>

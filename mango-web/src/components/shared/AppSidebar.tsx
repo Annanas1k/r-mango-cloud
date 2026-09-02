@@ -32,6 +32,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
 import { Progress } from "../ui/progress";
+import { Separator } from "../ui/separator";
 import { NewButtonDropDown } from "./NewButtonDropDown";
 
 const navGroups = [
@@ -61,7 +62,7 @@ const navGroups = [
 ];
 
 export const AppSidebar = () => {
-  const { t } = useTranslation("sidebar");
+  const { t } = useTranslation(["sidebar", "footer"]);
   const navigate = useNavigate();
   const location = useLocation();
   const { open } = useSidebar(); // Preluăm starea dacă sidebar-ul este deschis/restrâns
@@ -213,6 +214,17 @@ export const AppSidebar = () => {
             >
               {t("sidebar.buyStorage")}
             </Button>
+
+            <Separator className="my-1" />
+
+            <a
+              href="https://github.com/Annanas1k"
+              target="_blank"
+              rel="noreferrer"
+              className="text-center text-xs text-muted-foreground transition-colors hover:text-foreground"
+            >
+              {t("footer:footer.madeWith")}
+            </a>
           </div>
         ) : (
           <div className="flex justify-center" title={usageLabel}>

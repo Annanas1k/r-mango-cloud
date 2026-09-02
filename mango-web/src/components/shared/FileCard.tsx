@@ -29,6 +29,7 @@ export const FileCard = memo(
     const classname = "size-4 sm:size-5 shrink-0 text-primary";
     const icon = getIconForMimeType(file.mimeType, classname);
     const cardPreview = useAppSelector(selectCardPreview);
+    const [fileSize, fileSizeUnit] = formatBytes(file.sizeBytes).split(" ");
 
     // Tratare click pentru mobil vs. desktop
     const handleClick = () => {
@@ -87,9 +88,10 @@ export const FileCard = memo(
           )}
         </CardContent>
 
-        <CardFooter className="px-3 pb-2.5 pt-0 sm:px-4 sm:pb-3">
-          <p className="truncate text-[10px] sm:text-xs text-muted-foreground">
-            {formatBytes(file.sizeBytes)}
+        <CardFooter className="px-3 pb-2.5 pt-2 sm:px-4 sm:pb-3">
+          <p className="flex items-baseline gap-1 whitespace-nowrap text-[10px] text-muted-foreground sm:text-xs">
+            <span className="tabular-nums">{fileSize}</span>
+            <span>{fileSizeUnit}</span>
           </p>
         </CardFooter>
       </Card>

@@ -158,17 +158,8 @@ export default function WhyMangoSection() {
   const [ctaRef, ctaInView] = useInView<HTMLDivElement>();
 
   return (
-    <section className="relative w-full px-6 py-16 md:py-20 overflow-hidden">
-      <div
-        className="pointer-events-none absolute -top-20 -right-20 rounded-full opacity-40"
-        style={{
-          width: 300,
-          height: 300,
-          background: "radial-gradient(circle, #EAF2FB 0%, transparent 70%)",
-        }}
-      />
-
-      <div className="relative max-w-6xl mx-auto">
+    <section className="relative w-full px-6 py-16 md:py-20 overflow-hidden bg-background">
+      <div className="relative max-w-6xl mx-auto ">
         {/* header */}
         <div className="text-center mb-14 max-w-2xl mx-auto">
           <Badge
