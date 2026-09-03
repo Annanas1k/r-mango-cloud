@@ -20,6 +20,8 @@ Run `npm run lint` and `npm run build` before opening a pull request. No automat
 
 Follow the existing TypeScript and React style: two-space indentation, single quotes, no semicolons, and functional components. Use `PascalCase` for component files and exported components (for example, `FileCard.tsx`), `camelCase` for hooks, helpers, variables, and functions (for example, `useCloudUpload.ts`), and `*.types.ts` for type modules.
 
+- **UI Components:** Always prioritize using and extending existing `shadcn/ui` primitives (`src/components/ui/`) when building custom UI before creating custom elements from scratch.
+
 ESLint is configured in `eslint.config.js` with TypeScript, React Hooks, and React Refresh rules. Do not suppress lint rules without a narrowly documented reason.
 
 ## Commit & Pull Request Guidelines

@@ -1,0 +1,37 @@
+{
+  "heading": "What people are saying",
+  "intro": "Sample feedback for the layout preview. Replace it with verified customer reviews before launch.",
+  "rating": "{{rating}} out of 5 stars",
+  "reviews": [
+    {
+      "name": "Maya Thompson",
+      "rating": 5,
+      "text": "Mango Cloud keeps every client asset in one place. I can send a clean link instead of hunting through old email threads."
+    },
+    {
+      "name": "Daniel Brooks",
+      "rating": 4,
+      "text": "Moving our team files took one afternoon, and everyone found what they needed without another training call."
+    },
+    {
+      "name": "Nora Patel",
+      "rating": 5,
+      "text": "I use it for notes, project files, and photos. Having the newest version on my phone and laptop is a huge relief."
+    },
+    {
+      "name": "Jordan Lee",
+      "rating": 5,
+      "text": "Shared folders make handoffs much smoother. New files appear for the whole team right away, with no follow-up needed."
+    },
+    {
+      "name": "Elena Rossi",
+      "rating": 4,
+      "text": "Uploading a full shoot is simple, and I can give each client access to exactly the gallery they need to see."
+    },
+    {
+      "name": "Marcus Chen",
+      "rating": 5,
+      "text": "The search is fast enough that I stopped duplicating files in folders just so I could find them later."
+    }
+  ]
+}

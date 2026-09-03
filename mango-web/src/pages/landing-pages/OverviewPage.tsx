@@ -1,6 +1,7 @@
 import { OverviewHeroContent } from "@/components/hero/OverviewHeroContent";
 import { PageHero } from "@/components/layouts/PageHero";
 import FeatureTabsSection from "@/components/shared/FeaturetabsSection";
+import ReviewsCarousel from "@/components/shared/ReviewscarouselSection";
 import WhyMangoSection from "@/components/shared/Whymangosection";
 
 export default function OverviewPage() {
@@ -17,6 +18,7 @@ export default function OverviewPage() {
       </PageHero>
       <WhyMangoSection />
       <FeatureTabsSection />
+      <ReviewsCarousel />
     </div>
   );
 }
