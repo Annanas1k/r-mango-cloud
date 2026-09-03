@@ -15,24 +15,29 @@ import {
 interface Feature {
   value: string;
   icon: LucideIcon;
+  imageSrc: string;
 }
 
 const features: Feature[] = [
   {
     value: "security",
     icon: ShieldCheck,
+    imageSrc: "/images/features/feature-security.png",
   },
   {
     value: "simplicity",
     icon: MousePointer2,
+    imageSrc: "/images/features/feature-simplity.png",
   },
   {
     value: "sharing",
     icon: Share2,
+    imageSrc: "/images/features/feature-share.png",
   },
   {
     value: "storage",
     icon: HardDrive,
+    imageSrc: "/images/features/feature-storage.png",
   },
 ];
 
@@ -56,7 +61,9 @@ export default function FeatureTabsSection() {
   const activeCopy = featureCopy[activeIndex];
 
   const handleTabChange = (nextValue: string) => {
-    const nextIndex = features.findIndex((feature) => feature.value === nextValue);
+    const nextIndex = features.findIndex(
+      (feature) => feature.value === nextValue,
+    );
 
     if (nextIndex !== -1 && nextIndex !== activeIndex) {
       setSlideDirection(nextIndex > activeIndex ? "right" : "left");
@@ -99,15 +106,13 @@ export default function FeatureTabsSection() {
   }, [active]);
 
   return (
-    <section className="w-full bg-gradient-to-br from-orange-100 via-amber-50 to-stone-200 px-6 py-20 dark:from-orange-950/40 dark:via-amber-950/20 dark:to-stone-900">
+    <section className="w-full bg-linear-to-br from-orange-100 via-amber-50 to-stone-200 px-6 py-20 dark:from-orange-950/40 dark:via-amber-950/20 dark:to-stone-900">
       <div className="mx-auto max-w-5xl">
         <div className="mb-12 max-w-xl">
           <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
             {t("heading")}
           </h2>
-          <p className="mt-3 text-muted-foreground">
-            {t("intro")}
-          </p>
+          <p className="mt-3 text-muted-foreground">{t("intro")}</p>
         </div>
 
         <Tabs value={active} onValueChange={handleTabChange} className="w-full">
@@ -163,10 +168,13 @@ export default function FeatureTabsSection() {
               </p>
             </div>
 
-            <div className="flex aspect-video items-center justify-center rounded-xl border border-dashed border-orange-300/80 bg-white/45 dark:border-orange-900/80 dark:bg-stone-950/30">
-              <span className="text-sm text-muted-foreground">
-                {t("visualContent")} — {activeCopy?.title}
-              </span>
+            <div className="flex aspect-video items-center justify-center overflow-hidden rounded-xl border border-orange-200/80 bg-white/45 dark:border-orange-900/80 dark:bg-stone-950/30">
+              <img
+                src={activeFeature.imageSrc}
+                alt={activeCopy?.title ?? ""}
+                className="h-full w-full object-contain p-3"
+                decoding="async"
+              />
             </div>
           </TabsContent>
         </Tabs>
