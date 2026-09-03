@@ -1,0 +1,27 @@
+{
+  "heading": "What you can do with the platform",
+  "intro": "Four essential capabilities that help your team work faster, stay connected, and keep every file secure.",
+  "visualContent": "Visual content",
+  "features": [
+    {
+      "label": "Security",
+      "title": "Your files, encrypted end to end",
+      "description": "Every file is encrypted in transit and at rest, so only you and the people you invite can open it. Two-factor authentication and device-level session control keep your account locked down even if a password leaks."
+    },
+    {
+      "label": "Simplicity",
+      "title": "Drag, drop, done",
+      "description": "Upload a file by dropping it anywhere in the browser, and it's searchable within seconds. Folders sync automatically across desktop, mobile, and web, so you always open the latest version, on any device."
+    },
+    {
+      "label": "Sharing",
+      "title": "Share a file, not your inbox",
+      "description": "Send a link with view, comment, or edit access, set an expiry date, and see exactly who opened it. Invite a teammate to a shared folder and every new file inside it appears in their drive automatically."
+    },
+    {
+      "label": "Storage",
+      "title": "Room to grow, without the clutter",
+      "description": "Start free with 15 GB and upgrade in one click as your files grow. Smart folders group your documents, photos, and videos by type automatically, so nothing gets buried in a messy structure."
+    }
+  ]
+}
