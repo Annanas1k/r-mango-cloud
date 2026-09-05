@@ -16,6 +16,18 @@
     "emptyState": {
       "title": "Ваш манго-сад пуст",
       "description": "Загрузите файлы и папки, чтобы начать."
+    },
+    "toasts": {
+      "createFolderLoading": "Создание папки...",
+      "createFolderSuccess": "Папка успешно создана",
+      "createFolderError": "Не удалось создать папку",
+      "fileUploadLoading": "Загрузка файла...",
+      "fileUploadSuccess": "Файл успешно загружен",
+      "fileUploadError": "Не удалось загрузить файл",
+      "folderUploadLoading": "Загрузка папки...",
+      "folderUploadSuccess": "Папка успешно загружена",
+      "folderUploadError": "Не удалось загрузить папку",
+      "filesCount": "файлов"
     }
   }
 }

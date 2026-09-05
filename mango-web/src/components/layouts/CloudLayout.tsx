@@ -6,6 +6,7 @@ import { InfoSideComponent } from "../shared/InfoSideComponent";
 import { useAppSelector } from "@/redux/hooks";
 import { selectDetailsView } from "@/redux/settings/settingsSlice";
 import { ScrollToTop } from "../utils/ScrollToTop";
+import { Toaster } from "../ui/toast";
 
 export const CloudLayout = () => {
   const detailsView = useAppSelector(selectDetailsView);
@@ -37,6 +38,7 @@ export const CloudLayout = () => {
           </aside>
         </div>
       </SidebarInset>
+      <Toaster />
     </SidebarProvider>
   );
 };

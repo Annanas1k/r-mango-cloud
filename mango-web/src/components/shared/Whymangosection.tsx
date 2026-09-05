@@ -41,7 +41,7 @@ const STEP_META: StepMeta[] = [
 
 function useInView<T extends HTMLElement>(
   threshold = 0.25,
-): [React.RefObject<T>, boolean] {
+): [React.RefObject<T | null>, boolean] {
   const ref = useRef<T>(null);
   const [inView, setInView] = useState(false);
 

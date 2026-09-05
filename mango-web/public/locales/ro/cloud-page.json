@@ -16,6 +16,18 @@
     "emptyState": {
       "title": "Grădina ta de mango e goală",
       "description": "Încarcă fișiere și foldere pentru a începe."
+    },
+    "toasts": {
+      "createFolderLoading": "Se creează folderul...",
+      "createFolderSuccess": "Folder creat cu succes",
+      "createFolderError": "Eroare la crearea folderului",
+      "fileUploadLoading": "Se încarcă fișierul...",
+      "fileUploadSuccess": "Fișier încărcat cu succes",
+      "fileUploadError": "Eroare la încărcarea fișierului",
+      "folderUploadLoading": "Se încarcă folderul...",
+      "folderUploadSuccess": "Folder încărcat cu succes",
+      "folderUploadError": "Eroare la încărcarea folderului",
+      "filesCount": "fișiere"
     }
   }
 }

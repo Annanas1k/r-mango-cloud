@@ -17,10 +17,14 @@ import { Button } from "../ui/button";
 interface CreateFolderDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onCreate: (name: string) => Promise<void> | void; // primit din CloudPage, apelează handleCreateFolder din hook
+  onCreate: (name: string) => Promise<void> | void;
 }
 
-export const CreateFolderDialog = ({ onCreate, open, onOpenChange }: CreateFolderDialogProps) => {
+export const CreateFolderDialog = ({
+  onCreate,
+  open,
+  onOpenChange,
+}: CreateFolderDialogProps) => {
   const { t } = useTranslation("cloud-page");
   const [folderName, setFolderName] = useState("");
   const [loading, setLoading] = useState(false);
@@ -34,7 +38,7 @@ export const CreateFolderDialog = ({ onCreate, open, onOpenChange }: CreateFolde
     try {
       await onCreate(trimmedName);
       setFolderName("");
-      onOpenChange(false)
+      onOpenChange(false);
     } finally {
       setLoading(false);
     }
@@ -42,11 +46,12 @@ export const CreateFolderDialog = ({ onCreate, open, onOpenChange }: CreateFolde
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-
       <DialogContent className="sm:max-w-sm">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>{t("cloud-page.createFolderDialog.title")}</DialogTitle>
+            <DialogTitle>
+              {t("cloud-page.createFolderDialog.title")}
+            </DialogTitle>
             <DialogDescription>
               {t("cloud-page.createFolderDialog.description")}
             </DialogDescription>

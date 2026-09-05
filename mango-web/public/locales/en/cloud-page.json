@@ -16,6 +16,18 @@
     "emptyState": {
       "title": "Your Mango Garden is empty",
       "description": "Upload your files and folders to get started."
+    },
+    "toasts": {
+      "createFolderLoading": "Creating folder...",
+      "createFolderSuccess": "Folder created successfully",
+      "createFolderError": "Failed to create folder",
+      "fileUploadLoading": "Uploading file...",
+      "fileUploadSuccess": "File uploaded successfully",
+      "fileUploadError": "Failed to upload file",
+      "folderUploadLoading": "Uploading folder...",
+      "folderUploadSuccess": "Folder uploaded successfully",
+      "folderUploadError": "Failed to upload folder",
+      "filesCount": "files"
     }
   }
 }
