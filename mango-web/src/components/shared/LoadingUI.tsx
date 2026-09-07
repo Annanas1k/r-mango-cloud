@@ -6,7 +6,7 @@ interface LoadingUIProps {
 }
 
 export const LoadingUI = ({
-  message = "Se încarcă...",
+  message = "Loading...",
   fullScreen = true,
 }: LoadingUIProps) => {
   return (
@@ -16,7 +16,7 @@ export const LoadingUI = ({
       }`}
     >
       <PulseLoader color="#7CA35A" size={12} speedMultiplier={0.8} />
-      
+
       {message && (
         <p className="text-sm font-medium text-slate-500 animate-pulse">
           {message}

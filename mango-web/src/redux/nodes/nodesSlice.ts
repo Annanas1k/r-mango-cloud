@@ -153,6 +153,49 @@ const nodesSlice = createSlice({
                 state.starredList = state.starredList.filter((item) => item.id !== updatedNode.id);
             }
         },
+        moveNodeLocally: (
+            state,
+            action: PayloadAction<{ id?: string; nodeId?: string; parentId?: string | null; targetParentId?: string | null } | NodeDto | string>
+        ) => {
+            let id: string;
+            let targetParentId: string | null | undefined;
+
+            if (typeof action.payload === "string") {
+                id = action.payload;
+                targetParentId = undefined;
+            } else if ("type" in action.payload) {
+                id = action.payload.id;
+                targetParentId = action.payload.parentId;
+            } else {
+                id = (action.payload.id ?? action.payload.nodeId)!;
+                targetParentId = action.payload.parentId !== undefined ? action.payload.parentId : action.payload.targetParentId;
+            }
+
+            if (targetParentId === undefined || targetParentId !== state.currentFolderId) {
+                state.items = state.items.filter((item) => item.id !== id);
+                if (state.selectedId === id) {
+                    state.selectedId = null;
+                }
+            } else if (typeof action.payload === "object" && "type" in action.payload) {
+                const index = state.items.findIndex((item) => item.id === id);
+                if (index !== -1) {
+                    state.items[index] = action.payload;
+                } else {
+                    state.items.push(action.payload);
+                }
+            }
+
+            if (targetParentId !== undefined) {
+                const starredItem = state.starredList.find((item) => item.id === id);
+                if (starredItem) {
+                    starredItem.parentId = targetParentId;
+                }
+                const recentItem = state.recentItems.find((item) => item.id === id);
+                if (recentItem) {
+                    recentItem.parentId = targetParentId;
+                }
+            }
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -231,7 +274,8 @@ export const {
     emptyTrashLocally,
     selectNode,
     clearSelection,
-    toggleStarredLocally
+    toggleStarredLocally,
+    moveNodeLocally
 } = nodesSlice.actions;
 
 export const selectCurrentItems = (state: RootState) => state.nodes.items;

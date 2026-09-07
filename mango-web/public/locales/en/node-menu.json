@@ -25,6 +25,20 @@
       "cancel": "Cancel",
       "save": "Save",
       "saving": "Saving..."
+    },
+    "moveDialog": {
+      "title": "Move \"{{name}}\"",
+      "currentLocation": "Current location: {{location}}",
+      "root": "My Cloud",
+      "rootWithParenthesis": "My Cloud (Root)",
+      "currentFolder": "(current folder)",
+      "noFolders": "No subfolders in this location",
+      "loading": "Loading folders...",
+      "cancel": "Cancel",
+      "moveHere": "Move here",
+      "alreadyHere": "Already here",
+      "back": "Back",
+      "openFolder": "Open {{name}}"
     }
   }
 }

@@ -1,7 +1,7 @@
 import { getDownloadUrl } from "@/api/files.api";
-import { deleteNodePermanently, emptyTrash, renameNode, restoreNode, toggleStar, trashNode } from "@/api/nodes.api";
+import { deleteNodePermanently, emptyTrash, moveNode, renameNode, restoreNode, toggleStar, trashNode } from "@/api/nodes.api";
 import { useAppDispatch } from "@/redux/hooks";
-import { emptyTrashLocally, markAsTrashedLocally, removeItemPermanentlyLocally, restoreFromTrashLocally, toggleStarredLocally, updateItemLocally } from "@/redux/nodes/nodesSlice";
+import { emptyTrashLocally, markAsTrashedLocally, moveNodeLocally, removeItemPermanentlyLocally, restoreFromTrashLocally, toggleStarredLocally, updateItemLocally } from "@/redux/nodes/nodesSlice";
 import type { NodeDto } from "@/types/node.types";
 
 
@@ -93,6 +93,17 @@ export function useNodeActions() {
         }
     }
 
+    async function handleMoveNode(node: NodeDto, targetParentId: string | null) {
+        try {
+            const updatedNode = await moveNode(node.id, targetParentId);
+            dispatch(moveNodeLocally(updatedNode));
+            return updatedNode;
+        } catch (error) {
+            console.error("Error moving node:", error);
+        }
+    }
+
+
 
 
     return {
@@ -102,7 +113,8 @@ export function useNodeActions() {
         handleRestore,
         handleRemovePermanently,
         handleEmptyTrash,
-        handleToggleStar
+        handleToggleStar,
+        handleMoveNode
     }
 }
 

@@ -30,6 +30,7 @@ import type { NodeDto } from "@/types/node.types";
 import { RenameFolderDialog } from "./RenameFolderDialog";
 import { useState } from "react";
 import { useSettings } from "@/hooks/useSettings";
+import { MoveNodeDialog } from "./MoveNodeDialog";
 
 interface DropDownMenuForCardsProps {
   children: React.ReactElement;
@@ -42,6 +43,7 @@ export const DropDownMenuForCards = ({
 }: DropDownMenuForCardsProps) => {
   const { t } = useTranslation("node-menu");
   const [isRenameDialogOpen, setIsRenameDialogOpen] = useState(false);
+  const [isMoveNodeDialogOpen, setIsMoveNodeDialogOpen] = useState(false);
   const {
     handleDownload,
     handleRename,
@@ -102,7 +104,10 @@ export const DropDownMenuForCards = ({
               </DropdownMenuSubTrigger>
               <DropdownMenuPortal>
                 <DropdownMenuSubContent>
-                  <DropdownMenuItem className={"cursor-pointer"}>
+                  <DropdownMenuItem
+                    className={"cursor-pointer"}
+                    onClick={() => setIsMoveNodeDialogOpen(true)}
+                  >
                     <FolderInput />
                     {t("node-menu.organize.move")}
                   </DropdownMenuItem>
@@ -173,6 +178,12 @@ export const DropDownMenuForCards = ({
         onOpenChange={setIsRenameDialogOpen}
         initialName={node.name}
         onRename={(newName) => handleRename(node, newName)}
+      />
+
+      <MoveNodeDialog
+        open={isMoveNodeDialogOpen}
+        onOpenChange={setIsMoveNodeDialogOpen}
+        node={node}
       />
     </>
   );
