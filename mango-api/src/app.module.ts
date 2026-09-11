@@ -10,6 +10,8 @@ import { FilesModule } from './files/files.module';
 import { NodesModule } from './nodes/nodes.module';
 import { AdminModule } from './admin/admin.module';
 import { QuotaModule } from './quota/quota.module';
+import { SharingModule } from './sharing/sharing.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -23,6 +25,7 @@ import { QuotaModule } from './quota/quota.module';
     NodesModule,
     AdminModule,
     QuotaModule,
+    SharingModule,
   ],
   controllers: [AppController],
   providers: [AppService],

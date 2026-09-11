@@ -90,3 +90,11 @@ docker-compose.override.yml
 *.seed
 *.pid.lock
 .cache/
+
+
+.claude/
+.codex/
+.gemini/
+.agent/
+.agents/
+.impeccable/
